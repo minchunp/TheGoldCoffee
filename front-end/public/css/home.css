@@ -1,0 +1,124 @@
+:root {
+   --font-family-body: "Open Sans", sans-serif;
+   --font-family-title: "Nunito", sans-serif; 
+   --color-primary: #382210;
+   --color-secondary: #FFE8CF;
+   --color-tertiary: #96725A;
+   --color-body-bg: #fff;
+   --color-body: #6F6F6F;
+   --font-weight-paragraph: 400;
+   --font-weight-title: 600;
+}
+
+/* Section what make us different? */
+.make-us-different {
+   margin-bottom: 70px;
+}
+
+.container-make-us-different {
+   margin-top: 35px;
+   display: flex;
+   flex-direction: row;
+   justify-content: space-around;
+}
+
+.icon-makeus {
+   display: grid;
+   place-items: center;
+}
+
+.icon-makeus_1 img {
+   background-color: #d8e9d3;
+}
+
+.icon-makeus_2 img {
+   background-color: #ece7d9;
+}
+
+.icon-makeus_3 img {
+   background-color: #d4e4de;
+}
+
+.icon-makeus_4 img {
+   background-color: #e9d6d6;
+}
+
+.icon-makeus_5 img {
+   background-color: #e7e7e7;
+}
+
+.icon-makeus_6 img {
+   background-color: #d3dce9;
+}
+
+.icon-makeus img {
+   cursor: pointer;
+   height: 95px;
+   width: 95px;
+   padding: 22px 22px 24px 22px;
+   border-radius: 50%;
+   transition: all .3s ease-in-out;
+}
+
+.icon-makeus p {
+   transition: all .3s ease-in-out;
+   font-size: 16px;
+   margin-top: 15px;
+   margin-bottom: 0;
+}
+
+.icon-makeus:hover img {
+   transform: translateY(-8px);
+}
+
+.icon-makeus:hover p {
+   color: var(--color-primary);
+}
+
+/* Section Tea day */
+.tea-day {
+   margin-bottom: 70px;
+}
+
+.container-tea-day {
+   display: grid;
+   grid-template-columns: 1fr 1.5fr;
+   gap: 35px;
+   align-items: center;
+}
+
+.content-tea-day {
+   display: grid;
+   place-items: center;
+}
+
+.content-tea-day h2 {
+   font-size: 34px;
+   font-weight: 800;
+   margin-bottom: 18px;
+}
+
+.content-tea-day p {
+   text-align: center;
+   line-height: 33px;
+   font-size: 15px;
+   margin-bottom: 20px;
+}
+
+.main-btn__tea-day {
+   background-color: var(--color-tertiary);
+}
+
+.main-btn__tea-day:hover {
+   background-color: var(--color-primary);
+}
+
+.main-img-tea-day img {
+   width: 100%;
+}
+
+/* Section Tea day */
+
+
+
+

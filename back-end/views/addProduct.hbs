@@ -1,0 +1,42 @@
+{{!-- <form action="http://localhost:3001/product/add" method="post">
+    <input type="text" name="tenSP" placeholder="nhập tên sản phẩm" required>
+    <input type="text" name="giaSP" placeholder="nhập giá sản phẩm" required>
+    <button type="submit">Thêm</button>
+</form> --}}
+
+<h1>Thêm Sản Phẩm</h1>
+
+                        <form action="http://localhost:3001/product/add" method="POST" >
+                           <div class="small-box-form">
+                              <p>Chọn Danh Mục</p>
+                              {{!-- <select name="madm">
+                                 <option value="0">Chọn danh mục</option>
+
+                                {{#each data}}
+                                    <option value="{{madm}}">{{tendm}}</option>
+                                {{/each}}
+                              </select> --}}
+                           </div>
+
+                           <div class="small-box-form">
+                              <p>Tên Sản Phẩm</p>
+                              <input type="text" name="tensp" />
+                           </div>
+
+                           {{!-- <div class="small-box-form">
+                              <p>Hình Sản Phẩm</p>
+                              <input type="file" name="anhsp" />
+                           </div> --}}
+
+
+
+                           <div class="small-box-form">
+                              <p>Giá Sản Phẩm</p>
+                              <input type="number" name="giasp" />
+                           </div>
+
+                              <input type="text" name="anhsp" value="abc" style="display: none" />
+                              <input type="number" name="trangthai" value="1" style="display: none" />
+
+                           <button type="submit">add</button>
+                        </form>

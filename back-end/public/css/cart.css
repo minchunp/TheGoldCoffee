@@ -1,0 +1,289 @@
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+* {
+  margin: 0;
+  padding: 0;
+  font: inherit;
+}
+img,
+picture,
+svg,
+video {
+  display: block;
+  max-width: 100%;
+}
+body {
+  min-height: 100vh;
+}
+
+/* main_cart */
+
+.main_cart {
+    width: 100%;
+    min-height: auto;
+    display: flex;
+}
+
+#main_title {
+    width: 100%;
+    height: 100px;
+    display: grid;
+    place-items: center;
+    font-size: 30px;
+}
+
+/* Left */
+.main_left {
+    width: 60%;
+    min-height: 500px;
+}
+
+.product_header, .total_header {
+    width: 100%;
+    height: 40px;
+    padding: 10px;
+    display: flex;
+    font-weight: bold;
+    border-bottom: 3px solid #ecececff;
+}
+
+.product_product {
+    width: 100%;
+    height: auto;
+    padding: 10px;
+    display: flex;
+    border-bottom: 2px solid #ecececff;
+}
+
+.product_name {
+    color: #60a7af;
+}
+
+.dele-btn {
+    font-size: 25px;
+    color: rgb(150, 148, 148);
+}
+
+.dele-btn:hover {
+    color: black;
+}
+
+.product_icon {
+    padding: 15px 0px;
+}
+
+.product_product > div {
+    display: flex;
+    align-items: center;
+}
+
+/* Right */
+.main_right {
+    width: 40%;
+    min-height: 500px;
+}
+
+.total_header {
+    width: 100%;
+    height: 40px;
+    padding: 10px;
+}
+
+.total_body {
+    width: 100%;
+    height: 450px;
+    padding: 10px;
+}
+
+#quantity, #total {
+    width: 100%;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    border-bottom: 3px solid #ecececff;
+}
+
+#quantity > div, #total > div {
+    width: 50%;
+}
+
+#quantityright, #total-right {
+    text-align: right;
+}
+
+.pay_now {
+    margin: 24px 0;
+    padding: 15px 10px;
+    font-size: 20px;
+    font-weight: 600;
+    color: white;
+    text-align: center;
+    background-color: #d26e4b;
+    transition: 0.5s;
+}
+
+.pay_now:hover {
+    background-color: #a8583c;
+}
+
+.ft-product {
+    width: 100%;
+    height: auto;
+    display: flex;
+    padding: 10px;
+    margin-top: 15px;
+}
+
+.more-product {
+    padding: 10px;
+    border: 3px solid #007784;
+    margin-right: 15px;
+    color: #007784;
+    font-weight: bold;
+    transition: 0.2s;
+}
+
+.more-product:hover {
+    background-color: #007784;
+    color:white;
+}
+
+.update-cart {
+    padding: 10px;
+    background-color: #60a7af;
+    color: white;
+    font-weight: bold;
+    border: none;
+    text-transform: uppercase;
+    transition: 0.5s;
+}
+
+.update-cart:hover {
+    background-color: #4b777d;
+}
+
+.product_price, .product_subtotal, #quantityright, #total-right {
+    font-weight: bold;
+}
+
+.product_name {
+    text-transform: none;
+}
+
+/* footer */
+#footer {
+    width: 100%;
+    height: auto;
+}
+
+/* top */
+#top_footer {
+    width: 100%;
+    height: 300px;
+    display: flex;
+    background: white;
+    box-shadow: inset 0px 5px 5px -5px gray;
+}
+
+/* chung toi */
+#top_footer > .chungtoi {
+    width: 25%;
+    height: 300px;
+}
+
+.chungtoi > .dr {
+    width: 90%;
+    height: 300px;
+    margin: 0px auto;
+    text-transform: none;
+}
+
+.dr > h5 {
+    padding-top: 25px;
+    padding-bottom: 10px; 
+}
+
+/* san pham */
+#top_footer > .sanpham {
+    width: 25%;
+    height: 300px;
+}
+
+.sanpham .ftsp {
+    width: 90%;
+    height: 300px;
+    margin: 0px auto;
+    text-transform: none;
+}
+
+.sanpham h5 {
+    padding-top: 25px;
+    padding-bottom: 10px;
+}
+
+.sanpham  ul {
+    margin-left: 20px;
+}
+
+.sanpham ul li:hover a {
+    color: blueviolet;
+}
+
+.sanpham ul li {
+    margin-bottom: 15px;
+}
+
+.sanpham ul li a{
+    text-transform: none;
+    text-decoration: none;
+    color: #13818dff;
+    
+}
+
+/* thong tin */
+#top_footer > .thongtin {
+    width: 25%;
+    height: 300px;
+}
+
+/* ho tro */
+#top_footer > .hotro {
+    width: 25%;
+    height: 300px;
+}
+
+.ins, .fb {
+    width: 20px;
+    height: 20px;
+    color: white;
+    background-color: #305679ff;
+    border-radius: 30px;
+    float: left;
+    margin-right: 3px;
+    margin-top: 10px;
+}
+
+.fa-instagram, .fa-facebook-f {
+    margin-left: 3px;
+    margin-top: 2px;
+}
+
+
+
+/* bot */
+#bot_footer {
+    width: 100%;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    box-shadow: inset 0px 5px 5px -5px gray;
+}
+
+#bot_footer > p{
+    text-align: center;
+}

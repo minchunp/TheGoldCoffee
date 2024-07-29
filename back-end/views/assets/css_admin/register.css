@@ -1,0 +1,221 @@
+:root {
+   --line-color: #bcbcbc;
+   --main-color: #003468;
+   --normal-color: #333;
+   --accent-color: #EAAB49;
+   --mrt-section: 50px;
+   --font-size-heading-section: 28px;
+}
+
+body {
+   font-family: "Open Sans", sans-serif;
+   margin: 0;
+   box-sizing: border-box;
+}
+
+a {
+   text-decoration: none;
+   color: var(--normal-color);
+   transition-duration: 0.3s;
+   transition-timing-function: ease-in-out;
+}
+
+a:hover {
+   color: #c48c46;
+}
+
+.row {
+   float: left;
+   width: 100%;
+}
+
+.boxcenter {
+   margin: 0 auto;
+   width: 80%;
+}
+
+/* CSS Box Login */
+.box-login {
+   border-top: 1px solid var(--line-color);
+   padding-top: 50px;
+}
+
+/* Css Form Input Login */
+.form-input{
+   margin-bottom: var(--mrr-bottom);
+}
+
+.container-form-input{
+   gap: 30px;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+}
+
+/* Css Box Form One */
+.box-form-one{
+   padding: 25px 25px 30px 25px;
+   border: 1px solid var(--line-color);
+}
+
+.box-form-one h3{
+   font-size: 42px;
+   font-weight: 500;
+   margin-bottom: 0;
+}
+
+.box-form-one p{
+   font-size: 15px;
+}
+
+.box-form-one form{
+   margin-top: 30px;
+}
+
+.box-input{
+   margin-bottom: 20px;
+}
+
+.box-input a {
+   font-size: 13px;
+}
+
+.box-input p{
+   font-size: 17px;
+   margin-bottom: 10px;
+}
+
+.box-input input[type=text],
+.box-input input[type=password]{
+   outline: none;
+   border: 1px solid var(--line-color);
+   border-radius: 3px;
+   height: 45px;
+   width: 350px;
+   padding-left: 10px;
+   box-sizing: border-box;
+   transition-duration: .3s;
+   transition-timing-function: ease-in-out;
+}
+
+.box-input input[type=text]:focus,
+.box-input input[type=password]:focus{
+   border: 1px solid var(--main-color);
+}
+
+.box-form-one form input[type=submit]{
+   cursor: pointer;
+   outline: none;
+   border: 3px solid var(--main-color);
+   height: 55px;
+   width: 350px;
+   border-radius: 3px;
+   background-color: var(--main-color);
+   color: white;
+   font-weight: 600;
+   font-size: 17px;
+   margin-top: 10px;
+   margin-bottom: 20px;
+   transition-duration: .4s;
+   transition-timing-function: ease-in-out;
+}
+
+.box-form-one form input[type=submit]:hover{
+   background-color: white;
+   color: var(--main-color);
+}
+
+.box-form-one p:last-child{
+   margin: 0;
+   font-size: 16px;
+   color: var(--main-color);
+   font-weight: 600;
+   text-align: center;
+}
+
+/* Css Box Social Login */
+.social-login {
+   margin-top: 20px;
+}
+
+.button-login {
+   margin-bottom: 20px;
+}
+
+.button-login button {
+   outline: none;
+   border: none;
+   background-color: white;
+   box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
+               rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+   border-radius: 7px;
+   padding: 3px;
+   width: 100%;
+   display: flex;
+   flex-direction: row;
+   justify-content: center;
+   align-items: center;
+   gap: 50px;
+   transition-duration: .3s;
+   transition-timing-function: ease-in-out;
+}
+
+.button-login button:hover {
+   cursor: pointer;
+   transform: translateY(-5px);
+   background-color: var(--main-color);
+   color: white;
+   box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
+               rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+} 
+
+.button-login button img {
+   width: 8%;
+}
+
+.button-login button p {
+   font-size: 17px;
+   font-weight: 600;
+}
+
+/* Css Box Form Two */
+.box-form-two{
+   width: 400px;
+}
+
+.box-form-two h4{
+   text-align: center;
+   padding-bottom: 20px;
+   font-size: 22px;
+   font-weight: 600;
+}
+
+.box-form-two a{
+   border: 3px solid var(--main-color);
+   border-radius: 3px;
+   color: var(--main-color);
+   font-size: 18px;
+   font-weight: 600;
+   padding: 15px 100px 15px 100px;
+   transition-duration: .3s;
+   transition-timing-function: ease-in-out;
+}
+
+.box-form-two a:hover{
+   background-color: #0034682c;
+}
+
+.box-text-input{
+   margin-left: 28px;
+   padding-top: 25px;
+}
+
+.box-text-input p{
+   font-size: 14px;
+}
+
+.box-text-input p:first-child,
+.box-text-input span{
+   color: var(--main-color);
+   font-weight: 600;
+}

@@ -1,0 +1,22 @@
+// API CATEGORY
+- Get ALL: http://localhost:3001/CategorysAPI/listCategory [GET]
+- Get By ID: http://localhost:3001/CategorysAPI/getCategory/:id [GET]
+- Delete By ID: http://localhost:3001/category/delete/:id [DELETE]
+- Create: http://localhost:3001/category/add [POST]
+- Update: http://localhost:3001/category/update/:id [PUT]
+
+// API PRODUCT
+- Get ALL: http://localhost:3001/productsAPI/listProduct [GET]
+- Get By ID: http://localhost:3001/productsAPI/detailProduct/:id [GET]
+- Delete By ID: http://localhost:3001/product/delete/:id [DELETE]
+- Create: http://localhost:3001/product/add [POST]
+- Update: http://localhost:3001/product/update/:id [PUT]
+
+
+// API TOPPING
+- Get ALL: http://localhost:3001/toppingsAPI/listTopping [GET]
+- Get By ID: http://localhost:3001/toppingsAPI/detailTopping/:id [GET]
+- Delete By ID: http://localhost:3001/topping/delete/:id [DELETE Method]
+- Create: http://localhost:3001/topping/add [POST]
+- Update: http://localhost:3001/topping/update/:id [PUT]
+

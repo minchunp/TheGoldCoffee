@@ -1,95 +1,79 @@
 import Image from "next/image";
 import styles from "./page.module.css";
+import "../../public/css/home.css";
+import Navbar from "./components/navbar/page";
+import Slide from "./components/slide_banner/page";
+import ProductList from "./components/product/listProduct";
 
 export default function Home() {
-  return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
+   return (
+      <>
+         <Navbar />
+         <Slide />
 
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
+         {/* Section What make us different? */}
+         <section className="make-us-different">
+            <div className="boxcenter">
+               <h2 className="main-title">Điều gì làm chúng tôi khác biệt?</h2>
 
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
+               <div className="container-make-us-different">
+                  <div className="icon-makeus icon-makeus_1">
+                     <img src="images/icon1_80x80_crop_center.webp" alt="" />
+                     <p>Thân thiện với đường</p>
+                  </div>
 
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
+                  <div className="icon-makeus icon-makeus_2">
+                     <img src="images/icon2_80x80_crop_center.webp" alt="" />
+                     <p>Probiotics</p>
+                  </div>
 
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore starter templates for Next.js.</p>
-        </a>
+                  <div className="icon-makeus icon-makeus_3">
+                     <img src="images/icon3_80x80_crop_center.webp" alt="" />
+                     <p>Tươi mát</p>
+                  </div>
 
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  );
+                  <div className="icon-makeus icon-makeus_4">
+                     <img src="images/icon4_80x80_crop_center.webp" alt="" />
+                     <p>Không chứa gluten</p>
+                  </div>
+
+                  <div className="icon-makeus icon-makeus_5">
+                     <img src="images/icon5_80x80_crop_center.webp" alt="" />
+                     <p>18 Cals</p>
+                  </div>
+
+                  <div className="icon-makeus icon-makeus_6">
+                     <img src="images/icon6_80x80_crop_center.webp" alt="" />
+                     <p>Không rác thải</p>
+                  </div>
+               </div>
+            </div>
+         </section>
+
+         {/* Section Tea day */}
+         <section className="tea-day">
+            <div className="boxcenter">
+              <div className="container-tea-day">
+                <div className="content-tea-day">
+                  <h2>Đa dạng nhiều loại trà</h2>
+                  <p>Với hương vị nhẹ nhàng và thanh thoát, không chỉ là một thức uống quen thuộc mà còn là một phần quan trọng trong văn hóa nhiều quốc gia. Từ những lá trà tươi ngon được hái từ những đồi xanh mướt, trải qua quá trình chế biến tinh tế, mỗi tách trà đều mang trong mình sự tinh túy của thiên nhiên.</p>
+                  <button className="main-btn main-btn__tea-day">Thử ngay</button>
+                </div>
+                <div className="main-img-tea-day">
+                  <img src="images/banner_tea.png" alt="" />
+                </div>
+              </div>
+            </div>
+         </section>
+
+         {/* Section Trending products */}
+         <section className="trending-product">
+            <div className="boxcenter">
+              <h2 className="main-title">Sản phẩm nổi bật</h2>
+
+              <ProductList/>
+            </div>
+         </section>
+      </>
+   );
 }

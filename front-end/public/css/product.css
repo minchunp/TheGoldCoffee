@@ -1,0 +1,70 @@
+:root {
+   --font-family-body: "Open Sans", sans-serif;
+   --font-family-title: "Nunito", sans-serif; 
+   --color-primary: #382210;
+   --color-secondary: #FFE8CF;
+   --color-tertiary: #96725A;
+   --color-body-bg: #fff;
+   --color-body: #6F6F6F;
+   --font-weight-paragraph: 400;
+   --font-weight-title: 600;
+}
+
+/* Item product */
+.container-product {
+   margin-top: 40px;
+   overflow: hidden;
+   /* display: grid;
+   grid-template-columns: 1fr 1fr 1fr 1fr;
+   grid-template-rows: auto;
+   gap: 20px; */
+}
+
+.list-product {
+   width: 5000px;
+   transition: all .5s ease-in-out;
+}
+
+/* 308.4px */
+.item-product {
+   width: 308.4px;
+   float: left;
+   margin-right: 20px;
+}
+
+.item-product img {
+   width: 100%;
+}
+
+.name-pro p {
+   font-size: 18px;
+   color: var(--color-primary);
+   margin-bottom: 10px;
+   transition: all .3s ease-in-out;
+}
+
+.name-pro p:hover {
+   color: var(--color-tertiary);
+   font-weight: 600;
+}
+
+.price-sale-product {
+   display: flex;
+   align-items: center;
+   gap: 15px;
+}
+
+.price-sale-product p {
+   font-size: 15px;
+   font-weight: 600;
+   color: var(--color-primary);
+   margin-top: 0;
+}
+
+.price-sale-product p:last-child {
+   text-decoration: line-through;
+   font-weight: 400;
+   color: var(--color-body);
+}
+
+

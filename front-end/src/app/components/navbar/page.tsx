@@ -35,7 +35,7 @@ export default function Navbar() {
                            <i className="bi bi-search"></i>
                         </div>
                         <div className="func-user-nav">
-                           <a className="func-account" href="#!"><i className="bi bi-person"></i></a>
+                           <a className="func-account" href="/login"><i className="bi bi-person"></i></a>
                            <a className="func-cart" href="#!">
                               <div id="cart-count">0</div>
                               <i className="bi bi-bag"></i>

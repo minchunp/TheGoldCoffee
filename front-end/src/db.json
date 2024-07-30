@@ -1,0 +1,27 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "name_user": "minhtrungggg",
+      "phoneNumber_user": "0123456789",
+      "pass_user": "minhtrung123",
+      "address_user": "HCM city",
+      "role_user": "user",
+      "status_user": 1
+    },
+    {
+      "id": "310b",
+      "name_user": "Minh Trung",
+      "phoneNumber_user": "",
+      "pass_user": "minhtrung123",
+      "address_user": "",
+      "role_user": "user",
+      "status_user": 1
+    },
+    {
+      "id": "odifs",
+      "name_user": "minhtrung",
+      "pass_user": "123"
+    }
+  ]
+}

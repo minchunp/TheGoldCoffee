@@ -80,11 +80,11 @@ const Login = () => {
                            />
                         </div>
                         <div className="section-input">
-                           <p>Password</p>
+                           <p>Mật khẩu</p>
                            <input 
                               type="password" 
                               value={pass_user}
-                              placeholder="Password"
+                              placeholder="Mật khẩu"
                               onChange={(e) => setPassUser(e.target.value)}
                               required
                            />

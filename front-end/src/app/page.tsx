@@ -4,8 +4,181 @@ import "../../public/css/home.css";
 import Navbar from "./components/navbar/page";
 import Slide from "./components/slide_banner/page";
 import ProductList from "./components/product/listProduct";
+import BlogList from "./components/blog/listBlog";
+import Footer from "./components/footer/page";
+
+interface ProductInterface {
+   _id: string,
+   id_cate: string
+   name_pro: string,
+   img_pro: string,
+   price_pro: number,
+   sale_pro: number,
+   disc_pro: string,
+   salesVolume_pro: number,
+   status_pro: number
+}
+
+interface BLogInterface {
+   _id: string,
+   title_blog: string,
+   img_blog: string,
+   date_blog: string,
+   content_blog: string,
+   sumary_blog: string,
+   status_blog: number
+}
+
 
 export default function Home() {
+   const productList: ProductInterface[] = [
+      {
+         _id: "ìnisnufsidfnsdifsd",
+         id_cate: "inosdfsodfnosdf",
+         name_pro: "Sản phẩm 1",
+         img_pro: "1636647328_arme-nong_400x400.png",
+         price_pro: 55000,
+         sale_pro: 0,
+         disc_pro: "niosdfismdfomsdfoimsdf",
+         salesVolume_pro: 0,
+         status_pro: 1
+      },
+      {
+         _id: "ìnisnufsidfnsdifsr",
+         id_cate: "inosdfsodfnosdf",
+         name_pro: "Sản phẩm 2",
+         img_pro: "1639377798_ca-phe-den-da_400x400.png",
+         price_pro: 55000,
+         sale_pro: 0,
+         disc_pro: "niosdfismdfomsdfoimsdf",
+         salesVolume_pro: 0,
+         status_pro: 1
+      },
+      {
+         _id: "ìnisnufsidfnsdifsw",
+         id_cate: "inosdfsodfnosdf",
+         name_pro: "Sản phẩm 3",
+         img_pro: "latte-da_438410_400x400.png",
+         price_pro: 55000,
+         sale_pro: 0,
+         disc_pro: "niosdfismdfomsdfoimsdf",
+         salesVolume_pro: 0,
+         status_pro: 1
+      },
+      {
+         _id: "ìnisnufsidfnsdifso",
+         id_cate: "inosdfsodfnosdf",
+         name_pro: "Sản phẩm 4",
+         img_pro: "tra-den-matchiato_430281_400x400.png",
+         price_pro: 55000,
+         sale_pro: 0,
+         disc_pro: "niosdfismdfomsdfoimsdf",
+         salesVolume_pro: 0,
+         status_pro: 1
+      },
+      {
+         _id: "ìnisnufsidfnsdifs9",
+         id_cate: "inosdfsodfnosdf",
+         name_pro: "Sản phẩm 5",
+         img_pro: "1686716517_kombucha-dao_400x400.png",
+         price_pro: 55000,
+         sale_pro: 0,
+         disc_pro: "niosdfismdfomsdfoimsdf",
+         salesVolume_pro: 0,
+         status_pro: 1
+      },
+      {
+         _id: "ìnisnufsidfnsdifs1",
+         id_cate: "inosdfsodfnosdf",
+         name_pro: "Sản phẩm 6",
+         img_pro: "tra-sen-nong_025153_400x400.png",
+         price_pro: 55000,
+         sale_pro: 0,
+         disc_pro: "niosdfismdfomsdfoimsdf",
+         salesVolume_pro: 0,
+         status_pro: 1
+      },
+      {
+         _id: "ìnisnufsidfnsdifs6",
+         id_cate: "inosdfsodfnosdf",
+         name_pro: "Sản phẩm 7",
+         img_pro: "1719200009_vai_400x400.png",
+         price_pro: 55000,
+         sale_pro: 0,
+         disc_pro: "niosdfismdfomsdfoimsdf",
+         salesVolume_pro: 0,
+         status_pro: 1
+      },
+      {
+         _id: "ìnisnufsidfnsdifs4",
+         id_cate: "inosdfsodfnosdf",
+         name_pro: "Sản phẩm 9",
+         img_pro: "1636647328_arme-nong_400x400.png",
+         price_pro: 55000,
+         sale_pro: 0,
+         disc_pro: "niosdfismdfomsdfoimsdf",
+         salesVolume_pro: 0,
+         status_pro: 1
+      }
+   ];
+
+   const blogList: BLogInterface[] = [
+      {
+         _id: "sfisnoifmodfosdmfosd",
+         title_blog: "BẮT GẶP SÀI GÒN XƯA TRONG MÓN UỐNG HIỆN ĐẠI CỦA GIỚI TRẺ",
+         img_blog: "thecoffeehouse_caphehighlight01_de40c0102a954c50a328f7befcdd82bd_grande.jpg",
+         date_blog: "01/06/2024",
+         content_blog: "",
+         sumary_blog: "Dẫu qua bao nhiêu lớp sóng thời gian, người ta vẫn có thể tìm lại những dấu ấn thăng trầm của một Sài Gòn xưa cũ. Trên những góc phố,...",
+         status_blog: 1
+      },
+      {
+         _id: "sfisnoifmodfosdmfosd",
+         title_blog: "BẮT GẶP SÀI GÒN XƯA TRONG MÓN UỐNG HIỆN ĐẠI CỦA GIỚI TRẺ",
+         img_blog: "thecoffeehouse_caphehighlight01_de40c0102a954c50a328f7befcdd82bd_grande.jpg",
+         date_blog: "01/06/2024",
+         content_blog: "",
+         sumary_blog: "Dẫu qua bao nhiêu lớp sóng thời gian, người ta vẫn có thể tìm lại những dấu ấn thăng trầm của một Sài Gòn xưa cũ. Trên những góc phố,...",
+         status_blog: 1
+      },
+      {
+         _id: "sfisnoifmodfosdmfosd",
+         title_blog: "BẮT GẶP SÀI GÒN XƯA TRONG MÓN UỐNG HIỆN ĐẠI CỦA GIỚI TRẺ",
+         img_blog: "thecoffeehouse_caphehighlight01_de40c0102a954c50a328f7befcdd82bd_grande.jpg",
+         date_blog: "01/06/2024",
+         content_blog: "",
+         sumary_blog: "Dẫu qua bao nhiêu lớp sóng thời gian, người ta vẫn có thể tìm lại những dấu ấn thăng trầm của một Sài Gòn xưa cũ. Trên những góc phố,...",
+         status_blog: 1
+      },
+      {
+         _id: "sfisnoifmodfosdmfosd",
+         title_blog: "BẮT GẶP SÀI GÒN XƯA TRONG MÓN UỐNG HIỆN ĐẠI CỦA GIỚI TRẺ",
+         img_blog: "thecoffeehouse_caphehighlight01_de40c0102a954c50a328f7befcdd82bd_grande.jpg",
+         date_blog: "01/06/2024",
+         content_blog: "",
+         sumary_blog: "Dẫu qua bao nhiêu lớp sóng thời gian, người ta vẫn có thể tìm lại những dấu ấn thăng trầm của một Sài Gòn xưa cũ. Trên những góc phố,...",
+         status_blog: 1
+      },
+      {
+         _id: "sfisnoifmodfosdmfosd",
+         title_blog: "BẮT GẶP SÀI GÒN XƯA TRONG MÓN UỐNG HIỆN ĐẠI CỦA GIỚI TRẺ",
+         img_blog: "thecoffeehouse_caphehighlight01_de40c0102a954c50a328f7befcdd82bd_grande.jpg",
+         date_blog: "01/06/2024",
+         content_blog: "",
+         sumary_blog: "Dẫu qua bao nhiêu lớp sóng thời gian, người ta vẫn có thể tìm lại những dấu ấn thăng trầm của một Sài Gòn xưa cũ. Trên những góc phố,...",
+         status_blog: 1
+      },
+      {
+         _id: "sfisnoifmodfosdmfosd",
+         title_blog: "BẮT GẶP SÀI GÒN XƯA TRONG MÓN UỐNG HIỆN ĐẠI CỦA GIỚI TRẺ",
+         img_blog: "thecoffeehouse_caphehighlight01_de40c0102a954c50a328f7befcdd82bd_grande.jpg",
+         date_blog: "01/06/2024",
+         content_blog: "",
+         sumary_blog: "Dẫu qua bao nhiêu lớp sóng thời gian, người ta vẫn có thể tìm lại những dấu ấn thăng trầm của một Sài Gòn xưa cũ. Trên những góc phố,...",
+         status_blog: 1
+      }
+   ]
+
    return (
       <>
          <Navbar />
@@ -71,9 +244,45 @@ export default function Home() {
             <div className="boxcenter">
               <h2 className="main-title">Sản phẩm nổi bật</h2>
 
-              <ProductList/>
+              <ProductList products={productList} />
             </div>
          </section>
+
+         {/* Section Banner introduce */}
+         <section className="banner-introduce">
+            <div className="boxcenter">
+               <img src="images/bannerQC.webp" alt="" />
+               <div className="main-desc-bannerQC">
+                  <div className="img-titleQC">
+                     <img src="images/title_bannerQC.webp" alt="" />
+                  </div>
+                  <div className="desc-bannerQC">
+                     <p>
+                        Được trồng trọt và chăm chút kỹ lưỡng, nuôi dưỡng từ thổ nhưỡng phì nhiêu, nguồn nước mát lành, bao bọc bởi mây và sương cùng nền
+                        nhiệt độ mát mẻ quanh năm, những búp trà ở Tây Bắc mập mạp và xanh mướt, hội tụ đầy đủ dưỡng chất, sinh khí, và tinh hoa đất
+                        trời. Chính khí hậu đặc trưng cùng phương pháp canh tác của đồng bào dân tộc nơi đây đã tạo ra Trà Xanh vị mộc dễ uống, dễ yêu,
+                        không thể trộn lẫn với bất kỳ vùng miền nào khác.
+                     </p>
+                  </div>
+                  <div className="button-bannerQC">
+                     <a href="#!">
+                        <button className="main-btn main-btn__banner-introduce">Thử ngay</button>
+                     </a>
+                  </div>
+               </div>
+            </div>
+         </section>
+
+         {/* Section Blogs */}
+         <section className="blogs">
+            <div className="boxcenter">
+               <h2 className="main-title">Chuyện nhà</h2>
+
+               <BlogList blogs={blogList}/>
+            </div>
+         </section>
+
+         <Footer/>
       </>
    );
 }

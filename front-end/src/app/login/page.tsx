@@ -8,6 +8,7 @@ import Footer from "../components/footer/page";
 interface User {
    _id: string,
    name_user: string,
+   email_user: string,
    phoneNumber_user: string,
    pass_user: string,
    address_user: string,

@@ -7,6 +7,7 @@ import Footer from "../components/footer/page";
 
 const Register: React.FC = () => {
    const [name_user, setNameUser] = useState('');
+   const [email_user, setEmailUser] = useState('');
    const [phoneNumber_user, setPhoneNumberUser] = useState('');
    const [pass_user, setPassUser] = useState('');
    const [address_user, setAddressUser] = useState('');
@@ -25,6 +26,7 @@ const Register: React.FC = () => {
          try {
             const respone = await axios.post("http://localhost:3000/users", {
                name_user,
+               email_user,
                phoneNumber_user,
                pass_user,
                address_user,
@@ -69,6 +71,16 @@ const Register: React.FC = () => {
                               value={name_user} 
                               placeholder="Tên tài khoản" 
                               onChange={(e) => setNameUser(e.target.value)}
+                              required
+                           />
+                        </div>
+                        <div className="section-input">
+                           <p>Tên tài khoản</p>
+                           <input 
+                              type="text" 
+                              value={email_user} 
+                              placeholder="Email" 
+                              onChange={(e) => setEmailUser(e.target.value)}
                               required
                            />
                         </div>

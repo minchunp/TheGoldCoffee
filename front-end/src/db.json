@@ -22,6 +22,24 @@
       "id": "odifs",
       "name_user": "minhtrung",
       "pass_user": "123"
+    },
+    {
+      "id": "5006",
+      "name_user": "MinhTrung",
+      "phoneNumber_user": "0375149202",
+      "pass_user": "minhtrung123",
+      "address_user": "thành phố Hồ Chí Minh",
+      "role_user": "user",
+      "status_user": 1
+    },
+    {
+      "id": "fd27",
+      "name_user": "MinhTrung123",
+      "phoneNumber_user": "0375149202",
+      "pass_user": "minhtrung123",
+      "address_user": "thành phố Hồ Chí Minh",
+      "role_user": "user",
+      "status_user": 1
     }
   ]
 }

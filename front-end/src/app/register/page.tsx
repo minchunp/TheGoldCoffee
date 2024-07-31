@@ -125,7 +125,7 @@ const Register: React.FC = () => {
                            />
                         </div>
                         <button className="main-button-form-user" type="submit">
-                           Đăng nhập
+                           Đăng ký
                         </button>
                         {error && <h3 className="error">{error}</h3>}
                      </form>

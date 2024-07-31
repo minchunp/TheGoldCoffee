@@ -75,7 +75,7 @@ const Register: React.FC = () => {
                            />
                         </div>
                         <div className="section-input">
-                           <p>Tên tài khoản</p>
+                           <p>Email</p>
                            <input 
                               type="text" 
                               value={email_user} 
@@ -99,7 +99,7 @@ const Register: React.FC = () => {
                            <input 
                               type="text" 
                               value={address_user} 
-                              placeholder="Tên tài khoản" 
+                              placeholder="Địa chỉ" 
                               onChange={(e) => setAddressUser(e.target.value)}
                               required
                            />

@@ -33,8 +33,17 @@
       "status_user": 1
     },
     {
-      "id": "fd27",
       "name_user": "MinhTrung123",
+      "phoneNumber_user": "0375149202",
+      "pass_user": "minhtrung123",
+      "address_user": "thành phố Hồ Chí Minh",
+      "role_user": "user",
+      "status_user": 1
+    },
+    {
+      "id": "7703",
+      "name_user": "Minh Trung",
+      "email_user": "minhtrung010321@gmail.com",
       "phoneNumber_user": "0375149202",
       "pass_user": "minhtrung123",
       "address_user": "thành phố Hồ Chí Minh",

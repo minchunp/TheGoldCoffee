@@ -1,50 +1,103 @@
-
-var modelUser = require("../models/User");
+const mongoose = require("mongoose");
+const User = require("../models/User");
 
 class UsersController {
-    async index(req, res, next) {
-        try {
-            var data = await modelUser.find();
-            const sttArray = [];
-            data.forEach((item, index) => {
-                sttArray.push(index + 1);
-            });
-            const vtArray = [];
-            data.forEach((item) => {
-                let vt = '';
-                if(item.vt == 0) {
-                    vt = 'Admin';
-                } else {
-                    vt = 'User';
-                }
-                vtArray.push(vt);
-            });
-            res.render('listUser', {layout: false, data: data, sttArray: sttArray, vtArray: vtArray});
-        } catch (err) {
-            next(err);
-        }
+  // Lấy danh sách tất cả user
+  async index(req, res, next) {
+    try {
+      const data = await User.find();
+      res.render("listuser", { layout: false, data: data });
+    } catch (err) {
+      next(err);
     }
+  }
 
-        // user/delete/id
-        async delete(req, res, next) {
-            var id = req.params.id;
-    
-            try {
-                // Sử dụng findByIdAndDelete() để tìm và xóa document dựa trên id
-                const deletedUser = await modelUser.findByIdAndDelete({_id: id});
-    
-                if (!deletedUser) {
-                    return res.status(404).json({ message: 'Không tìm thấy user để xóa.' });
-                }
-    
-                return res.status(200).json({ message: 'Xóa user thành công.', deletedUser });
-            } catch (error) {
-                console.error('Lỗi khi xóa user:', error);
-                return res.status(500).json({ message: 'Đã xảy ra lỗi khi xóa user.' });
-            }
-        }
+  // Trang tạo mới user
+  createpage(req, res) {
+    res.render("add_user", { layout: false });
+  }
 
+  // Tạo mới user
+  async create(req, res, next) {
+    try {
+      const {
+        name_user,
+        email_user,
+        phoneNumber_user,
+        pass_user,
+        address_user,
+        role_user,
+        status_user,
+      } = req.body;
 
+      const newUser = new User({
+        name_user,
+        email_user,
+        phoneNumber_user,
+        pass_user,
+        address_user,
+        role_user,
+        status_user,
+      });
+
+      const savedUser = await newUser.save();
+      res.status(201).json({ message: "Tạo user thành công.", savedUser });
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  // Trang cập nhật user theo ID
+  async updatepage(req, res, next) {
+    const id = req.params.id;
+    try {
+      const user = await User.findById(id);
+      if (user) {
+        res.render("update_user", {
+          layout: false,
+          user: user,
+        });
+      } else {
+        res.status(404).send("User not found");
+      }
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  // Cập nhật user theo ID
+  async update(req, res, next) {
+    const id = req.params.id;
+    try {
+      const updatedUser = await User.findByIdAndUpdate(id, req.body, {
+        new: true,
+      });
+      if (!updatedUser) {
+        return res
+          .status(404)
+          .json({ message: "Không tìm thấy user để cập nhật." });
+      }
+      res
+        .status(200)
+        .json({ message: "Cập nhật user thành công.", updatedUser });
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  // Xóa user theo ID
+  async delete(req, res, next) {
+    const id = req.params.id;
+    try {
+      const deletedUser = await User.findByIdAndDelete(id);
+      if (!deletedUser) {
+        return res.status(404).json({ message: "Không tìm thấy user để xóa." });
+      }
+      res.status(200).json({ message: "Xóa user thành công.", deletedUser });
+    } catch (err) {
+      next(err);
+    }
+  }
 }
 
 module.exports = new UsersController();

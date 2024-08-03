@@ -1,9 +1,7 @@
 "use client"
 import React, { useState } from "react";
 import axios from "axios";
-import "../../../public/css/login_register.css";
-import Navbar from "../components/navbar/page";
-import Footer from "../components/footer/page";
+import "../../../../public/css/login_register.css";
 
 interface User {
    _id: string,
@@ -53,7 +51,7 @@ const Login = () => {
 
    return (
       <>
-         <Navbar />
+         {/* <Navbar /> */}
 
          {/* Section Login */}
          <section className="banner-title-other-page overlay-bg">
@@ -119,7 +117,7 @@ const Login = () => {
             </div>
          </main>
 
-         <Footer />
+         {/* <Footer /> */}
       </>
    );
 };

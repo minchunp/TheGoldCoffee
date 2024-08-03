@@ -1,4 +1,4 @@
-import "../../../../public/css/slide.css"
+import "../../../../../public/css/slide.css"
 
 export default function Slide() {
    return (

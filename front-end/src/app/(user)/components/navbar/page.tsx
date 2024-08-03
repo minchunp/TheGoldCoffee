@@ -1,6 +1,19 @@
-import "../../../../public/css/navbar.css"
+"use client"
+import Link from "next/link";
+import "../../../../../public/css/navbar.css"
+import { useContext } from "react";
+import { CartContex } from "@/app/context/cartContext";
+import logoWebsiteURL from "../../../../../public/images/The Gold Coffee Logo SVG.png";
 
 export default function Navbar() {
+    // Sử dụng Context
+    const context = useContext(CartContex);
+    if (!context) {
+       throw new Error("Trang giỏ hàng phải được sử dụng trong CartProvider!");
+    }
+    const { items, removeItem, clearItem } = context;
+    console.log(items)
+
    return (
       <>
          <nav className="main-nav">
@@ -25,9 +38,9 @@ export default function Navbar() {
                <div className="bottom-nav">
                   <div className="container-bottom-nav">
                      <div className="main-logo-website">
-                        <a href="/">
-                           <img src="images/The Gold Coffee Logo SVG.png" alt="" />
-                        </a>
+                        <Link href="/">
+                           <img src={logoWebsiteURL.src} alt="" />
+                        </Link>
                      </div>
                      <div className="right-func-bottom-nav">
                         <div className="input-search-nav">
@@ -35,11 +48,11 @@ export default function Navbar() {
                            <i className="bi bi-search"></i>
                         </div>
                         <div className="func-user-nav">
-                           <a className="func-account" href="/login"><i className="bi bi-person"></i></a>
-                           <a className="func-cart" href="#!">
-                              <div id="cart-count">0</div>
+                           <Link className="func-account" href="/login"><i className="bi bi-person"></i></Link>
+                           <Link className="func-cart" href="/cart">
+                              <div id="cart-count">{items.length}</div>
                               <i className="bi bi-bag"></i>
-                           </a>
+                           </Link>
                         </div>
                      </div>
                   </div>

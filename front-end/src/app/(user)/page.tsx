@@ -1,11 +1,10 @@
-import Image from "next/image";
-import styles from "./page.module.css";
-import "../../public/css/home.css";
-import Navbar from "./components/navbar/page";
+"use client"
+import "../../../public/css/home.css";
 import Slide from "./components/slide_banner/page";
 import ProductList from "./components/product/listProduct";
 import BlogList from "./components/blog/listBlog";
-import Footer from "./components/footer/page";
+import { fetchProducts } from "../api";
+import useSWR from "swr";
 
 interface ProductInterface {
    _id: string,
@@ -29,98 +28,12 @@ interface BLogInterface {
    status_blog: number
 }
 
-
 export default function Home() {
-   const productList: ProductInterface[] = [
-      {
-         _id: "ìnisnufsidfnsdifsd",
-         id_cate: "inosdfsodfnosdf",
-         name_pro: "Sản phẩm 1",
-         img_pro: "1636647328_arme-nong_400x400.png",
-         price_pro: 55000,
-         sale_pro: 0,
-         disc_pro: "niosdfismdfomsdfoimsdf",
-         salesVolume_pro: 0,
-         status_pro: 1
-      },
-      {
-         _id: "ìnisnufsidfnsdifsr",
-         id_cate: "inosdfsodfnosdf",
-         name_pro: "Sản phẩm 2",
-         img_pro: "1639377798_ca-phe-den-da_400x400.png",
-         price_pro: 55000,
-         sale_pro: 0,
-         disc_pro: "niosdfismdfomsdfoimsdf",
-         salesVolume_pro: 0,
-         status_pro: 1
-      },
-      {
-         _id: "ìnisnufsidfnsdifsw",
-         id_cate: "inosdfsodfnosdf",
-         name_pro: "Sản phẩm 3",
-         img_pro: "latte-da_438410_400x400.png",
-         price_pro: 55000,
-         sale_pro: 0,
-         disc_pro: "niosdfismdfomsdfoimsdf",
-         salesVolume_pro: 0,
-         status_pro: 1
-      },
-      {
-         _id: "ìnisnufsidfnsdifso",
-         id_cate: "inosdfsodfnosdf",
-         name_pro: "Sản phẩm 4",
-         img_pro: "tra-den-matchiato_430281_400x400.png",
-         price_pro: 55000,
-         sale_pro: 0,
-         disc_pro: "niosdfismdfomsdfoimsdf",
-         salesVolume_pro: 0,
-         status_pro: 1
-      },
-      {
-         _id: "ìnisnufsidfnsdifs9",
-         id_cate: "inosdfsodfnosdf",
-         name_pro: "Sản phẩm 5",
-         img_pro: "1686716517_kombucha-dao_400x400.png",
-         price_pro: 55000,
-         sale_pro: 0,
-         disc_pro: "niosdfismdfomsdfoimsdf",
-         salesVolume_pro: 0,
-         status_pro: 1
-      },
-      {
-         _id: "ìnisnufsidfnsdifs1",
-         id_cate: "inosdfsodfnosdf",
-         name_pro: "Sản phẩm 6",
-         img_pro: "tra-sen-nong_025153_400x400.png",
-         price_pro: 55000,
-         sale_pro: 0,
-         disc_pro: "niosdfismdfomsdfoimsdf",
-         salesVolume_pro: 0,
-         status_pro: 1
-      },
-      {
-         _id: "ìnisnufsidfnsdifs6",
-         id_cate: "inosdfsodfnosdf",
-         name_pro: "Sản phẩm 7",
-         img_pro: "1719200009_vai_400x400.png",
-         price_pro: 55000,
-         sale_pro: 0,
-         disc_pro: "niosdfismdfomsdfoimsdf",
-         salesVolume_pro: 0,
-         status_pro: 1
-      },
-      {
-         _id: "ìnisnufsidfnsdifs4",
-         id_cate: "inosdfsodfnosdf",
-         name_pro: "Sản phẩm 9",
-         img_pro: "1636647328_arme-nong_400x400.png",
-         price_pro: 55000,
-         sale_pro: 0,
-         disc_pro: "niosdfismdfomsdfoimsdf",
-         salesVolume_pro: 0,
-         status_pro: 1
-      }
-   ];
+   // Fetch API Products
+   const fetcher = (url: string) => fetchProducts();
+   const {data, error} = useSWR<ProductInterface[]>(`listProduct`, fetcher);
+   if (error) return <strong className="fetch">Có lỗi xảy ra!</strong>;
+   if (!data) return <strong className="fetch">Đang tải dữ liệu...</strong>
 
    const blogList: BLogInterface[] = [
       {
@@ -181,7 +94,7 @@ export default function Home() {
 
    return (
       <>
-         <Navbar />
+         {/* <Navbar /> */}
          <Slide />
 
          {/* Section What make us different? */}
@@ -244,7 +157,7 @@ export default function Home() {
             <div className="boxcenter">
               <h2 className="main-title">Sản phẩm nổi bật</h2>
 
-              <ProductList products={productList} />
+              <ProductList products={data} />
             </div>
          </section>
 
@@ -282,7 +195,7 @@ export default function Home() {
             </div>
          </section>
 
-         <Footer/>
+         {/* <Footer/> */}
       </>
    );
 }

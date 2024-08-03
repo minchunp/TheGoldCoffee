@@ -1,5 +1,5 @@
 import Product from "./page";
-import "../../../../public/css/product.css"
+import "../../../../../public/css/product.css"
 import React from "react";
 
 interface ProductInterface {

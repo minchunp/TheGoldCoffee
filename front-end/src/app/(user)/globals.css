@@ -66,3 +66,9 @@ p {
    font-size: 35px;
    text-align: center;
 }
+
+.fetch {
+   margin: 15px 0;
+   display: grid;
+   place-items: center;
+}

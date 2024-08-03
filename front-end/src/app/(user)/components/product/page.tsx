@@ -1,5 +1,6 @@
 import React from "react";
-import "../../../../public/css/product.css"
+import "../../../../../public/css/product.css"
+import Link from "next/link";
 
 interface ProductInterface {
    _id: string,
@@ -21,11 +22,11 @@ const Product: React.FC<ProductProps> = ({product}) => {
    return (
       <>
          <div className="item-product" key={product._id}>
-            <a href={`/product/${product._id}`}><img src={`${process.env.NEXT_PUBLIC_IMAGE_PRO_URL}${product.img_pro}`} alt="" /></a>
+            <Link href={`/product/${product._id}`}><img src={`${process.env.NEXT_PUBLIC_IMAGE_PRO_URL}${product.img_pro}`} alt="" /></Link>
             <div className="content-product">
-               <a className="name-pro" href={`/product/${product._id}`}>
+               <Link className="name-pro" href={`/product/${product._id}`}>
                   <p>{product.name_pro}</p>
-               </a>
+               </Link>
                <div className="price-sale-product">
                   <p>{product.price_pro.toLocaleString()}đ</p>
                   {/* <p>55,000đ</p> */}

@@ -1,5 +1,5 @@
 import React from "react";
-import "../../../../public/css/blog.css"
+import "../../../../../public/css/blog.css";
 import Blog from "./page";
 
 interface BLogInterface {

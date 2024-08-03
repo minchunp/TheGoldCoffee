@@ -1,9 +1,7 @@
 "use client"
 import React, { useState} from "react"
 import axios from "axios";
-import "../../../public/css/login_register.css"
-import Navbar from "../components/navbar/page";
-import Footer from "../components/footer/page";
+import "../../../../public/css/login_register.css";
 
 const Register: React.FC = () => {
    const [name_user, setNameUser] = useState('');
@@ -47,7 +45,7 @@ const Register: React.FC = () => {
 
    return (
       <>
-         <Navbar />
+         {/* <Navbar /> */}
 
          {/* Section Login */}
          <section className="banner-title-other-page overlay-bg">
@@ -150,7 +148,7 @@ const Register: React.FC = () => {
             </div>
          </main>
 
-         <Footer />
+         {/* <Footer /> */}
       </>
    );
 };

@@ -22,16 +22,16 @@ const LeftNav = () => {
                   <div className={`items ${pathName == "/admin" ? "active" : ""}`}>Dashboard</div>
                </Link>
                <Link href="/admin/products">
-                  <div className={`items ${pathName == "/admin/products" || pathName == "/admin/products/add" ? "active" : ""}`}>Sản phẩm</div>
+                  <div className={`items ${pathName == "/admin/products" || pathName == "/admin/products/add" || pathName == "/admin/products/edit" ? "active" : ""}`}>Sản phẩm</div>
                </Link>
                <Link href="/admin/categories">
-                  <div className={`items ${pathName == "/admin/categories" || pathName == "/admin/categories/add" ? "active" : ""}`}>Danh mục</div>
+                  <div className={`items ${pathName == "/admin/categories" || pathName == "/admin/categories/add" || pathName == "/admin/categories/edit" ? "active" : ""}`}>Danh mục</div>
                </Link>
                <Link href="/admin/users">
-                  <div className={`items ${pathName == "/admin/users" || pathName == "/admin/users/add" ? "active" : ""}`}>Người dùng</div>
+                  <div className={`items ${pathName == "/admin/users" || pathName == "/admin/users/add" || pathName == "/admin/users/edit" ? "active" : ""}`}>Người dùng</div>
                </Link>
                <Link href="/admin/toppings">
-                  <div className={`items ${pathName == "/admin/toppings" || pathName == "/admin/toppings/ad" ? "active" : ""}`}>Topping</div>
+                  <div className={`items ${pathName == "/admin/toppings" || pathName == "/admin/toppings/add" || pathName == "/admin/toppings/edit" ? "active" : ""}`}>Topping</div>
                </Link>
             </div>
 

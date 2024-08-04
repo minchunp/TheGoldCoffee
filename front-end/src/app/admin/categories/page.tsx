@@ -45,18 +45,7 @@ const CategoryAdmin = () => {
                               <img src={`${process.env.NEXT_PUBLIC_IMAGE_PRO_URL}1669736859_hi-tea-yuzu-tran-chau_400x400.png`} alt="" />
                               <p>Tên danh mục</p>
                               <div className="container-func">
-                                 <button><i className="bi bi-gear"></i></button>
-                                 <button><i className="bi bi-x-lg"></i></button>
-                              </div>
-                           </div>
-                           <div className="main-order-pending">
-                              <Link href="#!">
-                                 <p>ID</p>
-                              </Link>
-                              <img src={`${process.env.NEXT_PUBLIC_IMAGE_PRO_URL}1669736859_hi-tea-yuzu-tran-chau_400x400.png`} alt="" />
-                              <p>Tên danh mục</p>
-                              <div className="container-func">
-                                 <button><i className="bi bi-gear"></i></button>
+                                 <Link href="/admin/categories/edit"><button><i className="bi bi-gear"></i></button></Link>
                                  <button><i className="bi bi-x-lg"></i></button>
                               </div>
                            </div>

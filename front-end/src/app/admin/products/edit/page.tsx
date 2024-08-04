@@ -1,14 +1,14 @@
 import Link from "next/link";
 import "../../../../../public/css/addProductAdmin.css";
 
-const AddProduct = () => {
+const EditProduct = () => {
    return (
       <>
          <section>
             <div id="add-product-page" className="add-product">
                <div className="boxcenter">
                   <div className="title-product">
-                     <h1>Add Product</h1>
+                     <h1>Thêm sản phẩm</h1>
                      <Link href="/admin/products">
                         <i id="return-main-product-btn" className="bi bi-arrow-left-short"></i>
                      </Link>
@@ -84,4 +84,4 @@ const AddProduct = () => {
    );
 };
 
-export default AddProduct;
+export default EditProduct;

@@ -73,12 +73,10 @@ const ProductAdmin = () => {
                         </div>
 
                         <div className="double-button">
-                           <button className="openEditProduct" data-id="${item.id}">
-                              Sửa sản phẩm
-                           </button>
-                           <button className="deleteProduct" data-id="${item.id}">
-                              Xoá sản phẩm
-                           </button>
+                           <Link href="/admin/products/edit">
+                              <button className="openEditProduct">Sửa sản phẩm</button>
+                           </Link>
+                           <button className="deleteProduct">Xoá sản phẩm</button>
                         </div>
                      </div>
                   </div>

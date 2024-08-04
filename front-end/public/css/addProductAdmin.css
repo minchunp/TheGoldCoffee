@@ -115,7 +115,8 @@ body {
 }
 
 .element-input input[type=text],
-.element-input input[type=number] {
+.element-input input[type=text],
+.element-input select {
    outline: none;
    color: #ffffff;
    border: 0.6px solid #cfcfcf33;

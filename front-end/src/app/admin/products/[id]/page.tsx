@@ -13,11 +13,24 @@ interface Category {
   status_cate: string;
 }
 
-const AddProduct: React.FC = () => {
+interface Product {
+  _id: string;
+  id_cate: string;
+  img_pro: string;
+  name_pro: string;
+  price_pro: number;
+  sale_pro: number;
+  disc_pro: string;
+  salesVolume_pro: number;
+  status_pro: string;
+}
+
+function EditProduct({ params }: { params: { id: string } }) {
   const [categories, setCategories] = useState<Category[]>([]);
+  const [product, setProduct] = useState<Product | null>(null);
   const [name, setName] = useState("");
   const [idCate, setIdCate] = useState("");
-  const [image, setImage] = useState<File | null>(null); // Giữ lại kiểu File
+  const [image, setImage] = useState<File | null>(null);
   const [price, setPrice] = useState("");
   const [sale, setSale] = useState("");
   const [description, setDescription] = useState("");
@@ -35,24 +48,43 @@ const AddProduct: React.FC = () => {
       });
   }, []);
 
+  useEffect(() => {
+    axios
+      .get(`http://localhost:3001/productsAPI/detailProduct/${params.id}`)
+      .then((response) => {
+        const productData = response.data;
+        setProduct(productData);
+        setName(productData.name_pro);
+        setIdCate(productData.id_cate);
+        setPrice(productData.price_pro.toString());
+        setSale(productData.sale_pro.toString());
+        setDescription(productData.disc_pro);
+        setSalesVolume(productData.salesVolume_pro);
+        setStatus(productData.status_pro === "1");
+      })
+      .catch((error) => {
+        console.error("Error fetching product:", error);
+      });
+  }, [params.id]);
+
   const handleAddProduct = async () => {
     try {
-      const imageName = image ? image.name : "";
+      const imageName = image ? image.name : product?.img_pro || "";
 
       const productData = {
+        _id: params.id,
         id_cate: idCate,
         img_pro: imageName,
         name_pro: name,
-        price_pro: parseInt(price.replace(/\./g, ""), 10), // Chuyển đổi giá thành số nguyên
-        sale_pro: parseInt(sale.replace(/\./g, ""), 10), // Chuyển đổi giá khuyến mãi thành số nguyên
+        price_pro: parseInt(price.replace(/\./g, ""), 10),
+        sale_pro: parseInt(sale.replace(/\./g, ""), 10),
         disc_pro: description,
         salesVolume_pro: salesVolume,
         status_pro: status ? "1" : "0",
       };
 
-      // Gửi yêu cầu thêm sản phẩm
-      const response = await axios.post(
-        "http://localhost:3001/product/add",
+      const response = await axios.put(
+        `http://localhost:3001/product/update/${params.id}`,
         productData,
         {
           headers: {
@@ -61,15 +93,15 @@ const AddProduct: React.FC = () => {
         }
       );
 
-      console.log("Product added successfully:", response.data);
+      console.log("Product update successfully:", response.data);
+      // router.push("/admin/products");
       //CHUYỂN HƯỚNG VỀ http://localhost:3000/admin/products
       window.location.href = "/admin/products";
     } catch (error) {
-      console.error("Error adding product:", error);
+      console.error("Error update product:", error);
     }
   };
 
-  // Hàm format giá để hiển thị
   const formatPrice = (value: string) => {
     const num = parseInt(value.replace(/\./g, ""), 10);
     return num ? num.toLocaleString("vi-VN") : "";
@@ -80,7 +112,7 @@ const AddProduct: React.FC = () => {
       <div id="add-product-page" className="add-product">
         <div className="boxcenter">
           <div className="title-product">
-            <h1>Add Product</h1>
+            <h1>Edit Product</h1>
             <Link href="/admin/products">
               <i
                 id="return-main-product-btn"
@@ -93,13 +125,13 @@ const AddProduct: React.FC = () => {
             <div className="box-demo-add">
               <div className="box-featured-product">
                 <div className="product-image">
-                  {/* Ẩn box-toggle-image khi có ảnh mới */}
-                  {!image && (
-                    <div className="box-toggle-image">
-                      <i className="bi bi-image"></i>
-                    </div>
+                  {!image && product && (
+                    <img
+                      src={`${process.env.NEXT_PUBLIC_IMAGE_PRO_URL}${product.img_pro}`}
+                      alt="Product"
+                    />
                   )}
-                  {image && ( // Hiển thị ảnh mới nếu có
+                  {image && (
                     <img src={URL.createObjectURL(image)} alt="Product" />
                   )}
                 </div>
@@ -149,7 +181,7 @@ const AddProduct: React.FC = () => {
                   type="file"
                   onChange={(e) => {
                     if (e.target.files) {
-                      setImage(e.target.files[0]); // Cập nhật ảnh mới
+                      setImage(e.target.files[0]);
                     }
                   }}
                 />
@@ -203,7 +235,7 @@ const AddProduct: React.FC = () => {
                 />
               </div>
               <button id="add-product" onClick={handleAddProduct}>
-                Thêm sản phẩm
+                Sửa sản phẩm
               </button>
             </div>
           </div>
@@ -211,6 +243,6 @@ const AddProduct: React.FC = () => {
       </div>
     </section>
   );
-};
+}
 
-export default AddProduct;
+export default EditProduct;

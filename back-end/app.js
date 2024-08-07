@@ -15,6 +15,14 @@ var corsOptionsDelegate = function (req, callback) {
   callback(null, corsOptions);
 };
 
+app.use(
+  cors({
+    origin: "http://localhost:3000", // Điều chỉnh nguồn phù hợp
+    methods: "GET,POST,PUT,DELETE,OPTIONS",
+    allowedHeaders: "Content-Type,Authorization",
+  })
+);
+
 // override with POST having ?_method=PUT
 app.use(methodOverride("_method"));
 

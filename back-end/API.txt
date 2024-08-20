@@ -27,3 +27,5 @@
 - Create: http://localhost:3001/user/add [POST]
 - Update: http://localhost:3001/user/update/:id [PUT]
 
+S
+

@@ -200,8 +200,13 @@ header {
 }
 
 .language {
-   width: 130px;
+   width: 150px;
    justify-content: space-between;
+}
+
+.language img {
+   width: 35%;
+   border-radius: 5px;
 }
 
 .content-language {
@@ -209,6 +214,7 @@ header {
 }
 
 .content-language p {
+   font-size: 14px;
    margin-right: 5px;
    cursor: pointer;
    transition: all 0.3s ease-in-out;
@@ -232,6 +238,7 @@ header {
 
 .name-user p {
    cursor: pointer;
+   font-size: 14px;
    transition: all 0.3s ease-in-out;
    margin: 0;
    margin-bottom: 5px;
@@ -244,7 +251,7 @@ header {
 
 .name-user p.position {
    font-size: 12px;
-   color: #ffffff;
+   color: var(--main-color);
 }
 
 /* Css main */

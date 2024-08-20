@@ -35,8 +35,12 @@ const Login = () => {
             );
 
             if (dataUser) {
-               console.log('Đăng nhập thành công!', dataUser);
-               window.location.href = "/";
+               if (dataUser.role_user === 'admin') {
+                  window.location.href = "/admin";
+               } else {
+                  console.log('Đăng nhập thành công!', dataUser);
+                  window.location.href = "/";
+               }
             } else {
                console.log('Đăng nhập thất bại');
             }

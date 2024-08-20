@@ -1,15 +1,37 @@
+"use client"
 import Link from "next/link";
 import "../../../../public/css/dashboardAdmin.css";
 import BannerSectionAdmin from "../../../../public/images/wallpaper-angledwares.jpg";
+import UserListAdmin from "./listUser";
+import { fetchUsers } from "@/app/api";
+import useSWR from "swr";
+
+// Interface user
+interface UserInterface {
+   id: string;
+   name_user: string;
+   email_user: string;
+   phoneNumber_user: string;
+   pass_user: string;
+   address_user: string;
+   role_user: string;
+   status_user: number;
+}
 
 const UserAdmin = () => {
+   // Fetch API Users
+   const fetcher = (url: string) => fetchUsers();
+   const {data, error} = useSWR<UserInterface[]>('users', fetcher);
+   if (error) return <strong>Có lỗi xảy ra!</strong>
+   if (!data) return <strong>Đang tải dữ liệu...</strong>
+
    return (
       <>
          <section>
             <div className="main-dashboard">
                <div className="boxcenter">
                   <div className="title-product">
-                     <h1>Users</h1>
+                     <h1>Khách hàng</h1>
                      <Link href="/admin/users/add">
                         <i className="bi bi-plus"></i>
                      </Link>
@@ -18,40 +40,27 @@ const UserAdmin = () => {
                   <div className="banner-product">
                      <img src={BannerSectionAdmin.src} alt="" />
                      <div className="text-banner">
-                        <p>WELCOME TO OUR</p>
-                        <h1>FURNITURE</h1>
-                        <p>GALLERY 2024</p>
+                        <p>CHÀO MỪNG BẠN ĐẾN VỚI</p>
+                        <h1>THE GOLD COFFEE</h1>
+                        <p>NĂM 2024</p>
                      </div>
                   </div>
 
                   <div className="order-pending">
                      <div className="title-order-pending">
-                        <h1>Edit User</h1>
+                        <h1>Danh sách khách hàng</h1>
                      </div>
 
                      <div id="list-user" className="list-order-pending">
                         <div className="title-list-order-pending">
                            <p>ID</p>
-                           <p>User Name</p>
-                           <p>Email User</p>
-                           <p>Role</p>
-                           <p>Function</p>
+                           <p>Tên khách hàng</p>
+                           <p>Email khách hàng</p>
+                           <p>Vai trò khách hàng</p>
+                           <p>Chức năng</p>
                         </div>
-
-                        <div className="main-list">
-                           <div className="main-order-pending">
-                              <Link href="#!">
-                                 <p>ID</p>
-                              </Link>
-                              <p>Tên khách hàng</p>
-                              <p>Email khách hàng</p>
-                              <p>Vai trò</p>
-                              <div className="container-func">
-                                 <button><i className="bi bi-gear"></i></button>
-                                 <button><i className="bi bi-x-lg"></i></button>
-                              </div>
-                           </div>
-                        </div>
+                        
+                        <UserListAdmin users={data} />
                      </div>
                   </div>
                </div>

@@ -28,7 +28,7 @@ const LeftNav = () => {
                   <div className={`items ${pathName == "/admin/categories" || pathName == "/admin/categories/add" || pathName == "/admin/categories/edit" ? "active" : ""}`}>Danh mục</div>
                </Link>
                <Link href="/admin/users">
-                  <div className={`items ${pathName == "/admin/users" || pathName == "/admin/users/add" || pathName == "/admin/users/edit" ? "active" : ""}`}>Người dùng</div>
+                  <div className={`items ${pathName == "/admin/users" || pathName == "/admin/users/add" || pathName == "/admin/users/[id]" ? "active" : ""}`}>Người dùng</div>
                </Link>
                <Link href="/admin/toppings">
                   <div className={`items ${pathName == "/admin/toppings" || pathName == "/admin/toppings/add" || pathName == "/admin/toppings/edit" ? "active" : ""}`}>Topping</div>
@@ -45,8 +45,10 @@ const LeftNav = () => {
 
             {/* <!-- Menu website admin --> */}
             <div className="container-items-menu">
-               <div className="items">Setting</div>
-               <div className="items">Log out</div>
+               <div className="items">Cài đặt</div>
+               <Link href="/">
+                  <div className="items">Về trang chủ</div>
+               </Link>
             </div>
          </div>
       </>

@@ -329,7 +329,9 @@ body {
    appearance: none;
 }
 
-
+.main-list {
+   margin-bottom: 50px;
+}
 
 
 

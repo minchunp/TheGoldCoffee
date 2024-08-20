@@ -2,11 +2,12 @@
 import Link from "next/link";
 import "../../../../../public/css/dashboardAdmin.css";
 import BannerSectionAdmin from "../../../../../public/images/wallpaper-angledwares.jpg";
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 
 // Interface user
 interface UserInterface {
+   id: string;
    name_user: string;
    email_user: string;
    phoneNumber_user: string;
@@ -16,44 +17,51 @@ interface UserInterface {
    status_user: number;
 }
 
-const AddUser: React.FC = () => {
-   const [name_user, setNameUser] = useState("");
-   const [email_user, setEmailUser] = useState("");
-   const [phoneNumber_user, setPhoneNumberUser] = useState("");
-   const [pass_user, setPassUser] = useState("");
-   const [address_user, setAddressUser] = useState("");
-   const [role_user, setRoleUser] = useState("user");
-   const [status_user, setStatusUser] = useState(1);
+function EditUser({ params }: { params: { id: string } }) {
+   console.log(params.id);
+   const [user, setUser] = useState<UserInterface>({
+      id: "",
+      name_user: "",
+      email_user: "",
+      phoneNumber_user: "",
+      pass_user: "",
+      address_user: "",
+      role_user: "",
+      status_user: 0,
+   });
+
+   useEffect(() => {
+      if (params.id) {
+         fetchUsers(params.id as string);
+      }
+   }, [params.id]);
+
+   const fetchUsers = async (userId: string) => {
+      try {
+         const respone = await axios.get(`http://localhost:3000/users/${userId}`);
+         const dataUser = respone.data;
+         setUser(dataUser);
+      } catch (e) {
+         console.log("Lỗi khi lấy thông tin khách hàng", e);
+      }
+   };
 
    const handleSubmit = async (e: any) => {
       e.preventDefault();
-
-      // Tạo đối tượng User từ state
-      const newUser: UserInterface = {
-         name_user: name_user,
-         email_user: email_user,
-         phoneNumber_user: phoneNumber_user,
-         pass_user: pass_user,
-         address_user: address_user,
-         role_user: role_user,
-         status_user: status_user,
-      };
-
       try {
-         const respone = await axios.post("http://localhost:3000/users", newUser);
-         const dataUser = await respone.data;
-         console.log("Thêm khách hàng thành công!", dataUser);
-         // Xoá dữ liệu form sau khi thêm user thành công
-         setNameUser("");
-         setEmailUser("");
-         setPhoneNumberUser("");
-         setPassUser("");
-         setAddressUser("");
-         setRoleUser("user");
-         setStatusUser(1);
-         window.location.href = "/admin/users"
+         // Gọi API cập nhật thông tin user
+         await fetch(`http://localhost:3000/users/${user.id}`, {
+            method: "PUT",
+            headers: {
+               "Content-Type": "application/json",
+            },
+            body: JSON.stringify(user),
+         });
+
+         console.log("Cập nhật thông tin khách hàng thành công!");
+         window.location.href = "/admin/users";
       } catch (e) {
-         console.log("Thêm khách hàng thất bại!", e);
+         console.log("Lỗi khi cập nhật thông tin khách hàng", e);
       }
    };
 
@@ -63,7 +71,7 @@ const AddUser: React.FC = () => {
             <div className="main-dashboard">
                <div className="boxcenter">
                   <div className="title-product">
-                     <h1>Thêm tài khoản khách hàng</h1>
+                     <h1>Sửa tài khoản khách hàng</h1>
                      <Link href="/admin/users">
                         <i className="bi bi-arrow-left-short"></i>
                      </Link>
@@ -80,7 +88,7 @@ const AddUser: React.FC = () => {
 
                   <div className="order-pending">
                      <div className="title-order-pending">
-                        <h1>ID Khách hàng #Random</h1>
+                        <h1>ID #{user.id}</h1>
                      </div>
 
                      <div id="list-user" className="list-order-pending">
@@ -96,15 +104,15 @@ const AddUser: React.FC = () => {
                            <div className="main-list">
                               <div className="main-order-pending">
                                  <a href="#">
-                                    <p>Random</p>
+                                    <p>{user.id}</p>
                                  </a>
                                  <input
                                     className="name_user"
                                     type="text"
                                     name="name_user"
                                     placeholder="Tên khách hàng"
-                                    value={name_user}
-                                    onChange={(e) => setNameUser(e.target.value)}
+                                    value={user.name_user}
+                                    onChange={(e) => setUser({ ...user, name_user: e.target.value })}
                                     required
                                  />
                                  <input
@@ -112,11 +120,11 @@ const AddUser: React.FC = () => {
                                     type="text"
                                     name="email_user"
                                     placeholder="Email khách hàng"
-                                    value={email_user}
-                                    onChange={(e) => setEmailUser(e.target.value)}
+                                    value={user.email_user}
+                                    onChange={(e) => setUser({ ...user, email_user: e.target.value })}
                                     required
                                  />
-                                 <select name="role_user" value={role_user} onChange={(e) => setRoleUser(e.target.value)}>
+                                 <select name="role_user" value={user.role_user} onChange={(e) => setUser({ ...user, role_user: e.target.value })}>
                                     <option value="user">User</option>
                                     <option value="admin">Admin</option>
                                  </select>
@@ -133,6 +141,6 @@ const AddUser: React.FC = () => {
          </section>
       </>
    );
-};
+}
 
-export default AddUser;
+export default EditUser;

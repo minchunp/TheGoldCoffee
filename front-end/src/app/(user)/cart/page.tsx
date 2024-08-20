@@ -2,7 +2,6 @@
 import { useSelector } from "react-redux";
 import "../../../../public/css/cart.css";
 import "../../../../public/css/login_register.css";
-import { RootState } from "@/redux/store";
 import { useContext, useEffect } from "react";
 import { CartContex } from "@/app/context/cartContext";
 import Link from "next/link";

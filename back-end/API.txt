@@ -21,7 +21,7 @@
 - Update: http://localhost:3001/topping/update/:id [PUT]
 
 // API USER
-- Get ALL: http://localhost:3001/usersAPI/listUsers [GET]
+- Get ALL: http://localhost:3001/usersAPI/listUser [GET]
 - Get By ID: http://localhost:3001/usersAPI/detailUser/:id [GET]
 - Delete By ID: http://localhost:3001/user/delete/:id [DELETE]
 - Create: http://localhost:3001/user/add [POST]

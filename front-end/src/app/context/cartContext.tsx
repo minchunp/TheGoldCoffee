@@ -50,11 +50,6 @@ const CartProvider: React.FC<{children: ReactNode}> = ({children}) => {
       });
    }
 
-   // const existingItem = prevItems.find(i => i._id === item._id && i.size_pro === item.size_pro);
-         // if (existingItem) {
-         //    return prevItems.map(i => i._id === item._id ? {...i, quantity_pro: i.quantity_pro + item.quantity_pro} : i);
-         // } 
-
    const updateItem = (item: CartItem) => {
 
    }

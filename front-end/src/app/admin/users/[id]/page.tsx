@@ -7,7 +7,7 @@ import axios from "axios";
 
 // Interface user
 interface UserInterface {
-   id: string;
+   _id: string;
    name_user: string;
    email_user: string;
    phoneNumber_user: string;
@@ -20,7 +20,7 @@ interface UserInterface {
 function EditUser({ params }: { params: { id: string } }) {
    console.log(params.id);
    const [user, setUser] = useState<UserInterface>({
-      id: "",
+      _id: "",
       name_user: "",
       email_user: "",
       phoneNumber_user: "",
@@ -38,7 +38,7 @@ function EditUser({ params }: { params: { id: string } }) {
 
    const fetchUsers = async (userId: string) => {
       try {
-         const respone = await axios.get(`http://localhost:3000/users/${userId}`);
+         const respone = await axios.get(`http://localhost:3001/usersAPI/detailUser/${userId}`);
          const dataUser = respone.data;
          setUser(dataUser);
       } catch (e) {
@@ -50,7 +50,7 @@ function EditUser({ params }: { params: { id: string } }) {
       e.preventDefault();
       try {
          // Gọi API cập nhật thông tin user
-         await fetch(`http://localhost:3000/users/${user.id}`, {
+         await fetch(`http://localhost:3001/user/update/${user._id}`, {
             method: "PUT",
             headers: {
                "Content-Type": "application/json",
@@ -88,7 +88,7 @@ function EditUser({ params }: { params: { id: string } }) {
 
                   <div className="order-pending">
                      <div className="title-order-pending">
-                        <h1>ID #{user.id}</h1>
+                        <h1>ID #{(user._id).slice(-4)}</h1>
                      </div>
 
                      <div id="list-user" className="list-order-pending">
@@ -104,7 +104,7 @@ function EditUser({ params }: { params: { id: string } }) {
                            <div className="main-list">
                               <div className="main-order-pending">
                                  <a href="#">
-                                    <p>{user.id}</p>
+                                    <p>{(user._id).slice(-4)}</p>
                                  </a>
                                  <input
                                     className="name_user"

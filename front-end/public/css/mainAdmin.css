@@ -524,3 +524,6 @@ header {
    background-color: var(--main-color);
 }
 
+header.main-header-admin {
+   box-shadow: 3px 5px 4px 0px rgba(0, 0, 0, 15%);
+}

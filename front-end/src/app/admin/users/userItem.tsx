@@ -5,7 +5,7 @@ import axios from "axios";
 
 // Interface user
 interface UserInterface {
-   id: string;
+   _id: string;
    name_user: string;
    email_user: string;
    phoneNumber_user: string;
@@ -23,7 +23,7 @@ interface UserProps {
 const UserItemAdmin: React.FC<UserProps> = ({ user }) => {
    const handleDelete = async (e: any) => {
       try {
-         const response = await axios.delete(`http://localhost:3000/users/${user.id}`);
+         const response = await axios.delete(`http://localhost:3001/user/delete/${user._id}`);
          console.log("Xoá tài khoản khách hàng thành công", response.data);
          window.location.reload();
          // onDelete(user.id);
@@ -34,16 +34,16 @@ const UserItemAdmin: React.FC<UserProps> = ({ user }) => {
 
    return (
       <>
-         <div className="main-order-pending" key={user.id}>
+         <div className="main-order-pending" key={user._id}>
             <Link href="#!">
-               <p>{user.id}</p>
+               <p>{(user._id).slice(-4)}</p>
             </Link>
             <p>{user.name_user}</p>
             <p>{user.email_user}</p>
             <p>{user.role_user}</p>
             <div className="container-func">
                {/* Nút sửa sản phẩm */}
-               <Link href={`/admin/users/${user.id}`}>
+               <Link href={`/admin/users/${user._id}`}>
                   <button>
                      <i className="bi bi-gear"></i>
                   </button>

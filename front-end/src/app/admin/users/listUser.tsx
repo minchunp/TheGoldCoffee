@@ -4,7 +4,7 @@ import React from "react";
 
 // Interface user
 interface UserInterface {
-   id: string;
+   _id: string;
    name_user: string;
    email_user: string;
    phoneNumber_user: string;
@@ -25,7 +25,7 @@ const UserListAdmin: React.FC<UserListProps> = ({users}) => {
             {
                users.map(user => {
                   return (
-                     <div key={user.id} className="box-user-admin">
+                     <div key={user._id} className="box-user-admin">
                         <UserItemAdmin user={user}/>
                      </div>
                   )

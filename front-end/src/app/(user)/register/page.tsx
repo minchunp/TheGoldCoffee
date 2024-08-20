@@ -22,7 +22,7 @@ const Register: React.FC = () => {
       }
       if (name_user && pass_user) {
          try {
-            const respone = await axios.post("http://localhost:3000/users", {
+            const respone = await axios.post("http://localhost:3001/user/add", {
                name_user,
                email_user,
                phoneNumber_user,
@@ -36,7 +36,7 @@ const Register: React.FC = () => {
             window.location.href = "/login";
          } catch (e) {
             console.log('Đăng ký thất bại!', e);
-            setError('Đăng nhập thất bại!');
+            setError('Đăng ký thất bại!');
          }
       } else {
          setError('Tên đăng nhập hoặc mật khẩu chưa được nhập!');

@@ -19,9 +19,9 @@ interface UserInterface {
 const AddUser: React.FC = () => {
    const [name_user, setNameUser] = useState("");
    const [email_user, setEmailUser] = useState("");
-   const [phoneNumber_user, setPhoneNumberUser] = useState("");
-   const [pass_user, setPassUser] = useState("");
-   const [address_user, setAddressUser] = useState("");
+   const [phoneNumber_user, setPhoneNumberUser] = useState("Chưa cập nhật");
+   const [pass_user, setPassUser] = useState("123");
+   const [address_user, setAddressUser] = useState("Chưa cập nhật");
    const [role_user, setRoleUser] = useState("user");
    const [status_user, setStatusUser] = useState(1);
 
@@ -40,7 +40,12 @@ const AddUser: React.FC = () => {
       };
 
       try {
-         const respone = await axios.post("http://localhost:3000/users", newUser);
+         // const respone = await axios.post("http://localhost:3000/users", newUser);
+         const respone = await axios.post("http://localhost:3001/user/add", newUser, {
+            headers: {
+               "Content-Type": "application/json",
+            },
+         });
          const dataUser = await respone.data;
          console.log("Thêm khách hàng thành công!", dataUser);
          // Xoá dữ liệu form sau khi thêm user thành công
@@ -51,7 +56,7 @@ const AddUser: React.FC = () => {
          setAddressUser("");
          setRoleUser("user");
          setStatusUser(1);
-         window.location.href = "/admin/users"
+         window.location.href = "/admin/users";
       } catch (e) {
          console.log("Thêm khách hàng thất bại!", e);
       }

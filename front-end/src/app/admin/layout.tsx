@@ -19,7 +19,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                {/* <!-- Main content --> */}
                <div className="main">
                   {/* <!-- Header website Hurst --> */}
-                  <header>
+                  <header className="main-header-admin">
                      <div className="boxcenter">
                         <div className="container-header">
                            <div className="input-search">

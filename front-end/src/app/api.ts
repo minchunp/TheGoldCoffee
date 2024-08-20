@@ -15,7 +15,7 @@ interface ProductInterface {
 
 // Interface user
 interface UserInterface {
-   id: string;
+   _id: string;
    name_user: string;
    email_user: string;
    phoneNumber_user: string;
@@ -39,8 +39,8 @@ export const fetchProducts = async (): Promise<ProductInterface[]> => {
 // Fetch API users
 export const fetchUsers = async (): Promise<UserInterface[]> => {
    try {
-      // const respone = await axios.get<UserInterface[]>(`${process.env.NEXT_PUBLIC_API_USER_URL}/listUser`);
-      const respone = await axios.get<UserInterface[]>(`http://localhost:3000/users`);
+      const respone = await axios.get<UserInterface[]>(`${process.env.NEXT_PUBLIC_API_USER_URL}/listUser`);
+      // const respone = await axios.get<UserInterface[]>(`http://localhost:3000/users`);
       return respone.data;
    } catch (e) {
       console.log('Có lỗi xảy ra khi fetch dữ liệu user, ', e);

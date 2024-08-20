@@ -8,7 +8,7 @@ import useSWR from "swr";
 
 // Interface user
 interface UserInterface {
-   id: string;
+   _id: string;
    name_user: string;
    email_user: string;
    phoneNumber_user: string;
@@ -21,7 +21,7 @@ interface UserInterface {
 const UserAdmin = () => {
    // Fetch API Users
    const fetcher = (url: string) => fetchUsers();
-   const {data, error} = useSWR<UserInterface[]>('users', fetcher);
+   const {data, error} = useSWR<UserInterface[]>('listUser', fetcher);
    if (error) return <strong>Có lỗi xảy ra!</strong>
    if (!data) return <strong>Đang tải dữ liệu...</strong>
 

@@ -11,11 +11,11 @@ interface Category {
    img_cate: string;
    name_cate: string;
    status_cate: string;
-   }
+}
 
 const AddTopping: React.FC = () => {
    const [categories, setCategories] = useState<Category[]>([]);
-   const [idCate,setIdCate] = useState(""); 
+   const [idCate, setIdCate] = useState("");
    const [name, setName] = useState("");
    const [image, setImage] = useState<File | null>(null); // Giữ lại kiểu File
    const [price, setPrice] = useState("");
@@ -23,45 +23,41 @@ const AddTopping: React.FC = () => {
 
    useEffect(() => {
       axios
-            .get("http://localhost:3001/CategorysAPI/listCategory")
-            .then((response) => {
-               setCategories(response.data);
-            })
-            .catch((error) => {
+         .get("http://localhost:3001/CategorysAPI/listCategory")
+         .then((response) => {
+            setCategories(response.data);
+         })
+         .catch((error) => {
             console.error("Error fetching toppings:", error);
-            });
-      }, []);
+         });
+   }, []);
 
-      const handleAddTopping = async () =>{
-         try{
-            const imageName = image ? image.name : "";
-            const toppingData = {
-            id_cate: idCate, 
+   const handleAddTopping = async () => {
+      try {
+         const imageName = image ? image.name : "";
+         const toppingData = {
+            id_cate: idCate,
             img_topping: imageName,
             name_topping: name,
             price_topping: parseInt(price.replace(/\./g, ""), 10), // Chuyển đổi giá thành số nguyên,
             status_topping: status ? "1" : "0",
-   };
-         const response = await axios.post(
-            "http://localhost:3001/toppingsAPI/create",
-            toppingData,
-            {
-                  headers: {
-                  "Content-Type": "application/json",
-                  },
-            }
-            );
-            console.log("Topping added successfully:", response.data);
-            window.location.href = "/admin/toppings";
-         }catch (error) {
-            console.error("Error adding topping:", error);
-      }
-      };
-
-      const formatPrice = (value: string) => {
-         const num = parseInt(value.replace(/\./g, ""), 10);
-         return num ? num.toLocaleString("vi-VN") : "";
          };
+         const response = await axios.post("http://localhost:3001/toppingsAPI/create", toppingData, {
+            headers: {
+               "Content-Type": "application/json",
+            },
+         });
+         console.log("Topping added successfully:", response.data);
+         window.location.href = "/admin/toppings";
+      } catch (error) {
+         console.error("Error adding topping:", error);
+      }
+   };
+
+   const formatPrice = (value: string) => {
+      const num = parseInt(value.replace(/\./g, ""), 10);
+      return num ? num.toLocaleString("vi-VN") : "";
+   };
 
    return (
       <>
@@ -80,12 +76,12 @@ const AddTopping: React.FC = () => {
                         <div className="box-featured-product">
                            <div className="product-image">
                               {!image && (
-                              <div className="box-toggle-image">
-                                 <i className="bi bi-image"></i>
-                              </div>
+                                 <div className="box-toggle-image">
+                                    <i className="bi bi-image"></i>
+                                 </div>
                               )}
                               {image && ( // Hiển thị ảnh mới nếu có
-                              <img src={URL.createObjectURL(image)} alt="Product" />
+                                 <img src={URL.createObjectURL(image)} alt="Product" />
                               )}
                            </div>
                            <div className="product-content">
@@ -104,31 +100,29 @@ const AddTopping: React.FC = () => {
 
                      <div className="box-input-add">
                         <div className="element-input">
-                     <p>Tên danh mục</p>
-                     <select
-                     value={idCate}
-                     onChange={(e) => setIdCate(e.target.value)}
-                     >
-                     <option value="">Chọn danh mục</option>
-                     {categories.map((category) => (
-                        <option key={category._id} value={category._id}>
-                           {category.name_cate}
-                        </option>
-                     ))}
-                     </select>
-                  </div>
-                        <div className="element-input">
                            <p>Tên sản phẩm</p>
-                           <input type="text" placeholder="Tên sản phẩm" value={name} onChange={(e) => setName(e.target.value)}/>
+                           <input type="text" placeholder="Tên sản phẩm" value={name} onChange={(e) => setName(e.target.value)} />
+                        </div>
+                        <div className="element-input">
+                           <p>Tên danh mục</p>
+                           <select value={idCate} onChange={(e) => setIdCate(e.target.value)}>
+                              <option value="">Chọn danh mục</option>
+                              {categories.map((category) => (
+                                 <option key={category._id} value={category._id}>
+                                    {category.name_cate}
+                                 </option>
+                              ))}
+                           </select>
                         </div>
                         <div className="element-input">
                            <p>Ảnh sản phẩm</p>
-                           <input type="file" 
-                           onChange={(e) => {
-                           if (e.target.files) {
-                                 setImage(e.target.files[0]); 
-                           }
-                           }}
+                           <input
+                              type="file"
+                              onChange={(e) => {
+                                 if (e.target.files) {
+                                    setImage(e.target.files[0]);
+                                 }
+                              }}
                            />
                         </div>
                         <div className="element-input">
@@ -136,14 +130,12 @@ const AddTopping: React.FC = () => {
                            <input type="text" placeholder="Giá sản phẩm" value={price} onChange={(e) => setPrice(e.target.value)} />
                         </div>
                         <div className="element-input">
-                        <input
-                           type="checkbox"
-                           id="tagSale-product"
-                           checked={status}
-                           onChange={(e) => setStatus(e.target.checked)}
-                           />
+                           <p>Status</p>
+                           <input type="checkbox" id="tagSale-product" checked={status} onChange={(e) => setStatus(e.target.checked)} />
                         </div>
-                        <button id="add-product" onClick={handleAddTopping}>Thêm sản phẩm</button>
+                        <button id="add-product" onClick={handleAddTopping}>
+                           Thêm sản phẩm
+                        </button>
                      </div>
                   </div>
                </div>

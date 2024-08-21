@@ -12,35 +12,30 @@ interface Topping {
    name_topping: string;
    price_topping: number;
    status_topping: string;
-   };
-
-
+}
 
 const ToppingAdmin: React.FC = () => {
    const [toppings, setToppings] = useState<Topping[]>([]);
 
-useEffect(() => {
-   
-   axios
+   useEffect(() => {
+      axios
          .get<Topping[]>("http://localhost:3001/toppingsAPI/listTopping")
          .then((response) => {
-         setToppings(response.data);
+            setToppings(response.data);
          })
          .catch((error) => {
-         console.error("Error fetching products:", error);
+            console.error("Error fetching products:", error);
          });
    }, []);
 
-const deleteTopping = (id: string) => {
-   axios
+   const deleteTopping = (id: string) => {
+      axios
          .delete(`http://localhost:3001/topping/delete/${id}`)
          .then((response) => {
-         setToppings((prevProducts) =>
-            prevProducts.filter((topping) => topping._id !== id)
-         );
+            setToppings((prevProducts) => prevProducts.filter((topping) => topping._id !== id));
          })
          .catch((error) => {
-         console.error("Error deleting product:", error);
+            console.error("Error deleting product:", error);
          });
    };
 
@@ -67,37 +62,37 @@ const deleteTopping = (id: string) => {
                   </div>
 
                   <div id="container-product-admin" className="container-product">
-                     {toppings.map((topping)=>(
+                     {toppings.map((topping) => (
                         <div className="box-featured-product">
-                        <div className="product-image">
-                           <img
-                              className="detail"
-                              src={`${process.env.NEXT_PUBLIC_IMAGE_TOPP_URL}${topping.img_topping}`}
-                              alt={topping.name_topping}
-                           />
-                        </div>
-
-                        <div className="product-content">
-                           <div className="product-name">
-                              <a href="#">
-                                 <h3>{topping.name_topping}</h3>
-                              </a>
+                           <div className="product-image">
+                              <img
+                                 className="detail"
+                                 src={`${process.env.NEXT_PUBLIC_IMAGE_TOPPING_URL}${topping.img_topping}`}
+                                 alt={topping.name_topping}
+                              />
                            </div>
 
-                           <div className="product-price">
-                              <p>{topping.price_topping}</p>
+                           <div className="product-content">
+                              <div className="product-name">
+                                 <a href="#">
+                                    <h3>{topping.name_topping}</h3>
+                                 </a>
+                              </div>
+
+                              <div className="product-price">
+                                 <p>{(topping.price_topping).toLocaleString()}đ</p>
+                              </div>
+                           </div>
+
+                           <div className="double-button">
+                              <Link href={`/admin/toppings/${topping._id}`}>
+                                 <button className="openEditProduct">Sửa sản phẩm</button>
+                              </Link>
+                              <button className="deleteProduct" onClick={() => deleteTopping(topping._id)}>
+                                 Xoá sản phẩm
+                              </button>
                            </div>
                         </div>
-
-                        <div className="double-button">
-                           <Link href={`/admin/toppings/${topping._id}`}>
-                              <button className="openEditProduct">Sửa sản phẩm</button>
-                           </Link>
-                           <button className="deleteProduct" onClick={() => deleteTopping(topping._id)}>
-                              Xoá sản phẩm
-                           </button>
-                        </div>
-                     </div>
                      ))}
                   </div>
                </div>

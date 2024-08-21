@@ -31,7 +31,7 @@ const LeftNav = () => {
                   <div className={`items ${pathName == "/admin/users" || pathName == "/admin/users/add" ? "active" : ""}`}>Người dùng</div>
                </Link>
                <Link href="/admin/toppings">
-                  <div className={`items ${pathName == "/admin/toppings" || pathName == "/admin/toppings/ad" ? "active" : ""}`}>Topping</div>
+                  <div className={`items ${pathName == "/admin/toppings" || pathName == "/admin/toppings/add" ? "active" : ""}`}>Topping</div>
                </Link>
             </div>
 

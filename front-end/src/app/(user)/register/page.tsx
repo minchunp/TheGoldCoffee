@@ -20,9 +20,9 @@ const Register: React.FC = () => {
          setError('Mật khẩu của bạn nhập lại không chính xác!');
          return;
       }
-      if (name_user && pass_user) {
+      if (name_user && email_user && phoneNumber_user && pass_user && address_user) {
          try {
-            const respone = await axios.post("http://localhost:3000/users", {
+            const respone = await axios.post("http://localhost:3001/user/add", {
                name_user,
                email_user,
                phoneNumber_user,
@@ -36,10 +36,10 @@ const Register: React.FC = () => {
             window.location.href = "/login";
          } catch (e) {
             console.log('Đăng ký thất bại!', e);
-            setError('Đăng nhập thất bại!');
+            setError('Đăng ký thất bại!');
          }
       } else {
-         setError('Tên đăng nhập hoặc mật khẩu chưa được nhập!');
+         setError('Thông tin chưa được nhập đầy đủ!');
       }
    }
 

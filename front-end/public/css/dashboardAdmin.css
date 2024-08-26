@@ -192,6 +192,11 @@ body {
    justify-self: start;
 }
 
+.main-order-pending input[type=checkbox] {
+   width: 20px;
+   height: 20px;
+}
+
 .main-order-pending:last-child {
    border-bottom: none;
 }
@@ -265,12 +270,12 @@ body {
    gap: 10px;
 }
 
-.container-func a {
+/* .container-func a {
    padding: 10px;
    background-color: #323D4E;
    border-radius: 5px;
    color: white;
-}
+} */
 
 .container-func a:hover {
    transform: translateY(-5px);
@@ -324,7 +329,9 @@ body {
    appearance: none;
 }
 
-
+.main-list {
+   margin-bottom: 50px;
+}
 
 
 

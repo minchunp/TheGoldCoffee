@@ -1,52 +1,42 @@
 {
   "users": [
     {
-      "id": "1",
-      "name_user": "minhtrungggg",
-      "phoneNumber_user": "0123456789",
-      "pass_user": "minhtrung123",
-      "address_user": "HCM city",
-      "role_user": "user",
-      "status_user": 1
-    },
-    {
-      "id": "310b",
-      "name_user": "Minh Trung",
+      "id": "3f9d",
+      "name_user": "Trần Kim Hồng",
+      "email_user": "kimhong123@gmail.com",
       "phoneNumber_user": "",
-      "pass_user": "minhtrung123",
+      "pass_user": "",
       "address_user": "",
       "role_user": "user",
       "status_user": 1
     },
     {
-      "id": "odifs",
-      "name_user": "minhtrung",
-      "pass_user": "123"
-    },
-    {
-      "id": "5006",
-      "name_user": "MinhTrung",
-      "phoneNumber_user": "0375149202",
-      "pass_user": "minhtrung123",
-      "address_user": "thành phố Hồ Chí Minh",
-      "role_user": "user",
-      "status_user": 1
-    },
-    {
-      "name_user": "MinhTrung123",
-      "phoneNumber_user": "0375149202",
-      "pass_user": "minhtrung123",
-      "address_user": "thành phố Hồ Chí Minh",
-      "role_user": "user",
-      "status_user": 1
-    },
-    {
-      "id": "7703",
-      "name_user": "Minh Trung",
+      "id": "3f9e",
+      "name_user": "Huỳnh Minh Trung",
       "email_user": "minhtrung010321@gmail.com",
       "phoneNumber_user": "0375149202",
-      "pass_user": "minhtrung123",
-      "address_user": "thành phố Hồ Chí Minh",
+      "pass_user": "minhtrung0511#",
+      "address_user": "thành phố Cao Lãnh",
+      "role_user": "admin",
+      "status_user": 1
+    },
+    {
+      "id": "94eb",
+      "name_user": "Huỳnh Văn Minh",
+      "email_user": "vanminh123@gmail.com",
+      "phoneNumber_user": "",
+      "pass_user": "",
+      "address_user": "",
+      "role_user": "user",
+      "status_user": 1
+    },
+    {
+      "id": "cbb5",
+      "name_user": "Sóc Ú Nù Nu",
+      "email_user": "soc123@gmail.com",
+      "phoneNumber_user": "",
+      "pass_user": "",
+      "address_user": "",
       "role_user": "user",
       "status_user": 1
     }

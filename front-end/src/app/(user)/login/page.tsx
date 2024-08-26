@@ -15,30 +15,36 @@ interface User {
 }
 
 const Login = () => {
-   const [name_user, setNameUser] = useState('');
+   const [email_user, setEmailUser] = useState('');
    const [pass_user, setPassUser] = useState('');
    const [error, setError] = useState('');
 
    const handleSubmit = async (e: any) => {
       e.preventDefault();
-      if (name_user && pass_user) {
+      if (email_user && pass_user) {
          try {
-            const respone = await axios.get<User[]>("http://localhost:3000/users", {
+            const respone = await axios.get<User[]>("http://localhost:3001/usersAPI/listUser", {
                params: {
-                  name_user: name_user,
+                  email_user: error,
                   pass_user: pass_user
                }
             });
+            console.log(respone.data);
 
             const dataUser = respone.data.find((user: User) => 
-               user.name_user === name_user && user.pass_user === pass_user
+               user.email_user === email_user && user.pass_user === pass_user
             );
 
             if (dataUser) {
-               console.log('Đăng nhập thành công!', dataUser);
-               window.location.href = "/";
+               if (dataUser.role_user === 'admin') {
+                  window.location.href = "/admin";
+               } else {
+                  console.log('Đăng nhập thành công!', dataUser);
+                  window.location.href = "/";
+               }
             } else {
                console.log('Đăng nhập thất bại');
+               setError('Email hoặc mật khẩu không chính xác!');
             }
          } catch (e) {
             console.log('Đăng nhập không thành công!', e);
@@ -69,12 +75,12 @@ const Login = () => {
                      <p>Vui lòng nhập chi tiết tài khoản bên dưới</p>
                      <form onSubmit={handleSubmit} className="main-form">
                         <div className="section-input">
-                           <p>Tên đăng nhập</p>
+                           <p>Email</p>
                            <input 
                               type="text" 
-                              value={name_user}
-                              placeholder="Tên đăng nhập" 
-                              onChange={(e) => setNameUser(e.target.value)}
+                              value={email_user}
+                              placeholder="Email" 
+                              onChange={(e) => setEmailUser(e.target.value)}
                               required
                            />
                         </div>

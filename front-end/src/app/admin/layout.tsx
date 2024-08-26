@@ -2,6 +2,7 @@ import Link from "next/link";
 import "../../../public/css/mainAdmin.css";
 import logoWebAdmin from "../../../public/images/The Gold Coffee Logo SVG.png";
 import avtAccountAdmin from "../../../public/images/avatarAccountAdmin.jpeg";
+import VietNam from "../../../public/images/VietNam.webp"
 import LeftNav from "./components/leftNav";
 export const metadata = {
    title: "Admin The Gold Coffee",
@@ -18,7 +19,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                {/* <!-- Main content --> */}
                <div className="main">
                   {/* <!-- Header website Hurst --> */}
-                  <header>
+                  <header className="main-header-admin">
                      <div className="boxcenter">
                         <div className="container-header">
                            <div className="input-search">
@@ -33,7 +34,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                               </div>
 
                               <div className="language">
-                                 <img src="/Images/Other_images/English.png" alt="" />
+                                 <img src={VietNam.src} alt="" />
                                  <div className="content-language">
                                     <p>Việt Nam</p>
                                     <i className="bi bi-chevron-compact-down"></i>

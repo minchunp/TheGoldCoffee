@@ -65,8 +65,8 @@ export default function Navbar() {
                   <div className="container-main-menu">
                      <div className="main-browse-cate">
                         <i className="bi bi-list"></i>
-                        <p>Danh mục sản phẩm</p>
-                        <i className="bi bi-chevron-down"></i>
+                        <p>Menu sản phẩm</p>
+                        <i className="bi bi-chevron-right"></i>
                      </div>
                      <div className="menu">
                         <div className="item-menu"><a href="#!">Trang chủ</a></div>

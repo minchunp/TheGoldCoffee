@@ -157,8 +157,8 @@ export default function Home() {
             <div className="boxcenter">
               <h2 className="main-title">Sản phẩm nổi bật</h2>
 
-              <ProductList products={data} />
             </div>
+            <ProductList products={data} />
          </section>
 
          {/* Section Banner introduce */}

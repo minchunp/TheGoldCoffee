@@ -14,7 +14,21 @@
    margin-bottom: 70px;
 }
 
+.boxcenter-productList {
+   width: calc(86% + 40px);
+   margin: 0 auto;
+}
+
 /* Item product */
+.main-product-slieShow {
+   margin-top: 50px;
+}
+
+.main-product-slieShow .slick-prev:before,
+.main-product-slieShow .slick-next:before {
+   color: var(--color-tertiary);
+}
+
 .container-product {
    margin-top: 40px;
    display: grid;
@@ -22,6 +36,12 @@
    grid-template-rows: auto;
    column-gap: 30px;
    row-gap: 23px;
+}
+
+.item-product {
+   /* margin-top: 50px; */
+   /* margin-right: 30px; */
+   margin: 0 20px;
 }
 
 .item-product img {

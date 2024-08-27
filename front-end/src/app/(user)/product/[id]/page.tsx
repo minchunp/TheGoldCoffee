@@ -122,7 +122,7 @@ function ProductDetail({ params }: { params: { id: string } }) {
 
                      <div className="quantity-pro">
                         <div className="container-quantity-pro">
-                           <p>Quantity:</p>
+                           <p>Số lượng:</p>
                            <input type="number" defaultValue={1} onChange={(e) => setQuantityPro(Number(e.target.value))} />
                         </div>
                      </div>
@@ -130,12 +130,12 @@ function ProductDetail({ params }: { params: { id: string } }) {
                      <div className="container-button-pro-detail">
                         <button onClick={() => handleAddToCart(data)} className="main-btn main-btn__addCartDetail">Thêm vào giỏ hàng</button>
                         <a href="#!">
-                           <button className="main-btn main-btn__buyDetail">Buy it now</button>
+                           <button className="main-btn main-btn__buyDetail">Mua ngay</button>
                         </a>
                      </div>
 
                      <p className="id-product-detail">
-                        IDENTIFIER: <span>{data._id}</span>
+                        IDENTIFIER: <span>{(data._id).slice(-4)}</span>
                      </p>
                   </section>
 

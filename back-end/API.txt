@@ -11,6 +11,8 @@
 - Delete By ID: http://localhost:3001/product/delete/:id [DELETE]
 - Create: http://localhost:3001/product/add [POST]
 - Update: http://localhost:3001/product/update/:id [PUT]
+- Get {cate}: http://localhost:3001/productsAPI/productsByCategory/idcate
+- Get {salesVolume_pro}: http://localhost:3001/productsAPI/productsBySales?limit=6
 
 
 // API TOPPING

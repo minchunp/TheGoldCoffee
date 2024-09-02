@@ -73,12 +73,10 @@ router.put("/updateProduct/:id", async function (req, res, next) {
         .json({ message: "Không tìm thấy sản phẩm để cập nhật." });
     }
 
-    return res
-      .status(200)
-      .json({
-        message: "Cập nhật thông tin sản phẩm thành công.",
-        updatedProduct,
-      });
+    return res.status(200).json({
+      message: "Cập nhật thông tin sản phẩm thành công.",
+      updatedProduct,
+    });
   } catch (error) {
     console.error("Lỗi khi cập nhật sản phẩm:", error);
     return res
@@ -133,6 +131,51 @@ router.get("/detailProductFind_name", async function (req, res, next) {
     res
       .status(500)
       .json({ message: "Đã xảy ra lỗi khi tìm sản phẩm theo tên." });
+  }
+});
+
+// Lấy danh sách sản phẩm theo danh mục
+// http://localhost:3001/productsAPI/productsByCategory/:categoryId
+router.get("/productsByCategory/:categoryId", async function (req, res, next) {
+  try {
+    var categoryId = req.params.categoryId;
+    var data = await modelProduct.find({ id_cate: categoryId });
+
+    if (data.length === 0) {
+      return res
+        .status(404)
+        .json({ message: "Không tìm thấy sản phẩm trong danh mục này." });
+    }
+
+    res.json(data);
+  } catch (error) {
+    console.error("Lỗi khi lấy sản phẩm theo danh mục:", error);
+    res
+      .status(500)
+      .json({ message: "Đã xảy ra lỗi khi lấy sản phẩm theo danh mục." });
+  }
+});
+
+// Lấy danh sách sản phẩm theo lượt bán, sắp xếp từ cao xuống thấp, và giới hạn số lượng
+// http://localhost:3001/productsAPI/productsBySales?limit=10
+router.get("/productsBySales", async function (req, res, next) {
+  try {
+    var limit = parseInt(req.query.limit) || 10; // Lấy giới hạn từ query params, mặc định là 10
+    var data = await modelProduct
+      .find()
+      .sort({ salesVolume_pro: -1 }) // Sắp xếp lượt bán từ cao xuống thấp
+      .limit(limit); // Giới hạn số lượng sản phẩm cần lấy
+
+    if (data.length === 0) {
+      return res.status(404).json({ message: "Không tìm thấy sản phẩm." });
+    }
+
+    res.json(data);
+  } catch (error) {
+    console.error("Lỗi khi lấy sản phẩm theo lượt bán:", error);
+    res
+      .status(500)
+      .json({ message: "Đã xảy ra lỗi khi lấy sản phẩm theo lượt bán." });
   }
 });
 

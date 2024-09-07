@@ -29,7 +29,7 @@
 
 .item-top-nav {
    gap: 5px;
-   font-size: 14px;
+   font-size: 13px;
 }
 
 .item-top-nav i {
@@ -49,8 +49,8 @@
 }
 
 /* Bottom navbar */
-.bottom-nav {
-   padding-bottom: 8px;
+.container-bottom-nav {
+   padding: 5px 0;
 }
 
 .container-bottom-nav,
@@ -71,7 +71,7 @@
 }
 
 .main-logo-website img {
-   width: 35%;
+   width: 28%;
 }
 
 .input-search-nav {

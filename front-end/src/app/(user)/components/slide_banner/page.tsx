@@ -58,6 +58,14 @@ export default function Slide() {
                               </div>
                            </div>
                         </div>
+                        <div className="container-slide">
+                           <div className="single-slide">
+                              <img src="images/slide_bannerNew_3.png" alt="" />
+                              <div className="content-slide content-slide_3">
+                                 <button className="main-btn main-btn__banner-3">Thử ngay</button>
+                              </div>
+                           </div>
+                        </div>
                      </Slider>
                   </div>
                   <div className="demo-pro-in-slide">

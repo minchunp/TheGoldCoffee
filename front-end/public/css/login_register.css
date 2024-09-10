@@ -17,6 +17,7 @@
 
 /* Banner title other page */
 .banner-title-other-page {
+   background-color: var(--color-secondary);
    background-image: url(/public/images/other/bg-title-orderPage.webp);
    background-position: -180px -120px;
 }

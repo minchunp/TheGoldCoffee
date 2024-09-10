@@ -5,6 +5,9 @@ import "../../../../../public/css/login_register.css";
 import useSWR from "swr";
 import axios from "axios";
 import { CartContex } from "@/app/context/cartContext";
+import Modal from "../../components/modalCofirm/page";
+import ModalCofirm from "../../components/modalCofirm/page";
+import ModalNavagation from "../../components/modalNavigation/page";
 
 interface ProductInterface {
    _id: string,
@@ -21,6 +24,8 @@ interface ProductInterface {
 function ProductDetail({ params }: { params: { id: string } }) {
    const [size_pro, setSize_pro] = useState('S');
    const [quantity_pro, setQuantityPro] = useState(1);
+   const [isModalOpenNavigation, setIsModalOpenNavigation] = useState(false);
+   const [isModalOpenConfirm, setIsModalOpenConfirm] = useState(false);
    // Fetch API Product detail
    const fetcher = (url: string) => axios.get(url).then(res => res.data);
    const {data, error} = useSWR<ProductInterface>(`${process.env.NEXT_PUBLIC_API_URL}/detailProduct/${params.id}`, fetcher);
@@ -41,6 +46,18 @@ function ProductDetail({ params }: { params: { id: string } }) {
          addItem({...product, quantity_pro: quantity_pro, size_pro: size_pro});
       }
    }
+   
+   // Sự kiện mở/đóng Modal
+   const user_account = false; // Check xem có tài khoản người dùng hay không
+                               // Xử lý thêm để đúng logic (này chỉ là ví dụ)
+   const openModal = () => !user_account?setIsModalOpenNavigation(true):setIsModalOpenConfirm(true);
+   const closeModal = () => !user_account?setIsModalOpenNavigation(false):setIsModalOpenConfirm(false);
+
+   // Sự kiện Onclick tổng hợp
+   const totalOnclick = (product: ProductInterface) => {
+      handleAddToCart(product);
+      openModal();
+   }
 
    return (
       <>
@@ -53,6 +70,8 @@ function ProductDetail({ params }: { params: { id: string } }) {
 
          {/* Main body product detail */}
          <main className="body-product-detail">
+            <ModalCofirm isOpen={isModalOpenConfirm} onClose={closeModal}/>
+            <ModalNavagation isOpen={isModalOpenNavigation} onClose={closeModal}/>
             <div className="boxcenter">
                <div className="container-body-product-detail">
                   <section className="main-img-product-detail">
@@ -122,20 +141,20 @@ function ProductDetail({ params }: { params: { id: string } }) {
 
                      <div className="quantity-pro">
                         <div className="container-quantity-pro">
-                           <p>Quantity:</p>
+                           <p>Số lượng:</p>
                            <input type="number" defaultValue={1} onChange={(e) => setQuantityPro(Number(e.target.value))} />
                         </div>
                      </div>
 
                      <div className="container-button-pro-detail">
-                        <button onClick={() => handleAddToCart(data)} className="main-btn main-btn__addCartDetail">Thêm vào giỏ hàng</button>
+                        <button onClick={() => totalOnclick(data)} className="main-btn main-btn__addCartDetail">Thêm vào giỏ hàng</button>
                         <a href="#!">
-                           <button className="main-btn main-btn__buyDetail">Buy it now</button>
+                           <button className="main-btn main-btn__buyDetail">Mua ngay</button>
                         </a>
                      </div>
 
                      <p className="id-product-detail">
-                        IDENTIFIER: <span>{data._id}</span>
+                        IDENTIFIER: <span>{(data._id).slice(-4)}</span>
                      </p>
                   </section>
 

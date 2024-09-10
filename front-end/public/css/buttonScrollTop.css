@@ -1,0 +1,33 @@
+:root {
+   --font-family-body: "Open Sans", sans-serif;
+   --font-family-title: "Nunito", sans-serif; 
+   --color-primary: #382210;
+   --color-secondary: #FFE8CF;
+   --color-tertiary: #96725A;
+   --color-body-bg: #fff;
+   --color-body: #6F6F6F;
+   --font-weight-paragraph: 400;
+   --font-weight-title: 600;
+}
+
+.main-btn__scrollTop {
+   visibility: hidden;
+   opacity: 0;
+   z-index: 50;
+   position: fixed;
+   right: 40px;
+   top: 720px;
+   width: 40px;
+   height: 40px;
+   background-color: var(--color-tertiary);
+   transition: all .3s ease-in-out;
+}
+
+.main-btn__scrollTop.active {
+   opacity: 1;
+   visibility: visible;
+} 
+
+.main-btn__scrollTop:hover {
+   background-color: var(--color-primary);
+}

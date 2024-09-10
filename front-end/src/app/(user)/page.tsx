@@ -5,6 +5,7 @@ import ProductList from "./components/product/listProduct";
 import BlogList from "./components/blog/listBlog";
 import { fetchProducts } from "../api";
 import useSWR from "swr";
+import ButtonScrollTop from "./components/buttonScrollTop/page";
 
 interface ProductInterface {
    _id: string,
@@ -94,7 +95,7 @@ export default function Home() {
 
    return (
       <>
-         {/* <Navbar /> */}
+         <ButtonScrollTop/>
          <Slide />
 
          {/* Section What make us different? */}
@@ -157,8 +158,8 @@ export default function Home() {
             <div className="boxcenter">
               <h2 className="main-title">Sản phẩm nổi bật</h2>
 
-              <ProductList products={data} />
             </div>
+            <ProductList products={data} />
          </section>
 
          {/* Section Banner introduce */}
@@ -194,8 +195,6 @@ export default function Home() {
                <BlogList blogs={blogList}/>
             </div>
          </section>
-
-         {/* <Footer/> */}
       </>
    );
 }

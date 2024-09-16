@@ -120,9 +120,14 @@
    background-color: #edf4f4;
 }
 
-.func-user-nav a.func-account i {
+.func-user-nav a.func-account i,
+.func-user-nav .func-account i {
    font-size: 30px;
    color: var(--color-primary);
+}
+
+.func-user-nav .func-account i {
+   cursor: pointer;
 }
 
 .func-user-nav a.func-cart i {
@@ -195,5 +200,135 @@
 
 .item-menu a:hover {
    color: var(--color-primary);
+}
+
+/* Css modal user */
+.main-user {
+   box-sizing: border-box;
+   position: relative;
+}
+
+.modal-user-login {
+   opacity: 0;
+   visibility: hidden;
+   z-index: -30;
+   padding: 5px 18px 5px 15px;
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   justify-content: space-between;
+   position: absolute;
+   right: -130px;
+   top: 40px;
+   min-width: 280px;
+   box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+   border: 1px solid #ddd;
+   background-color: #fff;
+   transform: translateX(50px);
+   transition: all .4s ease-in-out;
+}
+
+.main-user:hover .modal-user-login {
+   opacity: 1;
+   visibility: visible;
+   z-index: 1000;
+   transform: translateX(0);
+}
+
+.func-main-modal {
+   padding-right: 20px;
+   border-right: 1px solid #ddd;
+   display: flex;
+   flex-direction: column;
+   justify-content: space-between;
+   align-items: center;
+   gap: 12px;
+}
+
+.func-main-modal i {
+   font-size: 18px;
+}
+
+.func-main-modal i:first-child {
+   font-size: 20px;
+}
+
+[data-tooltip] {
+   position: relative;
+   cursor: pointer;
+}
+
+[data-tooltip]::after,
+[data-tooltip]::before {
+   position: absolute;
+   visibility: hidden;
+   right: 100%;
+   bottom: 0px;
+   left: auto;
+   transition: all .2s ease-in-out;
+}
+
+[data-tooltip]::after {
+   z-index: 1000;
+   padding: 5px 8px;
+   width: 95px;
+   background-color: var(--color-primary);
+   color: #fff;
+   content: attr(data-tooltip);
+   font-size: 13px;
+}
+
+[data-tooltip]::before {
+   z-index: 1001;
+   border: 6px solid transparent;
+   background: transparent;
+   content: "";
+   margin-right: -12px;
+   margin-left: 0px;
+   margin-bottom: 0px;
+}
+
+[data-tooltip]:hover::before,
+[data-tooltip]:hover::after,
+[data-tooltip]:focus::before,
+[data-tooltip]:focus::after {
+   visibility: visible;
+   -webkit-transform: translateX(-12px);
+   -moz-transform: translateX(-12px);
+   transform: translateX(-12px);
+}
+
+.main-modal {
+   padding: 15px 0;
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   justify-content: space-between;
+   gap: 20px;
+}
+
+.image-user img {
+   object-fit: cover;
+   width: 60px;
+   height: 60px;
+   border-radius: 50%;
+}
+
+.name-user a h3 {
+   color: #666;
+   font-size: 16px;
+   padding: 0;
+   margin: 0;
+   transition: all .3s ease-in-out;
+}
+
+.name-user a h3:hover {
+   color: var(--color-tertiary);
+}
+
+.name-user p {
+   margin-top: 5px;
+   font-size: 13px;
+   color: var(--color-tertiary);
 }
 

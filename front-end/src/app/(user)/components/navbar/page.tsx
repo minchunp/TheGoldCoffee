@@ -1,6 +1,6 @@
-"use client"
+"use client";
 import Link from "next/link";
-import "../../../../../public/css/navbar.css"
+import "../../../../../public/css/navbar.css";
 import { useContext, useEffect, useRef, useState } from "react";
 import { CartContex } from "@/app/context/cartContext";
 import logoWebsiteURL from "../../../../../public/images/The Gold Coffee Logo SVG.png";
@@ -12,7 +12,7 @@ export default function Navbar() {
       throw new Error("Trang giỏ hàng phải được sử dụng trong CartProvider!");
    }
    const { items, removeItem, clearItem } = context;
-   console.log(items)
+   console.log(items);
 
    // Sử dụng useRef để thêm lớp sticky cho nav khi user scroll website
    const [isSticky, setIsSticky] = useState<boolean>(false);
@@ -27,36 +27,45 @@ export default function Navbar() {
                setIsSticky(false);
             }
          }
-      }
+      };
 
-      window.addEventListener('scroll', handleScroll);
+      window.addEventListener("scroll", handleScroll);
 
       return () => {
-         window.removeEventListener('scroll', handleScroll);
-      }
+         window.removeEventListener("scroll", handleScroll);
+      };
    }, []);
 
    return (
       <>
          <nav className="main-nav">
-            <div ref={sticky} className={`main-top-nav ${isSticky?'sticky':''}`}>
+            <div ref={sticky} className={`main-top-nav ${isSticky ? "sticky" : ""}`}>
                <div className="boxcenter">
                   <div className="top-nav">
                      <div className="container-top-nav">
                         <div className="item-top-nav">
                            <i className="bi bi-check2"></i>
-                           <p><span><a href="#!">123 cửa hàng</a></span> trên khắp cả nước</p>
+                           <p>
+                              <span>
+                                 <a href="#!">123 cửa hàng</a>
+                              </span>{" "}
+                              trên khắp cả nước
+                           </p>
                         </div>
                         <div className="item-top-nav">
                            <i className="bi bi-check2"></i>
-                           <p><span>Liên hệ đặt hàng tại:</span> 0123 456 789</p>
+                           <p>
+                              <span>Liên hệ đặt hàng tại:</span> 0123 456 789
+                           </p>
                         </div>
                         <div className="item-top-nav">
                            <i className="bi bi-check2"></i>
-                           <p><span>100% SẢN PHẨM</span> được kiểm định chất lượng</p>
+                           <p>
+                              <span>100% SẢN PHẨM</span> được kiểm định chất lượng
+                           </p>
                         </div>
                      </div>
-                  </div> 
+                  </div>
 
                   <div className="bottom-nav">
                      <div className="container-bottom-nav">
@@ -71,7 +80,52 @@ export default function Navbar() {
                               <i className="bi bi-search"></i>
                            </div>
                            <div className="func-user-nav">
-                              <Link className="func-account" href="/login"><i className="bi bi-person"></i></Link>
+                              {/* Xét điệu kiện:
+                                 + Nếu không có user thì mở thẻ Link đang bị đóng ở dưới đóng phần main-user
+                                 + Ngược lại
+                              */}
+
+                              {/* Khi không có user */}
+                              {/* <Link className="func-account" href="/login"><i className="bi bi-person"></i></Link> */}
+
+                              {/* Khi có user */}
+                              <div className="main-user">
+                                 <div className="func-account">
+                                    <i className="bi bi-person"></i>
+                                 </div>
+
+                                 <div className="modal-user-login">
+                                    <div className="func-main-modal">
+                                       <a data-tooltip="Thông tin" href="#">
+                                          <i className="bi bi-info"></i>
+                                       </a>
+
+                                       {/* Xét role: 
+                                          + Nếu role: Admin thì mở thẻ này
+                                          + Nếu role: User thì bỏ thẻ này đi
+                                       */}
+                                       <Link data-tooltip="Trang admin" href="/admin">
+                                          <i className="bi bi-person-fill-gear"></i>
+                                       </Link>
+                                       
+                                       <a data-tooltip="Đăng xuất" href="/logout">
+                                          <i className="bi bi-box-arrow-left"></i>
+                                       </a>
+                                    </div>
+
+                                    <div className="main-modal">
+                                       <div className="image-user">
+                                          <img src="images/avatarAccountUser.jpg" alt="" />
+                                       </div>
+                                       <div className="name-user">
+                                          <a href="#">
+                                             <h3>Minh Trung</h3>
+                                          </a>
+                                          <p>Admin</p>
+                                       </div>
+                                    </div>
+                                 </div>
+                              </div>
                               <Link className="func-cart" href="/cart">
                                  <div id="cart-count">{items.length}</div>
                                  <i className="bi bi-bag"></i>
@@ -79,7 +133,7 @@ export default function Navbar() {
                            </div>
                         </div>
                      </div>
-                  </div>  
+                  </div>
                </div>
             </div>
 
@@ -95,11 +149,21 @@ export default function Navbar() {
                         </div>
                      </Link>
                      <div className="menu">
-                        <div className="item-menu"><a href="#!">Trang chủ</a></div>
-                        <div className="item-menu"><a href="#!">Chuyện nhà</a></div>
-                        <div className="item-menu"><a href="#!">Cửa hàng</a></div>
-                        <div className="item-menu"><a href="#!">Khuyến mãi</a></div>
-                        <div className="item-menu"><a href="#!">Tuyển dụng</a></div>
+                        <div className="item-menu">
+                           <a href="#!">Trang chủ</a>
+                        </div>
+                        <div className="item-menu">
+                           <a href="#!">Chuyện nhà</a>
+                        </div>
+                        <div className="item-menu">
+                           <a href="#!">Cửa hàng</a>
+                        </div>
+                        <div className="item-menu">
+                           <a href="#!">Khuyến mãi</a>
+                        </div>
+                        <div className="item-menu">
+                           <a href="#!">Tuyển dụng</a>
+                        </div>
                      </div>
                   </div>
                </div>

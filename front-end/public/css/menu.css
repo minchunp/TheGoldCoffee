@@ -51,6 +51,7 @@
 }
 
 .boxInput-cate label {
+   color: var(--color-body);
    position: relative;
    display: inline-block;
    user-select: none;

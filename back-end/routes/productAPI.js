@@ -219,4 +219,39 @@ router.get("/proWithTopping/:id", async function (req, res, next) {
   }
 });
 
+router.get("/listProductTopping", async function (req, res, next) {
+  try {
+    var data = await modelProductDetail.find();
+    var ALL = [];
+
+    // Lặp qua từng đối tượng trong mảng data
+    for (const item of data) {
+      const id_pro = item.id_pro; // Lấy id_pro từ từng đối tượng
+      var product = await modelProduct.findById(id_pro); // Lấy thông tin sản phẩm
+
+      // Lấy list topping
+      const list_id_topping = item.list_topping;
+      const list_topping = [];
+
+      // Lặp qua list_id_topping để lấy thông tin topping
+      for (let i = 0; i < list_id_topping.length; i++) {
+        const topping = await modelTopping.findById(list_id_topping[i]);
+        list_topping.push(topping); // Thêm topping vào mảng
+      }
+
+      // Đưa sản phẩm và topping vào mảng ALL
+      ALL.push({
+        product: product,
+        toppings: list_topping,
+      });
+    }
+
+    // Trả về tất cả thông tin sản phẩm và topping
+    return res.status(200).json(ALL);
+  } catch (error) {
+    console.error("Lỗi khi lấy data", error);
+    res.status(500).json({ message: "Đã xảy ra lỗi khi lấy data" });
+  }
+});
+
 module.exports = router;

@@ -14,7 +14,8 @@
 - Get {cate}: http://localhost:3001/productsAPI/productsByCategory/idcate
 - Get {salesVolume_pro}: http://localhost:3001/productsAPI/productsBySales?limit=6
 
-//API PRODUCT_DETAIL
+//API PRODUCT + TOPPING
+- Get All: http://localhost:3001/productsAPI/listProductTopping [GET] (routes/productAPI.js)
 - Get By ID: http://localhost:3001/productsAPI/proWithTopping/:id [GET] (routes/productAPI.js)
 
 

@@ -26,8 +26,10 @@
 - Get ALL: http://localhost:3001/usersAPI/listUser [GET]
 - Get By ID: http://localhost:3001/usersAPI/detailUser/:id [GET]
 - Delete By ID: http://localhost:3001/user/delete/:id [DELETE]
-- Create: http://localhost:3001/user/add [POST]
+- Create: http://localhost:3001/user/add [POST] {admin dùng}
 - Update: http://localhost:3001/user/update/:id [PUT]
 
-S
+// API LOGIN VÀ REGISTER [USER]
+- http://localhost:3001/auth/login [POST] { email, pass }
+- http://localhost:3001/auth/register [POST] { user name, email, pass }
 

@@ -4,20 +4,21 @@ const jwt = require("jsonwebtoken");
 
 const register = async (req, res) => {
   try {
-    const { name_user, email, phoneNumber_user, address_user, password } =
-      req.body;
+    const { name_user, email_user, pass_user } = req.body;
 
-    // validate input
-    if (password == "" || password.length < 6 || !password) {
+    console.log(name_user, email_user, pass_user);
+
+    // validate pass_user
+    if (pass_user == "" || pass_user.length < 6 || !pass_user) {
       return res.json({
         status: 400,
-        msg: "password không chính xác!",
+        msg: "Password không chính xác!",
       });
     }
 
     // validate email with regex
     const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-    if (!emailRegex.test(email)) {
+    if (!emailRegex.test(email_user)) {
       return res.json({
         status: 400,
         msg: "Email không chính xác!",
@@ -33,7 +34,7 @@ const register = async (req, res) => {
       });
     }
 
-    const hashPassword = await bcrypt.hash(password, 10);
+    const hashPassword = await bcrypt.hash(pass_user, 10);
 
     // create user
     const user = new User({
@@ -44,29 +45,32 @@ const register = async (req, res) => {
       address_user: "",
       role_user: "user",
       status_user: 1,
+      tokens: [],
     });
 
     await user.save();
 
     return res.json({
       status: 200,
-      msg: "Đăng ký thành công!",
+      msg: "Đăng ký thành công.!",
     });
   } catch (e) {
     console.log(e);
     return res.status(500).json({
       status: 500,
-      msg: "Có lỗi xảy ra vui lòng thử lại!",
+      msg: "Có lỗi xảy ra khi xử lí đăng kí vui lòng thử lại!",
     });
   }
 };
 
 const login = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { email_user, pass_user } = req.body;
 
-    //validate email
-    if (!email) {
+    console.log(email_user, pass_user);
+
+    //validate email_user
+    if (!email_user) {
       return res.status(400).json({
         status: 400,
         msg: "email không chính xác!",
@@ -74,15 +78,14 @@ const login = async (req, res) => {
     }
 
     //validate password
-    if (!password) {
+    if (!pass_user) {
       return res.status(400).json({
         status: 400,
         msg: "Password không chính xác!",
       });
     }
 
-    const user = await User.findOne({ email });
-
+    const user = await User.findOne({ email_user });
     if (!user) {
       return res.status(400).json({
         status: 400,
@@ -91,24 +94,27 @@ const login = async (req, res) => {
     }
 
     // verify password
-    const checkPassword = await bcrypt.compare(password, user.password);
-    console.log(user.password);
+    const checkPassword = await bcrypt.compare(pass_user, user.pass_user);
+    console.log(user.pass_user);
     if (!checkPassword) {
       return res.status(400).json({
         status: 400,
         msg: "Mật khẩu sai.",
       });
+    } else {
+      console.log("đúng pass");
     }
 
     // create token
     const payload = {
-      email,
-      role: user.role,
+      name_user: user.name_user,
+      role_user: user.role_user,
+      status_user: user.status_user,
     };
 
     const token = genToken(payload);
 
-    user.tokens.push(token);
+    // user.tokens.push(token);
     await user.save();
 
     return res.json({

@@ -1,4 +1,5 @@
 const defaultRouter = require("./default");
+const authRouter = require("./auth");
 
 const productRouter = require("./Rt_product");
 const categoryRouter = require("./Rt_category");
@@ -84,6 +85,7 @@ const checkIsAdmin = (req, res, next) => {
 
 function route(app) {
   app.use("/", defaultRouter);
+  app.use("/auth", authRouter);
 
   app.use("/product", productRouter);
   app.use("/category", categoryRouter);

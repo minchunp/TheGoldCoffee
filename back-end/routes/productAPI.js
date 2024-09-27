@@ -1,6 +1,8 @@
 var express = require("express");
 var router = express.Router();
 var modelProduct = require("../models/Product");
+var modelProductDetail = require("../models/Product_detail");
+const modelTopping = require("../models/Topping");
 
 // Lấy danh sách tất cả sản phẩm
 // http://localhost:3000/productsAPI/listProduct
@@ -176,6 +178,44 @@ router.get("/productsBySales", async function (req, res, next) {
     res
       .status(500)
       .json({ message: "Đã xảy ra lỗi khi lấy sản phẩm theo lượt bán." });
+  }
+});
+
+// http://localhost:3001/productsAPI/proWithTopping/:id
+router.get("/proWithTopping/:id", async function (req, res, next) {
+  try {
+    var id = req.params.id;
+    var data = await modelProductDetail.findById(id);
+    if (!data) {
+      return res.status(404).json({ message: "Không tìm thấy." });
+    }
+    // // lấy product
+    const id_pro = data.id_pro;
+    var product = await modelProduct.findById(id_pro);
+
+    // lấy list topping
+    const list_id_topping = data.list_topping;
+
+    console.log("here", list_id_topping);
+    const list_topping = [];
+    for (let i = 0; i < list_id_topping.length; i++) {
+      console.log("id", list_id_topping[i]);
+      const topping = await modelTopping.findById(list_id_topping[i]);
+      console.log("toping: ", topping);
+      list_topping.push(topping);
+    }
+    console.log(list_topping);
+
+    // Trả về thông tin sản phẩm và topping
+    return res.status(200).json({
+      product: product,
+      toppings: list_topping,
+    });
+
+    res.json(list_topping);
+  } catch (error) {
+    console.error("Lỗi khi lấy data", error);
+    res.status(500).json({ message: "Đã xảy ra lỗi khi lấy data" });
   }
 });
 

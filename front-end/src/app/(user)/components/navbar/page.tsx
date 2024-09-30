@@ -4,6 +4,7 @@ import "../../../../../public/css/navbar.css";
 import { useContext, useEffect, useRef, useState } from "react";
 import { CartContex } from "@/app/context/cartContext";
 import logoWebsiteURL from "../../../../../public/images/The Gold Coffee Logo SVG.png";
+import React from "react";
 
 export default function Navbar() {
    // Sử dụng Context
@@ -96,9 +97,9 @@ export default function Navbar() {
 
                                  <div className="modal-user-login">
                                     <div className="func-main-modal">
-                                       <a data-tooltip="Thông tin" href="#">
+                                       <Link data-tooltip="Thông tin" href="/inforCustomer">
                                           <i className="bi bi-info"></i>
-                                       </a>
+                                       </Link>
 
                                        {/* Xét role: 
                                           + Nếu role: Admin thì mở thẻ này

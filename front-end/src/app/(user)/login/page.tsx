@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import axios, { AxiosResponse } from "axios";
+import "../../../../public/css/login_register.css";
 
 // Định nghĩa kiểu dữ liệu User
 interface User {

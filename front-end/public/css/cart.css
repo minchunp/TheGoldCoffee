@@ -211,7 +211,7 @@
 .box-subtotal-cart {
    background-color: #f7f7f7;
    padding: 30px 25px;
-   height: 450px;
+   height: 505px;
    position: sticky;
    top: 90px;
 }
@@ -266,14 +266,27 @@
    background-color: var(--color-primary);
 }
 
-.result-subtotal {
+.container-subtotal {
    margin-top: 100px;
+   display: flex;
+   flex-direction: column;
+   gap: 10px;
+}
+
+.result-subtotal {
    display: flex;
    justify-content: space-between;
    align-items: center;
 }
 
-.result-subtotal p {
+.result-subtotal__0 p {
+   font-weight: 600;
+   color: var(--color-body);
+   margin: 0;
+   font-size: 14px;
+}
+
+.result-subtotal__1 p {
    font-weight: 600;
    color: var(--color-tertiary);
    font-size: 18px;

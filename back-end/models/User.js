@@ -3,13 +3,14 @@ const Schema = mongoose.Schema;
 
 const userSchema = new Schema(
   {
-    name_user: { type: String, required: true },
-    email_user: { type: String, required: true, unique: true },
-    phoneNumber_user: { type: String, required: true },
-    pass_user: { type: String, required: true },
-    address_user: { type: String, required: true },
-    role_user: { type: String, required: true },
-    status_user: { type: Number, required: true },
+    name_user: { type: String },
+    email_user: { type: String, unique: true },
+    phoneNumber_user: { type: String },
+    pass_user: { type: String },
+    address_user: { type: String },
+    role_user: { type: String },
+    status_user: { type: Number },
+    // tokens: { type: Array },
   },
   { versionKey: false }
 );

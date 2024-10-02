@@ -28,7 +28,7 @@ const Register: React.FC = () => {
         );
         const dataUser = await respone.data;
         console.log("Phản hồi: ", dataUser);
-        // window.location.href = "/login";
+        window.location.href = "/login";
       } catch (e) {
         console.log("Đăng ký thất bại!", e);
         setError("Đăng ký thất bại!");

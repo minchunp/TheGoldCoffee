@@ -37,6 +37,7 @@ export default function Navbar() {
           role_user: decoded.role_user,
           avatar: decoded.avatar || "images/avatarAccountUser.jpg", // Đặt ảnh đại diện mặc định nếu không có
         });
+        console.log(decoded);
       } catch (error) {
         console.error("Lỗi khi giải mã token:", error);
         setUser(null);
@@ -120,7 +121,10 @@ export default function Navbar() {
                         </div>
                         <div className="modal-user-login">
                           <div className="func-main-modal">
-                            <Link data-tooltip="Thông tin" href="#">
+                            <Link
+                              data-tooltip="Thông tin"
+                              href="/inforCustomer"
+                            >
                               <i className="bi bi-info"></i>
                             </Link>
                             {user.role_user === "admin" && (

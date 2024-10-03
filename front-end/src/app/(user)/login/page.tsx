@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import axios, { AxiosResponse } from "axios";
 import jwt from "jsonwebtoken"; // Import thư viện jsonwebtoken để giải mã token
+import "../../../../public/css/login_register.css";
 
 // Định nghĩa kiểu dữ liệu User
 interface User {
@@ -40,7 +41,7 @@ const Login = () => {
 
         if (decoded) {
           if (decoded.role_user === "admin") {
-            window.location.href = "/admin";
+            window.location.href = "/";
           } else {
             console.log("Đăng nhập thành công!", decoded);
             window.location.href = "/";

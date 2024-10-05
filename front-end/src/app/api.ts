@@ -24,6 +24,13 @@ interface UserInterface {
    role_user: string;
    status_user: number;
 }
+// Interface category
+interface CategoryInterface {
+   _id: string;
+   img_cate: string;
+   name_cate: string;
+   status_cate: string;
+}
 
 // Fetch API products
 export const fetchProducts = async (): Promise<ProductInterface[]> => {
@@ -44,6 +51,17 @@ export const fetchUsers = async (): Promise<UserInterface[]> => {
       return respone.data;
    } catch (e) {
       console.log('Có lỗi xảy ra khi fetch dữ liệu user, ', e);
+      throw e;
+   }
+}
+
+// Fetch API categories
+export const fetchCategories = async (): Promise<CategoryInterface[]> => {
+   try {
+      const respone = await axios.get<CategoryInterface[]>(`${process.env.NEXT_PUBLIC_API_CATE_URL}/listCategory`);
+      return respone.data;
+   } catch (e) {
+      console.log('Có lỗi xảy ra khi fetch dữ liệu category, ', e);
       throw e;
    }
 }

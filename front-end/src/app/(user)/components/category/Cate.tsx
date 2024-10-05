@@ -24,7 +24,7 @@
             <span className="checkmark"></span>
             </label>
             </div>
-            <p className="quantity-pro-cate-menu">(1)</p>
+            {/* <p className="quantity-pro-cate-menu"></p> */}
             
         </>
     );

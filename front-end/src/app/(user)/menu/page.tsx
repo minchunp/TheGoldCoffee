@@ -9,6 +9,7 @@ import Category from "../components/category/Cate";
 import ButtonScrollTop from "../components/buttonScrollTop/page";
 import React, { useState } from "react";
 import ReactPaginate from "react-paginate";
+import { count } from "console";
 
 interface ProductInterface {
    _id: string,
@@ -61,6 +62,7 @@ export default function Menu() {
    const productsPerPage = 12; // Number of products per page
    const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
    const [selectedStatus, setSelectedStatus] = useState<number | null>(null);
+   
 
    if (errorProducts) {
       return <div>Error loading products</div>;
@@ -80,6 +82,8 @@ export default function Menu() {
    const filteredProducts = selectedCategory ? products.filter((pro) => pro.id_cate === selectedCategory) : products;
    // Filter sản phẩm theo status
    const filteredStatus = selectedStatus ? products.filter((pro) => pro.status_pro === selectedStatus) : products;
+   // Count sản phẩm 
+   
 
    const handleCategoryClick = (categoryId: string) => {
       setSelectedCategory(categoryId);
@@ -111,14 +115,15 @@ export default function Menu() {
                      <div className="items-cateBox">
                         <h2>Danh mục</h2>
                         <div className="container-items-cateBox">
-                        
                               {
                               categories.map(pro => {
+                                 const countProduct = products.filter(count => count.id_cate === pro._id).length;
                                  return (
                                     <div key={pro._id} 
                                     className={`input-items-cateBox ${selectedCategory === pro._id ? 'active' : ''}`}
                                     onClick={() => handleCategoryClick(pro._id)}>
                                     <Category category={pro}/>
+                                    <p className="quantity-pro-cate-menu">({countProduct})</p>
                                     </div>
                                  )
                               })

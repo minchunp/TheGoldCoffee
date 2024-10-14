@@ -97,7 +97,7 @@ function route(app) {
   //API
   app.use("/productsAPI", productAPIRouter); // productsAPI/listProduct
   app.use("/categorysAPI", categoryAPIRouter); // categorysAPI/listCategory
-  app.use("/usersAPI", userAPIRouter); // usersAPI/listUsers
+  app.use("/usersAPI", checkToken, userAPIRouter); // usersAPI/listUsers
   app.use("/cartsAPI", cartAPIRouter); // cartsAPI/listCarts
   app.use("/ratingsAPI", ratingAPIRouter); // ratingsAPI/listRatings
   app.use("/toppingsAPI", toppingAPIRouter); // toppingsAPI/listtoppings

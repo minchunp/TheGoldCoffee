@@ -208,3 +208,54 @@
    border-radius: 3px;
 }
 
+/* pagination.css */
+.pagination {
+   display: flex;
+   list-style: none;
+   padding: 0;
+   margin: 20px 0;
+   cursor: pointer;
+   }
+   
+   /* Style for each page number */
+   .page-item {
+   margin: 0 5px;
+   }
+   
+   .page-link {
+   color: var(--color-tertiary);
+   text-decoration: none;
+   padding: 8px 16px;
+   border: 1px solid var(--color-tertiary);
+   border-radius: 4px;
+   transition: background-color 0.3s, border-color 0.3s;
+   }
+   
+   /* Hover effect */
+   .page-link:hover {
+   background-color: #e9ecef;
+   border-color: #dee2e6;
+   }
+   
+   /* Active page number */
+   .active .page-link {
+   background-color: var(--color-tertiary);
+   color: white;
+   border-color: var(--color-tertiary);
+   }
+   
+   /* Disabled state */
+   .disabled .page-link {
+   color: grey;
+   pointer-events: none;
+   background-color: #fff;
+   border-color: grey;
+   }
+   
+   /* Next/Previous buttons */
+   .page-item:first-child .page-link,
+   .page-item:last-child .page-link {
+   border-radius: 5px;
+   }
+   
+

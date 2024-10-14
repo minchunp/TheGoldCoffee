@@ -65,17 +65,17 @@ export default function Menu() {
    
 
    if (errorProducts) {
-      return <div>Error loading products</div>;
+      return <strong className="fetch">Error loading products</strong>;
    }
    if (!products) {
-      return <div>Loading products...</div>;
+      return <strong className="fetch">Loading products...</strong>;
    }
 
    if (errorCategories) {
-      return <div>Error loading categories</div>;
+      return <strong className="fetch">Error loading categories</strong>;
    }
    if (!categories) {
-      return <div>Loading categories...</div>;
+      return <strong className="fetch">Loading categories...</strong>;
    }
 
    // Filter sản phẩm theo cate

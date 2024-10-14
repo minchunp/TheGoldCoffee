@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import axios, { AxiosResponse } from "axios";
+import jwt from "jsonwebtoken"; // Import thư viện jsonwebtoken để giải mã token
 import "../../../../public/css/login_register.css";
 
 // Định nghĩa kiểu dữ liệu User
@@ -30,16 +31,19 @@ const Login = () => {
         const token = response.data.token; // Lấy token từ phản hồi
         localStorage.setItem("token", token); // Lưu token vào localStorage
 
-        const dataUser = response.data.users.find(
-          (user: User) =>
-            user.email_user === email_user && user.pass_user === pass_user
-        );
+        if (token) {
+          try {
+            var decoded: any = jwt.decode(token); // Giải mã token để lấy thông tin người dùng
+          } catch (error) {
+            console.error("Lỗi khi giải mã token:", error);
+          }
+        }
 
-        if (dataUser) {
-          if (dataUser.role_user === "admin") {
-            window.location.href = "/admin";
+        if (decoded) {
+          if (decoded.role_user === "admin") {
+            window.location.href = "/";
           } else {
-            console.log("Đăng nhập thành công!", dataUser);
+            console.log("Đăng nhập thành công!", decoded);
             window.location.href = "/";
           }
         } else {

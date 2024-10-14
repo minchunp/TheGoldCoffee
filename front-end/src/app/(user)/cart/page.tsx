@@ -5,6 +5,7 @@ import "../../../../public/css/login_register.css";
 import { useContext, useEffect } from "react";
 import { CartContex } from "@/app/context/cartContext";
 import Link from "next/link";
+import React from "react";
 
 const Cart = () => {
    // Sử dụng Context
@@ -116,10 +117,19 @@ const Cart = () => {
                            </select>
                         </div>
 
-                        <div className="result-subtotal">
-                           <p className="title-subtotal">Tổng thanh toán</p>
-                           <p className="price-subtotal">0đ</p>
-                           
+                        <div className="container-subtotal">
+                           <div className="result-subtotal result-subtotal__0">
+                              <p className="title-subtotal">Tạm tính</p>
+                              <p className="price-subtotal">0đ</p>
+                           </div>
+                           <div className="result-subtotal result-subtotal__0">
+                              <p className="title-subtotal">Mã khuyến mãi</p>
+                              <p className="price-subtotal">0đ</p>
+                           </div>
+                           <div className="result-subtotal result-subtotal__1">
+                              <p className="title-subtotal">Tổng thanh toán</p>
+                              <p className="price-subtotal">0đ</p>
+                           </div>
                         </div>
                         <p className="paragraph-on-boxShipping">Quý khách xem kĩ giỏ hàng trước khi thanh toán.</p>
 

@@ -6,15 +6,23 @@ import { useContext, useEffect } from "react";
 import { CartContex } from "@/app/context/cartContext";
 import Link from "next/link";
 import React from "react";
+import { selectCartProducts, selectCartTotal } from "@/app/redux/cartSelector";
+import { useDispatch } from "react-redux";
+import { removeProductToCart } from "@/app/redux/cartSlice";
 
 const Cart = () => {
    // Sử dụng Context
-   const context = useContext(CartContex);
-   if (!context) {
-      throw new Error("Trang giỏ hàng phải được sử dụng trong CartProvider!");
-   }
-   const { items, removeItem, clearItem } = context;
-   console.log(items)
+   // const context = useContext(CartContex);
+   // if (!context) {
+   //    throw new Error("Trang giỏ hàng phải được sử dụng trong CartProvider!");
+   // }
+   // const { items, removeItem, clearItem } = context;
+   // console.log(items)
+
+   // Sử dụng Redux
+   const cartProducts = useSelector(selectCartProducts);
+   const totalPriceCart = useSelector(selectCartTotal)
+   const dispatch = useDispatch();
 
    return (
       <>
@@ -37,9 +45,9 @@ const Cart = () => {
 
                      <div className="body-product-in-cart">
                         {
-                           items && items.length > 0 ? (
-                              items.map((item) => (
-                                 <div key={item._id} className="product-in-cart">
+                           cartProducts && cartProducts.length > 0 ? (
+                              cartProducts.map((item) => (
+                                 <div key={item.productId} className="product-in-cart">
                                     <div className="product-cart product-cart__infor">
                                        <a href="#!">
                                           <div className="img-product-cart">
@@ -57,7 +65,7 @@ const Cart = () => {
       
                                           {/* Delete product in shopping cart index */}
                                           <div className="delete-product-shopping-cart-index">
-                                             <button onClick={() => removeItem(item._id, item.size_pro)} className="delete-item-cart">
+                                             <button onClick={() => dispatch(removeProductToCart(item))} className="delete-item-cart">
                                                 <i className="bi bi-trash3"></i>
                                              </button>
                                           </div>
@@ -120,7 +128,7 @@ const Cart = () => {
                         <div className="container-subtotal">
                            <div className="result-subtotal result-subtotal__0">
                               <p className="title-subtotal">Tạm tính</p>
-                              <p className="price-subtotal">0đ</p>
+                              <p className="price-subtotal">{totalPriceCart.toLocaleString()}đ</p>
                            </div>
                            <div className="result-subtotal result-subtotal__0">
                               <p className="title-subtotal">Mã khuyến mãi</p>

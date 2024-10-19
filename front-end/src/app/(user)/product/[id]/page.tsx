@@ -8,6 +8,8 @@ import { CartContex } from "@/app/context/cartContext";
 import Modal from "../../components/modalCofirm/page";
 import ModalCofirm from "../../components/modalCofirm/page";
 import ModalNavagation from "../../components/modalNavigation/page";
+import { useDispatch } from "react-redux";
+import { addProductToCart } from "@/app/redux/cartSlice";
 
 interface ProductInterface {
    _id: string,
@@ -33,25 +35,43 @@ function ProductDetail({ params }: { params: { id: string } }) {
    if (!data) return <strong className="fetch">Đang tải dữ liệu...</strong>
 
    // Sử dụng Context
-   const context = useContext(CartContex);
-   if (!context) {
-      throw new Error('Trang chi tiết sản phẩm phải được sử dụng trong CartProvider!');
-   }
-   const {addItem} = context;
+   // const context = useContext(CartContex);
+   // if (!context) {
+   //    throw new Error('Trang chi tiết sản phẩm phải được sử dụng trong CartProvider!');
+   // }
+   // const {addItem} = context;
 
-   // Sự kiện thêm sản phẩm vào giỏ hàng
+   // Sự kiện thêm sản phẩm vào giỏ hàng bằng ContextAPI
+   // const handleAddToCart = (product: ProductInterface) => {
+   //    console.log({...product, quantity_pro: quantity_pro, size_pro: size_pro})
+   //    if (product) {
+   //       addItem({...product, quantity_pro: quantity_pro, size_pro: size_pro});
+   //    }
+   // }
+
+   // Sử dụng Redux
+   const dispatch = useDispatch();
    const handleAddToCart = (product: ProductInterface) => {
-      console.log({...product, quantity_pro: quantity_pro, size_pro: size_pro})
       if (product) {
-         addItem({...product, quantity_pro: quantity_pro, size_pro: size_pro});
+         const productInCart =  {
+            productId: product._id,
+            name_pro: product.name_pro,
+            img_pro: product.img_pro,
+            price_pro: product.price_pro,
+            sale_pro: product.sale_pro,
+            size_pro: size_pro,
+            quantity_pro: quantity_pro
+         };
+
+         dispatch(addProductToCart(productInCart));
       }
    }
    
    // Sự kiện mở/đóng Modal
    const user_account = false; // Check xem có tài khoản người dùng hay không
                                // Xử lý thêm để đúng logic (này chỉ là ví dụ)
-   const openModal = () => !user_account?setIsModalOpenNavigation(true):setIsModalOpenConfirm(true);
-   const closeModal = () => !user_account?setIsModalOpenNavigation(false):setIsModalOpenConfirm(false);
+   const openModal = () => setIsModalOpenConfirm(true);
+   const closeModal = () => setIsModalOpenConfirm(false);
 
    // Sự kiện Onclick tổng hợp
    const totalOnclick = (product: ProductInterface) => {

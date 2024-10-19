@@ -40,7 +40,7 @@ const AddTopping: React.FC = () => {
             img_topping: imageName,
             name_topping: name,
             price_topping: parseInt(price.replace(/\./g, ""), 10), // Chuyển đổi giá thành số nguyên,
-            status_topping: status ? "1" : "0",
+            status_topping: status ? "1" : "0"
          };
          const response = await axios.post("http://localhost:3001/toppingsAPI/create", toppingData, {
             headers: {

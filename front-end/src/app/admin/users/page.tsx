@@ -5,6 +5,8 @@ import BannerSectionAdmin from "../../../../public/images/wallpaper-angledwares.
 import UserListAdmin from "./listUser";
 import { fetchUsers } from "@/app/api";
 import useSWR from "swr";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 
 // Interface user
 interface UserInterface {
@@ -19,11 +21,26 @@ interface UserInterface {
 }
 
 const UserAdmin = () => {
-   // Fetch API Users
-   const fetcher = (url: string) => fetchUsers();
-   const {data, error} = useSWR<UserInterface[]>('listUser', fetcher);
-   if (error) return <strong>Có lỗi xảy ra!</strong>
-   if (!data) return <strong>Đang tải dữ liệu...</strong>
+   const [users, setUsers] = useState<UserInterface[]>([]);
+   console.log(users);
+
+  useEffect(() => {
+    // Gọi API để lấy danh sách sản phẩm
+    axios
+      .get<UserInterface[]>("http://localhost:3001/usersAPI/listUser")
+      .then((response) => {
+        setUsers(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching products:", error);
+      });
+  }, []);
+
+   // // Fetch API Users
+   // const fetcher = (url: string) => fetchUsers();
+   // const {data, error} = useSWR<UserInterface[]>('listUser', fetcher);
+   // if (error) return <strong>Có lỗi xảy ra!</strong>
+   // if (!data) return <strong>Đang tải dữ liệu...</strong>
 
    return (
       <>
@@ -60,7 +77,7 @@ const UserAdmin = () => {
                            <p>Chức năng</p>
                         </div>
                         
-                        <UserListAdmin users={data} />
+                        <UserListAdmin users={users} />
                      </div>
                   </div>
                </div>

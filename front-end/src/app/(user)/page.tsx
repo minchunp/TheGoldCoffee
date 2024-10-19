@@ -6,6 +6,7 @@ import BlogList from "./components/blog/listBlog";
 import { fetchProducts } from "../api";
 import useSWR from "swr";
 import ButtonScrollTop from "./components/buttonScrollTop/page";
+import React from "react";
 
 interface ProductInterface {
    _id: string,

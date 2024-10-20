@@ -12,29 +12,23 @@
       "static/css/app/(user)/layout.css",
       "static/chunks/app/(user)/layout.js"
     ],
-    "/admin/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/admin/page.css",
-      "static/chunks/app/admin/page.js"
-    ],
-    "/admin/layout": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/admin/layout.css",
-      "static/chunks/app/admin/layout.js"
-    ],
     "/(user)/inforCustomer/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/css/app/(user)/inforCustomer/page.css",
       "static/chunks/app/(user)/inforCustomer/page.js"
     ],
-    "/(user)/login/page": [
+    "/(user)/cart/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/css/app/(user)/login/page.css",
-      "static/chunks/app/(user)/login/page.js"
+      "static/css/app/(user)/cart/page.css",
+      "static/chunks/app/(user)/cart/page.js"
+    ],
+    "/(user)/product/[id]/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/(user)/product/[id]/page.css",
+      "static/chunks/app/(user)/product/[id]/page.js"
     ],
     "/_not-found/page": [
       "static/chunks/webpack.js",

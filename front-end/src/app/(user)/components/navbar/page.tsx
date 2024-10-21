@@ -6,6 +6,8 @@ import { CartContex } from "@/app/context/cartContext";
 import jwt from "jsonwebtoken"; // Import thư viện jsonwebtoken để giải mã token
 import logoWebsiteURL from "../../../../../public/images/The Gold Coffee Logo SVG.png";
 import router from "next/router";
+import { useSelector } from "react-redux";
+import { selectCartProducts } from "@/app/redux/cartSelector";
 
 // Kiểu dữ liệu người dùng
 interface User {
@@ -15,16 +17,19 @@ interface User {
 }
 
 export default function Navbar() {
+   // Sử dụng Redux
+   const cartProducts = useSelector(selectCartProducts);
+   
    const [user, setUser] = useState<User | null>(null);
    const [isSticky, setIsSticky] = useState<boolean>(false);
    const sticky = useRef<HTMLDivElement>(null);
 
    // Sử dụng Context cho giỏ hàng
-   const context = useContext(CartContex);
-   if (!context) {
-      throw new Error("Trang giỏ hàng phải được sử dụng trong CartProvider!");
-   }
-   const { items, removeItem, clearItem } = context;
+   // const context = useContext(CartContex);
+   // if (!context) {
+   //    throw new Error("Trang giỏ hàng phải được sử dụng trong CartProvider!");
+   // }
+   // const { items, removeItem, clearItem } = context;
 
    // Lấy token từ localStorage và giải mã token để lấy thông tin người dùng
    useEffect(() => {
@@ -160,7 +165,7 @@ export default function Navbar() {
                               )}
 
                               <Link className="func-cart" href="/cart">
-                                 <div id="cart-count">{items.length}</div>
+                                 <div id="cart-count">{cartProducts.length}</div>
                                  <i className="bi bi-bag"></i>
                               </Link>
                            </div>

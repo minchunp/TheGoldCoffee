@@ -1,21 +1,24 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const ObjectId = Schema.ObjectId;
 
-const cartSchema = new Schema({
-    id: { type: ObjectId }, //khóa chính
-    matk: { type: String },
-    tenkh: { type: String },
-    sdt: { type: String },
-    diachi: { type: String },
-    ngaymua: { type: String },
-    trangthai: { type: Number },
-    chitiet: [{
-        masp: { type: String },
-        tensp: { type: String },
-        giasp: { type: Number },
-        anhsp: { type: String }
-    }]
-}, { versionKey: false });
+const orderSchema = new Schema(
+  {
+    id_order: { type: ObjectId }, // khóa chính
+    id_user: { type: ObjectId, ref: "User" }, // khóa ngoại tới bảng User
+    id_promotion: { type: String },
+    total_order: { type: Number }, // tổng đơn hàng
+    name_user: { type: String }, // tên người dùng
+    phoneNumber_user: { type: String }, // số điện thoại người dùng
+    address_user: { type: String }, // địa chỉ người dùng
+    note_order: { type: String },
+    date_order: { type: Date }, // ngày đặt hàng
+    rating_order: { type: Number, default: null }, // đánh giá đơn hàng (tùy chọn)
+    feedback_order: { type: String, default: "" }, // phản hồi đơn hàng (tùy chọn)
+    isFeedback_order: { type: Boolean, default: false }, // đã có phản hồi chưa
+    status_order: { type: String }, // trạng thái đơn hàng
+  },
+  { versionKey: false }
+);
 
-module.exports = mongoose.models.cart || mongoose.model('cart', cartSchema);
+module.exports = mongoose.models.Order || mongoose.model("Order", orderSchema);

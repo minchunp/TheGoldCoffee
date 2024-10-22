@@ -201,6 +201,11 @@ export default function Navbar() {
                         </div>
                         <div className="item-menu">
                            <a href="#!">Tuyển dụng</a>
+                           {/* <Link href="/recruitment">Tuyển dụng</Link> */}
+                        </div>
+                        <div className="item-menu">
+                           <a href="#!">Tin tức</a>
+                           {/* <Link href="/new">Tin tức</Link> */}
                         </div>
                      </div>
                   </div>

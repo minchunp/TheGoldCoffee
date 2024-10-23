@@ -1,0 +1,595 @@
+/*!*****************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[12].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[12].use[3]!./public/css/menu.css ***!
+  \*****************************************************************************************************************************************************************************************************************************************************************/
+:root {
+   --font-family-body: "Open Sans", sans-serif;
+   --font-family-title: "Nunito", sans-serif; 
+   --color-primary: #382210;
+   --color-secondary: #FFE8CF;
+   --color-tertiary: #96725A;
+   --color-body-bg: #fff;
+   --color-body: #6F6F6F;
+   --font-weight-paragraph: 400;
+   --font-weight-title: 600;
+}
+
+.body-menu {
+   margin: 70px 0;
+}
+
+.container-body-menu {
+   display: grid;
+   grid-template-columns: 1fr 3fr;
+   grid-column-gap: 30px;
+   column-gap: 30px;
+}
+
+.items-cateBox {
+   border-bottom: 1px solid rgba(0, 0, 0, 10%);
+   padding-bottom: 25px;
+   margin-bottom: 35px;
+}
+
+.items-cateBox:nth-child(2) {
+   border-bottom: none;
+   margin-bottom: 15px;
+}
+
+.items-cateBox h2,
+.list-pro-menu h2 {
+   font-size: 20px;
+   margin-bottom: 15px;
+}
+
+.container-items-cateBox {
+   height: 260px;
+   overflow: scroll;
+}
+
+.input-items-cateBox {
+   display: flex;
+   flex-direction: row;
+   justify-content: space-between;
+   align-items: center;
+   margin: 18px 0;
+}
+
+.boxInput-cate label {
+   color: var(--color-body);
+   position: relative;
+   display: inline-block;
+   -webkit-user-select: none;
+      -moz-user-select: none;
+           user-select: none;
+   padding-left: 30px;
+   font-size: 15px;
+   font-weight: 400;
+   cursor: pointer;
+   transition: all .3s ease-in-out;
+}
+
+.boxInput-cate label input {
+   opacity: 0;
+   position: absolute;
+}
+
+.boxInput-cate label .checkmark {
+   position: absolute;
+   top: 0;
+   left: 0;
+   width: 20px;
+   height: 20px;
+   background-color: var(--color-secondary);
+   border-radius: 50%;
+   transition: all .3s ease-in-out;
+}
+
+.boxInput-cate label:hover .checkmark {
+   background-color: var(--color-tertiary);
+}
+
+.checkmark::after {
+   content: '';
+   position: absolute;
+   display: none;
+}
+
+.boxInput-cate label .checkmark::after {
+   top:50%;
+   left:50%;
+   width: 15px;
+   height: 15px;
+   border-radius:50%;
+   border: solid 3px white;
+   transform:translate(-50%,-50%) rotate(45deg);
+}
+
+.boxInput-cate label input:checked ~ .checkmark {
+   background-color: var(--color-tertiary);
+}
+
+.boxInput-cate label input:checked ~ .checkmark::after {
+   display: block;
+}
+
+.quantity-pro-cate-menu {
+   font-size: 15px;
+   margin: 0;
+}
+
+.availability-menu {
+   height: auto;
+}
+
+.banner-list-cate-menu img {
+   width: 100%;
+}
+
+/* List pro menu */
+.main-banner-list-pro-menu img {
+   transition: all .3s ease-in-out;
+   width: 100%;
+   height: 250px;
+   object-fit: cover;
+}
+
+.container-form-list {
+   margin: 20px 0;
+   padding-bottom: 20px;
+   display: flex;
+   align-items: center;
+   justify-content: space-between;
+   border-bottom: 1px solid rgba(0, 0, 0, 10%);
+}
+
+.title-cate-list-pro-menu h3 {
+   font-size: 18px;
+   font-weight: 600;
+}
+
+.items-form-list {
+   display: flex;
+   gap: 20px;
+   align-items: center;
+}
+
+.item-form-list {
+   cursor: pointer;
+   transition: all .3s ease-in-out;
+}
+
+.item-form-list.active i {
+   color: var(--color-tertiary);
+}
+
+.item-form-list i {
+   font-size: 16px;
+   transition: all .3s ease-in-out;
+}
+
+.item-form-list i:hover {
+   color: var(--color-tertiary);
+}
+
+.item-form-list:last-child i {
+   font-size: 21px;
+}
+
+/* Container list pro menu */
+.container-list-pro-menu {
+   display: grid;
+   grid-template-columns: 1fr 1fr 1fr 1fr;
+   grid-template-rows: auto;
+   grid-column-gap: 0px;
+   column-gap: 0px;
+   grid-row-gap: 20px;
+   row-gap: 20px;
+}
+
+/* Numerical order */
+.container-numerical-order {
+   margin-top: 40px;
+   display: grid;
+   place-items: center;
+}
+
+.numerical-order {
+   width: 300px;
+   display: flex;
+   align-items: center;
+   justify-content: space-between;
+}
+
+.item-numerical-order {
+   cursor: pointer;
+   transition: all .3s ease-in-out;
+}
+
+.item-numerical-order:hover {
+   color: var(--color-tertiary);
+}
+
+.item-numerical-order.active {
+   border: 1px solid var(--color-tertiary);
+   color: var(--color-tertiary);
+   padding: 8px 13px;
+   border-radius: 3px;
+}
+
+/* pagination.css */
+.pagination {
+   display: flex;
+   list-style: none;
+   padding: 0;
+   margin: 20px 0;
+   cursor: pointer;
+   }
+   
+   /* Style for each page number */
+   .page-item {
+   margin: 0 5px;
+   }
+   
+   .page-link {
+   color: var(--color-tertiary);
+   text-decoration: none;
+   padding: 8px 16px;
+   border: 1px solid var(--color-tertiary);
+   border-radius: 4px;
+   transition: background-color 0.3s, border-color 0.3s;
+   }
+   
+   /* Hover effect */
+   .page-link:hover {
+   background-color: #e9ecef;
+   border-color: #dee2e6;
+   }
+   
+   /* Active page number */
+   .active .page-link {
+   background-color: var(--color-tertiary);
+   color: white;
+   border-color: var(--color-tertiary);
+   }
+   
+   /* Disabled state */
+   .disabled .page-link {
+   color: grey;
+   pointer-events: none;
+   background-color: #fff;
+   border-color: grey;
+   }
+   
+   /* Next/Previous buttons */
+   .page-item:first-child .page-link,
+   .page-item:last-child .page-link {
+   border-radius: 5px;
+   }
+   
+
+
+/*!***************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[12].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[12].use[3]!./public/css/login_register.css ***!
+  \***************************************************************************************************************************************************************************************************************************************************************************/
+:root {
+   --font-family-body: "Open Sans", sans-serif;
+   --font-family-title: "Nunito", sans-serif; 
+   --color-primary: #382210;
+   --color-secondary: #FFE8CF;
+   --color-tertiary: #96725A;
+   --color-body-bg: #fff;
+   --color-body: #6F6F6F;
+   --font-weight-paragraph: 400;
+   --font-weight-title: 600;
+}
+
+.boxcenter-account {
+   margin: 0 auto;
+   width: 55%;
+}
+
+/* Banner title other page */
+.banner-title-other-page {
+   background-color: var(--color-secondary);
+   background-image: url(/public/images/other/bg-title-orderPage.webp);
+   background-position: -180px -120px;
+}
+
+.overlay-bg {
+   position: relative;
+}
+
+.overlay-bg::before {
+   position: absolute;
+   content: "";
+   background-color: rgba(0, 0, 0, 20%);
+   width: 100%;
+   height: 100%;
+   top: 0;
+   left: 0;
+   z-index: 1;
+}
+
+.main-title-other-page {
+   display: grid;
+   place-items: center;
+   padding: 18px 0;
+}
+
+.main-title-other-page p {
+   z-index: 2;
+   margin: 0;
+   color: #fff;
+   font-weight: 400;
+   font-size: 14px;
+}
+
+/* User login and register account */
+main.account-login-register {
+   margin: 70px 0;
+   display: grid;
+   place-items: center;
+}
+
+.container-account {
+   display: grid;
+   grid-template-columns: 1fr .8fr;
+   grid-gap: 10px;
+   gap: 10px;
+   align-items: center;
+   justify-items: center;
+}
+
+/* Form user login or user register */
+.form-user-submit {
+   border: 1px solid rgba(0, 0, 0, 10%);
+   padding: 40px 30px 30px 30px;
+   width: 390px;
+}
+
+.form-user-submit h1 {
+   font-family: var(--font-family-title);
+   font-weight: 600;
+   font-size: 30px;
+}
+
+.form-user-submit p {
+   font-weight: 400;
+   font-size: 14px;
+}
+
+.main-form {
+   margin-top: 30px;
+}
+
+.section-input p {
+   margin-bottom: 5px;
+   font-size: 15px;
+}
+
+.section-input input {
+   box-sizing: border-box;
+   outline: none;
+   border: 1px solid rgba(0, 0, 0, 20%);
+   width: 100%;
+   height: 45px;
+   border-radius: 3px;
+   padding-left: 12px;
+   margin-bottom: 10px;
+}
+
+.main-form .main-button-form-user {
+   cursor: pointer;
+   margin-top: 15px;
+   outline: none;
+   border: none;
+   width: 100%;
+   height: 50px;
+   border-radius: 3px;
+   background-color: var(--color-primary);
+   color: #fff;
+   font-weight: 500;
+   font-size: 14px;
+   transition: all 0.3s ease-in-out;
+}
+
+.main-form .main-button-form-user:hover {
+   background-color: var(--color-tertiary);
+}
+
+.main-form .forgot-password {
+   display: grid;
+   place-items: center;
+   margin-top: 20px;
+   font-weight: 500;
+   color: var(--color-primary);
+   font-size: 14px;
+}
+
+.main-form .forgot-password:hover {
+   color: var(--color-tertiary);
+}
+
+/* Option login or register */
+.option-user-choose h2 {
+   font-family: var(--font-family-title);
+   font-weight: 700;
+   font-size: 17px;
+   text-align: center;
+   margin-bottom: 30px;
+}
+
+.option-user-choose .button-option button {
+   cursor: pointer;
+   width: 100%;
+   outline: none;
+   border: 2px solid var(--color-primary);
+   height: 55px;
+   background-color: transparent;
+   border-radius: 3px;
+   color: var(--color-primary);
+   font-weight: 600;
+   font-size: 15px;
+   transition: all .3s ease-in-out;
+}
+
+.option-user-choose .button-option button:hover {
+   background-color: #38221050;
+}
+
+.content-option-user-choose {
+   margin-top: 40px;
+}
+
+.title-content-option {
+   font-size: 13px;
+}
+
+.title-content-option b {
+   font-weight: 600;
+   color: var(--color-primary);
+}
+
+.info-content-option {
+   font-size: 13px;
+   line-height: 30px;
+   font-weight: 400;
+}
+
+.info-content-option b {
+   color: var(--color-primary);
+   font-weight: 600;
+}
+
+.error {
+   color: darkred;
+   font-weight: 600;
+   font-size: 15px;
+   text-align: center;
+   margin-bottom: 0;
+   margin-top: 20px;
+}
+/*!********************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[12].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[12].use[3]!./public/css/product.css ***!
+  \********************************************************************************************************************************************************************************************************************************************************************/
+:root {
+   --font-family-body: "Open Sans", sans-serif;
+   --font-family-title: "Nunito", sans-serif; 
+   --color-primary: #382210;
+   --color-secondary: #FFE8CF;
+   --color-tertiary: #96725A;
+   --color-body-bg: #fff;
+   --color-body: #6F6F6F;
+   --font-weight-paragraph: 400;
+   --font-weight-title: 600;
+}
+
+.trending-product {
+   margin-bottom: 70px;
+}
+
+.boxcenter-productList {
+   width: calc(86% + 40px);
+   margin: 0 auto;
+}
+
+/* Item product */
+.main-product-slieShow {
+   margin-top: 50px;
+}
+
+.main-product-slieShow .slick-prev:before,
+.main-product-slieShow .slick-next:before {
+   color: var(--color-tertiary);
+}
+
+.container-product {
+   margin-top: 40px;
+   display: grid;
+   grid-template-columns: 1fr 1fr 1fr 1fr;
+   grid-template-rows: auto;
+   grid-column-gap: 30px;
+   column-gap: 30px;
+   grid-row-gap: 23px;
+   row-gap: 23px;
+}
+
+.item-product {
+   /* margin-top: 50px; */
+   /* margin-right: 30px; */
+   margin: 0 20px;
+}
+
+.item-product img {
+   width: 100%;
+}
+
+.name-pro p {
+   font-size: 17px;
+   color: var(--color-primary);
+   margin-bottom: 10px;
+   transition: all .3s ease-in-out;
+}
+
+.name-pro p:hover {
+   color: var(--color-tertiary);
+   font-weight: 600;
+}
+
+.price-sale-product {
+   display: flex;
+   align-items: center;
+   gap: 15px;
+}
+
+.price-sale-product p {
+   font-size: 15px;
+   font-weight: 600;
+   color: var(--color-primary);
+   margin-top: 0;
+}
+
+.price-sale-product p:nth-child(2) {
+   text-decoration: line-through;
+   font-weight: 400;
+   color: var(--color-body);
+}
+
+
+
+/*!****************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[12].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[12].use[3]!./public/css/buttonScrollTop.css ***!
+  \****************************************************************************************************************************************************************************************************************************************************************************/
+:root {
+   --font-family-body: "Open Sans", sans-serif;
+   --font-family-title: "Nunito", sans-serif; 
+   --color-primary: #382210;
+   --color-secondary: #FFE8CF;
+   --color-tertiary: #96725A;
+   --color-body-bg: #fff;
+   --color-body: #6F6F6F;
+   --font-weight-paragraph: 400;
+   --font-weight-title: 600;
+}
+
+.main-btn__scrollTop {
+   visibility: hidden;
+   opacity: 0;
+   z-index: 50;
+   position: fixed;
+   right: 40px;
+   top: 720px;
+   width: 40px;
+   height: 40px;
+   background-color: var(--color-tertiary);
+   transition: all .3s ease-in-out;
+}
+
+.main-btn__scrollTop.active {
+   opacity: 1;
+   visibility: visible;
+} 
+
+.main-btn__scrollTop:hover {
+   background-color: var(--color-primary);
+}

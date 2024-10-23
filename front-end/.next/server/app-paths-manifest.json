@@ -1,9 +1,9 @@
 {
   "/_not-found/page": "app/_not-found/page.js",
-  "/(user)/payment/page": "app/(user)/payment/page.js",
   "/(user)/page": "app/(user)/page.js",
-  "/(user)/cart/page": "app/(user)/cart/page.js",
-  "/(user)/product/[id]/page": "app/(user)/product/[id]/page.js",
+  "/(user)/menu/page": "app/(user)/menu/page.js",
   "/(user)/login/page": "app/(user)/login/page.js",
-  "/(user)/inforCustomer/page": "app/(user)/inforCustomer/page.js"
+  "/(user)/product/[id]/page": "app/(user)/product/[id]/page.js",
+  "/(user)/cart/page": "app/(user)/cart/page.js",
+  "/(user)/payment/page": "app/(user)/payment/page.js"
 }

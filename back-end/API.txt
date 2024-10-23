@@ -33,7 +33,11 @@
 - Create: http://localhost:3001/user/add [POST] {admin dùng}
 - Update: http://localhost:3001/user/update/:id [PUT]
 
-// API LOGIN VÀ REGISTER [USER]
-- http://localhost:3001/auth/login [POST] { email, pass }
-- http://localhost:3001/auth/register [POST] { user name, email, pass }
+// API LOGIN VÀ REGISTER 
+- Login: http://localhost:3001/auth/login [POST] { email, pass }
+- Register: http://localhost:3001/auth/register [POST] { user name, email, pass }
+
+
+// API CART
+- Create Order: http://localhost:3001/cartsAPI/order [POST] "bảng: orders, detailedorders, promotions"
 

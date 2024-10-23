@@ -1,0 +1,52 @@
+{
+  "pages": {
+    "/(user)/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/(user)/page.css",
+      "static/chunks/app/(user)/page.js"
+    ],
+    "/(user)/layout": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/(user)/layout.css",
+      "static/chunks/app/(user)/layout.js"
+    ],
+    "/(user)/product/[id]/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/(user)/product/[id]/page.css",
+      "static/chunks/app/(user)/product/[id]/page.js"
+    ],
+    "/(user)/cart/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/(user)/cart/page.css",
+      "static/chunks/app/(user)/cart/page.js"
+    ],
+    "/(user)/payment/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/(user)/payment/page.css",
+      "static/chunks/app/(user)/payment/page.js"
+    ],
+    "/(user)/login/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/(user)/login/page.css",
+      "static/chunks/app/(user)/login/page.js"
+    ],
+    "/(user)/inforCustomer/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/(user)/inforCustomer/page.css",
+      "static/chunks/app/(user)/inforCustomer/page.js"
+    ],
+    "/(user)/menu/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/(user)/menu/page.css",
+      "static/chunks/app/(user)/menu/page.js"
+    ]
+  }
+}

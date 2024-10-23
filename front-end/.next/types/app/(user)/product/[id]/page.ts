@@ -1,4 +1,4 @@
-// File: C:\Users\l\Desktop\TheGoldCoffee\front-end\src\app\(user)\product\[id]\page.tsx
+// File: /Users/macair/Documents/GitHub/TheGoldCoffee/front-end/src/app/(user)/product/[id]/page.tsx
 import * as entry from '../../../../../../src/app/(user)/product/[id]/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

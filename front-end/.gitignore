@@ -10,3 +10,7 @@ node_modules/
 # misc
 .DS_Store
 >>>>>>> a16e60ecc808d8a139ded7c5c04b44bc516a57d0
+
+# next.js
+.next/
+/out/

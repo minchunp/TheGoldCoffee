@@ -11,7 +11,8 @@ interface CartProduct {
    price_pro: number,
    sale_pro: number,
    size_pro: string,
-   quantity_pro: number
+   quantity_pro: number,
+   toppings: any
 }
 
 interface CartState {

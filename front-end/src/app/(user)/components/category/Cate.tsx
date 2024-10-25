@@ -16,16 +16,13 @@
     const Category: React.FC<CateProps> = ({category}) => {
     return (
         <>
-            
-            <div className="boxInput-cate">
+            {/* <div className="boxInput-cate"> */}
             <label htmlFor={category._id}>
-            {category.name_cate}
             <input type="radio" id={category._id} name="cate-menu" />
+            {category.name_cate}
             <span className="checkmark"></span>
             </label>
-            </div>
-            {/* <p className="quantity-pro-cate-menu"></p> */}
-            
+            {/* </div> */}
         </>
     );
     }

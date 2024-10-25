@@ -60,7 +60,8 @@ function ProductDetail({ params }: { params: { id: string } }) {
             price_pro: product.price_pro,
             sale_pro: product.sale_pro,
             size_pro: size_pro,
-            quantity_pro: quantity_pro
+            quantity_pro: quantity_pro,
+            toppings: []
          };
 
          dispatch(addProductToCart(productInCart));

@@ -19,6 +19,9 @@
    grid-template-columns: 1fr 3fr;
    column-gap: 30px;
 }
+.container-body-new {
+   display: grid;
+}
 
 .items-cateBox {
    border-bottom: 1px solid rgba(0, 0, 0, 10%);

@@ -9,7 +9,6 @@ import Category from "../components/category/Cate";
 import ButtonScrollTop from "../components/buttonScrollTop/page";
 import React, { useState } from "react";
 import ReactPaginate from "react-paginate";
-import { count } from "console";
 
 interface ProductInterface {
    _id: string,
@@ -20,7 +19,7 @@ interface ProductInterface {
    sale_pro: number,
    disc_pro: string,
    salesVolume_pro: number,
-   status_pro: number
+   status_pro: number // 1 còn && 0 hết
 }
 
 interface CategoryInterface {
@@ -33,35 +32,25 @@ interface CategoryInterface {
 
 
 export default function Menu() {
-   // // Fetch API all product on menu
-   // const fetcher = (url: string) => fetchProducts();
-   // const { data, error } = useSWR<ProductInterface[]>("listProduct", fetcher);
+   // Fetch data
 
-   // // Fetch Api all categories on menu
-   // const fetcherCate = (url: string) => fetchCategories();
-   // const { data: categories, error: errorCategories } = useSWR<CategoryInterface[]>("listCategory", fetcherCate);
+   // Product
+   const {data: products, error: errorProducts} = useSWR<ProductInterface[]>(
+      "listProduct",
+      fetchProducts
+   )
 
-   const fetcher = async (url: string, fetchFunction: () => Promise<any>) => {
-      return fetchFunction();
-   };
-
-   // Fetch Products
-   const { data: products, error: errorProducts } = useSWR<ProductInterface[]>(
-      ["listProduct"], 
-      () => fetcher("listProduct", fetchProducts)
-   );
-
-   // Fetch Categories
-   const { data: categories, error: errorCategories } = useSWR<CategoryInterface[]>(
-      ["listCategory"], 
-      () => fetcher("listCategory", fetchCategories)
-   );
+   //Category
+   const {data: categories, error: errorCategories} = useSWR<CategoryInterface[]>(
+      "listCategory",
+      fetchCategories
+   )
 
    // Pagination State
    const [currentPage, setCurrentPage] = useState(0); // Current page
    const productsPerPage = 12; // Number of products per page
    const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-   const [selectedStatus, setSelectedStatus] = useState<number | null>(null);
+   const [selectedStatus, setselectedStatus] = useState<number | null>(null)
    
 
    if (errorProducts) {
@@ -79,22 +68,40 @@ export default function Menu() {
    }
 
    // Filter sản phẩm theo cate
-   const filteredProducts = selectedCategory ? products.filter((pro) => pro.id_cate === selectedCategory) : products;
-   // Filter sản phẩm theo status
-   const filteredStatus = selectedStatus ? products.filter((pro) => pro.status_pro === selectedStatus) : products;
-   // Count sản phẩm 
-   
+   // Xử lý lỗi hoặc trạng thái tải || Handling errors or loading states
+   if(errorProducts || errorCategories){
+      return<div>Error loading data</div>
+   }
+   if(!products || !categories){
+      return<div>Loading data... </div>
+   }
 
-   const handleCategoryClick = (categoryId: string) => {
-      setSelectedCategory(categoryId);
-      setCurrentPage(0); // Reset về trang đầu tiên
-   };
-   
+   // Filter sản phẩm khi chọn Cate
+   const filteredProducts = selectedCategory ? products.filter((pro) => pro.id_cate === selectedCategory) : products;
+   // const filteredProducts = products.filter((pro) => {
+   //    const matchesCategory = selectedCategory ? pro.id_cate === selectedCategory : true;
+   //    const matchesAvailability = selectedStatus !== null ? pro.status_pro === selectedStatus : true;
+   //    return matchesCategory && matchesAvailability;
+   // });
+
+   // Handle pagination
    const offset = currentPage * productsPerPage;
    const currentProducts = filteredProducts.slice(offset, offset + productsPerPage);
    const pageCount = Math.ceil(filteredProducts.length / productsPerPage);
 
+   // Handle Category click
+   const handleCategoryClick = (categoryId: string | null) => {
+      setSelectedCategory(categoryId);
+      setCurrentPage(0);
+   };
    
+   // Handle status click
+   const handleStatusClick = (Statuspro : number | null) => {
+      setselectedStatus(Statuspro);
+      setCurrentPage(0);
+   }
+
+   // Handle pagination click
    const handlePageClick = (selectedItem: { selected: number }) => {
       setCurrentPage(selectedItem.selected);
    };
@@ -115,14 +122,25 @@ export default function Menu() {
                      <div className="items-cateBox">
                         <h2>Danh mục</h2>
                         <div className="container-items-cateBox">
-                              {
+                        <div className="input-items-cateBox">
+                           <div className="boxInput-cate">
+                              <label htmlFor="allProduct">
+                              <input type="radio" id="allProduct" name="cate-menu" checked={selectedCategory === null}
+                              onClick={()=>handleCategoryClick(null)}/>
+                              Tất cả sản phẩm
+                              <span className="checkmark"></span>
+                           </label>
+                           </div>
+                           <p className="quantity-pro-cate-menu">({products.filter(pro => pro._id).length})</p>
+                        </div>
+                           {
                               categories.map(pro => {
                                  const countProduct = products.filter(count => count.id_cate === pro._id).length;
                                  return (
-                                    <div key={pro._id} 
-                                    className={`input-items-cateBox ${selectedCategory === pro._id ? 'active' : ''}`}
-                                    onClick={() => handleCategoryClick(pro._id)}>
-                                    <Category category={pro}/>
+                                    <div className={`input-items-cateBox ${selectedCategory === pro._id ? 'active' : ''}`} key={pro._id}>
+                                       <div className="boxInput-cate" onClick={() => handleCategoryClick(pro._id)}>
+                                          <Category category={pro}/>
+                                       </div>
                                     <p className="quantity-pro-cate-menu">({countProduct})</p>
                                     </div>
                                  )
@@ -137,22 +155,22 @@ export default function Menu() {
 
                            <div className="input-items-cateBox">
                               <div className="boxInput-cate">
-                                 <label htmlFor="1">Còn hàng
-                                    <input type="radio" id="1" name="cate-menu" />
+                                 <label htmlFor="statusPro1">Còn hàng
+                                    <input type="radio" id="statusPro1" name="Statuspro" checked={selectedStatus === 1} onChange={() => handleStatusClick(1)}/>
                                     <span className="checkmark"></span>
                                  </label>
                               </div>
-                              <p className="quantity-pro-cate-menu">1</p>
+                              <p className="quantity-pro-cate-menu">({products.filter(pro => pro.status_pro === 1).length})</p>
                            </div>
 
                            <div className="input-items-cateBox">
                               <div className="boxInput-cate">
-                                 <label htmlFor="2">Hết hàng
-                                    <input type="radio" id="2" name="cate-menu" />
+                                 <label htmlFor="statusPro0">Hết hàng
+                                    <input type="radio" id="statusPro0" name="Statuspro" checked={selectedStatus === 0} onChange={() => handleStatusClick(0)}/>
                                     <span className="checkmark"></span>
                                  </label>
                               </div>
-                              <p className="quantity-pro-cate-menu">(1)</p>
+                              <p className="quantity-pro-cate-menu">({products.filter(pro => pro.status_pro === 0).length})</p>
                            </div>
                         </div>
                      </div>

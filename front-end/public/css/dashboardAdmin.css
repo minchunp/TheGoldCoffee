@@ -203,6 +203,8 @@ body {
 
 .main-order-pending a.statusA {
    justify-self: center;
+   width: 145px;
+   text-align: center;
 }
 
 .main-order-pending a.statusA p,
@@ -229,6 +231,13 @@ body {
 .main-order-pending .status.pending {
    cursor: pointer;
    background-color: #FCBE2D;
+   padding: 5px 20px;
+   border-radius: 15px;
+}
+
+.main-order-pending .status.confirm {
+   cursor: pointer;
+   background-color: #95bf47;
    padding: 5px 20px;
    border-radius: 15px;
 }
@@ -331,6 +340,15 @@ body {
 
 .main-list {
    margin-bottom: 50px;
+}
+
+.alert-empty-admin {
+   display: grid;
+   place-items: center;
+   padding: 30px 0;
+   color: var(--main-color);
+   font-weight: bold;
+   font-size: 16px;
 }
 
 

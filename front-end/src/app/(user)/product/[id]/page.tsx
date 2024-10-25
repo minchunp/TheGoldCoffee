@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useContext, useState } from "react";
 import "../../../../../public/css/detail.css";
 import "../../../../../public/css/login_register.css";
@@ -12,27 +12,43 @@ import { useDispatch } from "react-redux";
 import { addProductToCart } from "@/app/redux/cartSlice";
 
 interface ProductInterface {
-   _id: string,
-   id_cate: string
-   name_pro: string,
-   img_pro: string,
-   price_pro: number,
-   sale_pro: number,
-   disc_pro: string,
-   salesVolume_pro: number,
-   status_pro: number
+   _id: string;
+   id_cate: string;
+   name_pro: string;
+   img_pro: string;
+   price_pro: number;
+   sale_pro: number;
+   disc_pro: string;
+   salesVolume_pro: number;
+   status_pro: number;
+}
+
+interface ToppingInterface {
+   _id: string;
+   id_cate: string;
+   img_topping: string;
+   name_topping: string;
+   price_topping: number;
+   status_topping: string;
+}
+
+interface ProductWithToppings {
+   _id: string;
+   product: ProductInterface;
+   toppings: ToppingInterface[];
 }
 
 function ProductDetail({ params }: { params: { id: string } }) {
-   const [size_pro, setSize_pro] = useState('S');
+   const [topping_pro, setToppingPro] = useState<string[]>([]);
+   const [size_pro, setSize_pro] = useState("S");
    const [quantity_pro, setQuantityPro] = useState(1);
    const [isModalOpenNavigation, setIsModalOpenNavigation] = useState(false);
    const [isModalOpenConfirm, setIsModalOpenConfirm] = useState(false);
    // Fetch API Product detail
-   const fetcher = (url: string) => axios.get(url).then(res => res.data);
-   const {data, error} = useSWR<ProductInterface>(`${process.env.NEXT_PUBLIC_API_URL}/detailProduct/${params.id}`, fetcher);
-   if (error) return <strong className="fetch">Không tải được chi tiết sản phẩm</strong>
-   if (!data) return <strong className="fetch">Đang tải dữ liệu...</strong>
+   const fetcher = (url: string) => axios.get(url).then((res) => res.data);
+   const { data, error } = useSWR<ProductWithToppings>(`${process.env.NEXT_PUBLIC_API_URL}/proWithTopping/${params.id}`, fetcher);
+   if (error) return <strong className="fetch">Không tải được chi tiết sản phẩm</strong>;
+   if (!data) return <strong className="fetch">Đang tải dữ liệu...</strong>;
 
    // Sử dụng Context
    // const context = useContext(CartContex);
@@ -49,114 +65,128 @@ function ProductDetail({ params }: { params: { id: string } }) {
    //    }
    // }
 
+   // Hàm xử lý checkbox toppings
+   const handleCheckBoxTopping = (event: React.ChangeEvent<HTMLInputElement>) => {
+      const value = event.target.value;
+
+      setToppingPro((prevItems) => {
+         if (prevItems.includes(value)) {
+            return prevItems.filter((item) => item != value);
+         } else {
+            return [...prevItems, value];
+         }
+      })
+   }
+
+
    // Sử dụng Redux
    const dispatch = useDispatch();
-   const handleAddToCart = (product: ProductInterface) => {
+   const handleAddToCart = (product: ProductWithToppings) => {
       if (product) {
-         const productInCart =  {
+         const productInCart = {
             productId: product._id,
-            name_pro: product.name_pro,
-            img_pro: product.img_pro,
-            price_pro: product.price_pro,
-            sale_pro: product.sale_pro,
+            name_pro: product.product.name_pro,
+            img_pro: product.product.img_pro,
+            price_pro: product.product.price_pro,
+            sale_pro: product.product.sale_pro,
             size_pro: size_pro,
             quantity_pro: quantity_pro,
-            toppings: []
+            toppings: topping_pro,
          };
+         console.log(productInCart);
+         
 
          dispatch(addProductToCart(productInCart));
       }
-   }
-   
+   };
+
    // Sự kiện mở/đóng Modal
    const user_account = false; // Check xem có tài khoản người dùng hay không
-                               // Xử lý thêm để đúng logic (này chỉ là ví dụ)
+   // Xử lý thêm để đúng logic (này chỉ là ví dụ)
    const openModal = () => setIsModalOpenConfirm(true);
    const closeModal = () => setIsModalOpenConfirm(false);
 
    // Sự kiện Onclick tổng hợp
-   const totalOnclick = (product: ProductInterface) => {
+   const totalOnclick = (product: ProductWithToppings) => {
       handleAddToCart(product);
       openModal();
-   }
+   };
 
    return (
       <>
          {/* Banner title other page on website Vegist */}
          <section className="banner-title-other-page overlay-bg">
             <div className="main-title-other-page">
-               <p>Trang chủ / {data.name_pro}</p>
+               <p>Trang chủ / {data.product.name_pro}</p>
             </div>
          </section>
 
          {/* Main body product detail */}
          <main className="body-product-detail">
-            <ModalCofirm isOpen={isModalOpenConfirm} onClose={closeModal}/>
-            <ModalNavagation isOpen={isModalOpenNavigation} onClose={closeModal}/>
+            <ModalCofirm isOpen={isModalOpenConfirm} onClose={closeModal} />
+            <ModalNavagation isOpen={isModalOpenNavigation} onClose={closeModal} />
             <div className="boxcenter">
                <div className="container-body-product-detail">
                   <section className="main-img-product-detail">
                      <div className="top-big-img-product-detail">
-                        <img src={`${process.env.NEXT_PUBLIC_IMAGE_PRO_URL}${data.img_pro}`} alt="" />
+                        <img src={`${process.env.NEXT_PUBLIC_IMAGE_PRO_URL}${data.product.img_pro}`} alt="" />
                      </div>
                   </section>
 
                   <section className="main-info-product-detail">
                      <div className="name-product-detail">
-                        <h1>{data.name_pro}</h1>
+                        <h1>{data.product.name_pro}</h1>
                      </div>
 
                      <div className="price-sale-product-detail">
-                        {
-                           data.sale_pro != 0 ? (
-                              <>
-                                 <p className="price-product-detail">{data.sale_pro.toLocaleString()}đ</p>
-                                 <p className="sale-product-detail">{data.price_pro.toLocaleString()}đ</p>
-                              </>
-                           ) : (
-                              <p className="price-product-detail">{data.price_pro.toLocaleString()}đ</p>
-                           )
-                        }
+                        {data.product.sale_pro != 0 ? (
+                           <>
+                              <p className="price-product-detail">{data.product.sale_pro.toLocaleString()}đ</p>
+                              <p className="sale-product-detail">{data.product.price_pro.toLocaleString()}đ</p>
+                           </>
+                        ) : (
+                           <p className="price-product-detail">{data.product.price_pro.toLocaleString()}đ</p>
+                        )}
                      </div>
 
                      <div className="short-description-product-detail">
-                        <p>{data.disc_pro}</p>
+                        <p>{data.product.disc_pro}</p>
                      </div>
 
                      <div className="sizeAndFlavour-product-detail">
                         <p>
-                           Size: <span>{size_pro}</span>
+                           Kích cỡ: <span>{size_pro}</span>
                         </p>
                         <div className="items-inputRadio-detail items-inputRadio-detail__size">
-                           <input 
-                              type="radio" 
-                              name="size_pro_detail" 
+                           <input
+                              type="radio"
+                              name="size_pro_detail"
                               id="small"
                               value="S"
-                              checked={size_pro == 'S'}
+                              checked={size_pro == "S"}
                               onChange={(e) => setSize_pro(e.target.value)}
                            />
-                           <label htmlFor="small">Small</label>
+                           <label htmlFor="small">Nhỏ (+0đ)</label>
 
-                           <input 
-                              type="radio" 
-                              name="size_pro_detail" 
-                              id="medium" 
+                           <input
+                              type="radio"
+                              name="size_pro_detail"
+                              id="medium"
                               value="M"
-                              checked={size_pro == 'M'}
+                              checked={size_pro == "M"}
                               onChange={(e) => setSize_pro(e.target.value)}
                            />
-                           <label htmlFor="medium">Medium</label>
+                           <label htmlFor="medium">Vừa (+5,000đ)</label>
 
-                           <input 
-                              type="radio" 
-                              name="size_pro_detail" 
-                              id="large" 
+                           <input
+                              type="radio"
+                              name="size_pro_detail"
+                              id="large"
                               value="L"
-                              checked={size_pro == 'L'}
+                              checked={size_pro == "L"}
                               onChange={(e) => setSize_pro(e.target.value)}
                            />
-                           <label htmlFor="large">Large</label>
+                           <label htmlFor="large">Lớn (+10,000đ)</label>
                         </div>
                      </div>
 
@@ -167,15 +197,37 @@ function ProductDetail({ params }: { params: { id: string } }) {
                         </div>
                      </div>
 
+                     <div className="toppings-pro">
+                        <p>Toppings (tuỳ chọn):</p>
+                        <div className="container-toppings-pro">
+                           {data.toppings.map((top) => {
+                              return (
+                                 <>
+                                    <input 
+                                       id={top._id} 
+                                       type="checkbox" 
+                                       value={top.name_topping} 
+                                       onChange={handleCheckBoxTopping}
+                                       checked={topping_pro.includes(`${top.name_topping}`)}
+                                    />
+                                    <label htmlFor={top._id}><img src={`${process.env.NEXT_PUBLIC_IMAGE_TOPPING_URL}${top.img_topping}`} alt="" /></label>
+                                 </>
+                              );
+                           })}
+                        </div>
+                     </div>
+
                      <div className="container-button-pro-detail">
-                        <button onClick={() => totalOnclick(data)} className="main-btn main-btn__addCartDetail">Thêm vào giỏ hàng</button>
+                        <button onClick={() => totalOnclick(data)} className="main-btn main-btn__addCartDetail">
+                           Thêm vào giỏ hàng
+                        </button>
                         <a href="#!">
                            <button className="main-btn main-btn__buyDetail">Mua ngay</button>
                         </a>
                      </div>
 
                      <p className="id-product-detail">
-                        IDENTIFIER: <span>{(data._id).slice(-4)}</span>
+                        IDENTIFIER: <span>{data.product._id.slice(-4)}</span>
                      </p>
                   </section>
 
@@ -223,9 +275,7 @@ function ProductDetail({ params }: { params: { id: string } }) {
                      <div className="form-review-customer">
                         <form action="">
                            <div className="title-form-review">
-                              <h2>
-                                 Bình luận của bạn được viết tại đây
-                              </h2>
+                              <h2>Bình luận của bạn được viết tại đây</h2>
                            </div>
                            <div className="item-input-form-review">
                               <label htmlFor="name-user">Tên khách hàng</label>
@@ -274,6 +324,6 @@ function ProductDetail({ params }: { params: { id: string } }) {
          </section>
       </>
    );
-};
+}
 
 export default ProductDetail;

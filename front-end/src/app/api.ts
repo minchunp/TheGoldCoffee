@@ -13,6 +13,21 @@ interface ProductInterface {
    status_pro: number
 }
 
+interface ToppingInterface {
+   _id: string;
+  id_cate: string;
+  img_topping: string;
+  name_topping: string;
+  price_topping: number;
+  status_topping: string;
+}
+
+interface ProductWithToppings {
+   _id: string,
+   product: ProductInterface,
+   toppings: ToppingInterface[]
+}
+
 // Interface user
 interface UserInterface {
    _id: string;
@@ -33,9 +48,9 @@ interface CategoryInterface {
 }
 
 // Fetch API products
-export const fetchProducts = async (): Promise<ProductInterface[]> => {
+export const fetchProducts = async (): Promise<ProductWithToppings[]> => {
    try {
-      const respone = await axios.get<ProductInterface[]>(`${process.env.NEXT_PUBLIC_API_URL}/listProduct`);
+      const respone = await axios.get<ProductWithToppings[]>(`${process.env.NEXT_PUBLIC_API_URL}/listProductTopping`);
       return respone.data;
    } catch (e) {
       console.log('Có lỗi xảy ra khi fetch dữ liệu product, ', e);

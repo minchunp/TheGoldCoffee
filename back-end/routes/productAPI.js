@@ -241,6 +241,7 @@ router.get("/listProductTopping", async function (req, res, next) {
 
       // Đưa sản phẩm và topping vào mảng ALL
       ALL.push({
+        _id: item._id,
         product: product,
         toppings: list_topping,
       });

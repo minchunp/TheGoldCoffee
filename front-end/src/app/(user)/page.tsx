@@ -6,6 +6,7 @@ import BlogList from "./components/blog/listBlog";
 import { fetchProducts } from "../api";
 import useSWR from "swr";
 import ButtonScrollTop from "./components/buttonScrollTop/page";
+import React from "react";
 
 interface ProductInterface {
    _id: string,
@@ -16,7 +17,22 @@ interface ProductInterface {
    sale_pro: number,
    disc_pro: string,
    salesVolume_pro: number,
-   status_pro: number
+   status_pro: number,
+}
+
+interface ToppingInterface {
+   _id: string;
+  id_cate: string;
+  img_topping: string;
+  name_topping: string;
+  price_topping: number;
+  status_topping: string;
+}
+
+interface ProductWithToppings {
+   _id: string,
+   product: ProductInterface,
+   toppings: ToppingInterface[]
 }
 
 interface BLogInterface {
@@ -32,7 +48,9 @@ interface BLogInterface {
 export default function Home() {
    // Fetch API Products
    const fetcher = (url: string) => fetchProducts();
-   const {data, error} = useSWR<ProductInterface[]>(`listProduct`, fetcher);
+   const {data, error} = useSWR<ProductWithToppings[]>(`listProductTopping`, fetcher);
+   console.log(data);
+   
    if (error) return <strong className="fetch">Có lỗi xảy ra!</strong>;
    if (!data) return <strong className="fetch">Đang tải dữ liệu...</strong>
 

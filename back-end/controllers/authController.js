@@ -107,6 +107,7 @@ const login = async (req, res) => {
 
     // create token
     const payload = {
+      id: user._id,
       name_user: user.name_user,
       role_user: user.role_user,
       status_user: user.status_user,

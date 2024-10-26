@@ -13,6 +13,21 @@ interface ProductInterface {
    status_pro: number
 }
 
+interface ToppingInterface {
+   _id: string;
+  id_cate: string;
+  img_topping: string;
+  name_topping: string;
+  price_topping: number;
+  status_topping: string;
+}
+
+interface ProductWithToppings {
+   _id: string,
+   product: ProductInterface,
+   toppings: ToppingInterface[]
+}
+
 // Interface user
 interface UserInterface {
    _id: string;
@@ -24,11 +39,18 @@ interface UserInterface {
    role_user: string;
    status_user: number;
 }
+// Interface category
+interface CategoryInterface {
+   _id: string;
+   img_cate: string;
+   name_cate: string;
+   status_cate: string;
+}
 
 // Fetch API products
-export const fetchProducts = async (): Promise<ProductInterface[]> => {
+export const fetchProducts = async (): Promise<ProductWithToppings[]> => {
    try {
-      const respone = await axios.get<ProductInterface[]>(`${process.env.NEXT_PUBLIC_API_URL}/listProduct`);
+      const respone = await axios.get<ProductWithToppings[]>(`${process.env.NEXT_PUBLIC_API_URL}/listProductTopping`);
       return respone.data;
    } catch (e) {
       console.log('Có lỗi xảy ra khi fetch dữ liệu product, ', e);
@@ -44,6 +66,17 @@ export const fetchUsers = async (): Promise<UserInterface[]> => {
       return respone.data;
    } catch (e) {
       console.log('Có lỗi xảy ra khi fetch dữ liệu user, ', e);
+      throw e;
+   }
+}
+
+// Fetch API categories
+export const fetchCategories = async (): Promise<CategoryInterface[]> => {
+   try {
+      const respone = await axios.get<CategoryInterface[]>(`${process.env.NEXT_PUBLIC_API_CATE_URL}/listCategory`);
+      return respone.data;
+   } catch (e) {
+      console.log('Có lỗi xảy ra khi fetch dữ liệu category, ', e);
       throw e;
    }
 }

@@ -2,6 +2,7 @@ import React from "react";
 import "../../../../public/css/orderAdmin.css";
 import "../../../../public/css/dashboardAdmin.css"
 import BannerSectionAdmin from "../../../../public/images/wallpaper-angledwares.jpg";
+import Link from "next/link";
 
 const OrderAdmin: React.FC = () => {
    return (
@@ -56,9 +57,9 @@ const OrderAdmin: React.FC = () => {
                         <div className="main-list">
                            {/* <div className="alert-empty-admin">Không có đơn hàng</div> */}
                            <div className="main-order-pending">
-                              <a href="/admin/order/<%= order._id %>">
+                              <Link href={`/admin/orderDetail/29384u923u48923`}>
                                  <p>er53</p>
-                              </a>
+                              </Link>
                               <p>Nguyễn Văn A</p>
                               <p>TCH, Ho Chi Minh city</p>
                               <p className="pending-total-money">100,000đ</p>

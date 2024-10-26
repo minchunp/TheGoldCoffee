@@ -1,10 +1,13 @@
 import React from "react";
-import "../../../../public/css/orderDetailAdmin.css";
-import "../../../../public/css/dashboardAdmin.css";
-import BannerSectionAdmin from "../../../../public/images/wallpaper-angledwares.jpg";
+import "../../../../../public/css/orderDetailAdmin.css";
+import "../../../../../public/css/dashboardAdmin.css";
+import BannerSectionAdmin from "../../../../../public/images/wallpaper-angledwares.jpg";
 import Link from "next/link";
 
-const OrderDetailAdmin: React.FC = () => {
+function OrderDetailAdmin({ params }: { params: { id: string } }) {
+   let idTest = params.id;
+   console.log(idTest);
+   
    return (
       <>
          <section>

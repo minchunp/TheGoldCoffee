@@ -3,15 +3,13 @@ var router = express.Router();
 var modelOrder = require("../models/Cart");
 var modelDetailedOrder = require("../models/Detailed_order");
 var modelPromotion = require("../models/Promotion");
+var modelTopping = require("../models/Topping");
 
-router.get("/detailOrder/:id", async function (req, res) { 
+router.get("/detailOrder/:id", async function (req, res) {});
 
-}); 
+router.get("/detailOrder/:id/:tatus", async function (req, res) {});
 
-router.get("/detailOrder/:id/:tatus", async function (req, res) { 
-
-}); 
-
+//lấy danh sách các đơn hàng {id, name_user, address, total, date, status} "bảng: orders"
 router.get("/list_order", async function (req, res) {
   try {
     // Lấy danh sách các đơn hàng với các thuộc tính cần thiết
@@ -101,7 +99,7 @@ router.post("/order", async function (req, res) {
     // Lưu đơn hàng vào cơ sở dữ liệu
     const savedOrder = await newOrder.save();
 
-    // lưu chi tiết từng sản phẩm trong đơn
+    // Lưu chi tiết từng sản phẩm trong đơn
     for (let index = 0; index < products.length; index++) {
       const newDetail = new modelDetailedOrder({
         id_pro: products[index].productId,
@@ -111,9 +109,38 @@ router.post("/order", async function (req, res) {
         price_detailedOrder: products[index].price,
       });
 
-      console.log(newDetail);
+      // Lưu topping nếu có
+      if (products[index].toppings && products[index].toppings.length > 0) {
+        const mangtopping = products[index].toppings;
 
-      const saveDetail = await newDetail.save();
+        for (let z = 0; z < mangtopping.length; z++) {
+          const toppingName = mangtopping[z]; // tên của topping
+
+          // Lấy thông tin topping từ tên topping trong cơ sở dữ liệu
+          const toppingG = await modelTopping.findOne({
+            name_topping: toppingName,
+          });
+
+          // Kiểm tra nếu topping được tìm thấy
+          if (toppingG) {
+            // Lưu topping vào chi tiết đơn hàng
+            const newDetailTopping = new modelDetailedOrder({
+              id_pro: toppingG.id,
+              id_order: savedOrder.id,
+              quantity_detailedOrder: 1,
+              price_detailedOrder: toppingG.price_topping,
+            });
+
+            console.log(newDetailTopping);
+
+            await newDetailTopping.save();
+          } else {
+            console.log(`Topping '${toppingName}' không tìm thấy.`);
+          }
+        }
+      }
+
+      await newDetail.save();
     }
 
     // Phản hồi thành công

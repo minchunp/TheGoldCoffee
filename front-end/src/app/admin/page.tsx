@@ -1,4 +1,4 @@
-import "../../../public/css/dashboardAdmin.css"
+import "../../../public/css/dashboardAdmin.css";
 
 const Dashboard = () => {
    return (
@@ -122,43 +122,48 @@ const Dashboard = () => {
                         </div>
 
                         <div className="main-list">
+                           {/* <div className="alert-empty-admin">Không có đơn hàng</div> */}
                            <div className="main-order-pending">
-                              <a href="#">
-                                 <p>4e4c</p>
+                              <a href="/admin/order/<%= order._id %>">
+                                 <p>er53</p>
                               </a>
-                              <p>Nguyen Van Anh</p>
+                              <p>Nguyễn Văn A</p>
                               <p>TCH, Ho Chi Minh city</p>
-                              <p className="pending-total-money">$150,33</p>
-                              <p>2024-04-05 18:45</p>
-                              <div className="status pending">
-                                 <p>Pending</p>
-                              </div>
+                              <p className="pending-total-money">100,000đ</p>
+                              <p>20:00 5/10/2024</p>
+                              <a className="statusA" href="">
+                                 <div className="status pending">
+                                    <p>Chờ xác nhận</p>
+                                 </div>
+                              </a>
                            </div>
-
                            <div className="main-order-pending">
-                              <a href="#">
-                                 <p>4e4c</p>
+                              <a href="/admin/order/<%= order._id %>">
+                                 <p>er53</p>
                               </a>
-                              <p>Nguyen Van Anh</p>
+                              <p>Nguyễn Văn A</p>
                               <p>TCH, Ho Chi Minh city</p>
-                              <p className="pending-total-money">$150,33</p>
-                              <p>2024-04-05 18:45</p>
-                              <div className="status pending">
-                                 <p>Pending</p>
-                              </div>
+                              <p className="pending-total-money">100,000đ</p>
+                              <p>20:00 5/10/2024</p>
+                              <a className="statusA" href="">
+                                 <div className="status pending">
+                                    <p>Chờ xác nhận</p>
+                                 </div>
+                              </a>
                            </div>
-
                            <div className="main-order-pending">
-                              <a href="#">
-                                 <p>4e4c</p>
+                              <a href="/admin/order/<%= order._id %>">
+                                 <p>er53</p>
                               </a>
-                              <p>Nguyen Van Anh</p>
+                              <p>Nguyễn Văn A</p>
                               <p>TCH, Ho Chi Minh city</p>
-                              <p className="pending-total-money">$150,33</p>
-                              <p>2024-04-05 18:45</p>
-                              <div className="status pending">
-                                 <p>Pending</p>
-                              </div>
+                              <p className="pending-total-money">100,000đ</p>
+                              <p>20:00 5/10/2024</p>
+                              <a className="statusA" href="">
+                                 <div className="status pending">
+                                    <p>Chờ xác nhận</p>
+                                 </div>
+                              </a>
                            </div>
                         </div>
                      </div>

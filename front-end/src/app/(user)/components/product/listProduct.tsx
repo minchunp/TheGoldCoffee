@@ -15,8 +15,23 @@ interface ProductInterface {
    status_pro: number;
 }
 
+interface ToppingInterface {
+   _id: string;
+  id_cate: string;
+  img_topping: string;
+  name_topping: string;
+  price_topping: number;
+  status_topping: string;
+}
+
+interface ProductWithToppings {
+   _id: string,
+   product: ProductInterface,
+   toppings: ToppingInterface[]
+}
+
 interface ProductListProps {
-   products: ProductInterface[];
+   products: ProductWithToppings[];
 }
 
 const ProductList: React.FC<ProductListProps> = ({ products }) => {

@@ -116,8 +116,7 @@ function EditProduct({ params }: { params: { id: string } }) {
             <Link href="/admin/products">
               <i
                 id="return-main-product-btn"
-                className="bi bi-arrow-left-short"
-              ></i>
+                className="bi bi-arrow-left-short"></i>
             </Link>
           </div>
 
@@ -165,8 +164,7 @@ function EditProduct({ params }: { params: { id: string } }) {
                 <p>Tên danh mục</p>
                 <select
                   value={idCate}
-                  onChange={(e) => setIdCate(e.target.value)}
-                >
+                  onChange={(e) => setIdCate(e.target.value)}>
                   <option value="">Chọn danh mục</option>
                   {categories.map((category) => (
                     <option key={category._id} value={category._id}>

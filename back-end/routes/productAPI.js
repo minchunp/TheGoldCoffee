@@ -208,6 +208,7 @@ router.get("/proWithTopping/:id", async function (req, res, next) {
 
     // Trả về thông tin sản phẩm và topping
     return res.status(200).json({
+      _id: id,
       product: product,
       toppings: list_topping,
     });

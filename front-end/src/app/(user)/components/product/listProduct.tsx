@@ -32,9 +32,10 @@ interface ProductWithToppings {
 
 interface ProductListProps {
    products: ProductWithToppings[];
+   idProductDetail: (id: string) => void;
 }
 
-const ProductList: React.FC<ProductListProps> = ({ products }) => {
+const ProductList: React.FC<ProductListProps> = ({ products, idProductDetail }) => {
    const settings = {
       dots: false,
       infinite: true,
@@ -53,7 +54,7 @@ const ProductList: React.FC<ProductListProps> = ({ products }) => {
                   {products.map((pro) => {
                      return (
                         <div key={pro._id} className="box-product">
-                           <Product product={pro} />
+                           <Product product={pro} idProductDetail={idProductDetail} />
                         </div>
                      );
                   })}

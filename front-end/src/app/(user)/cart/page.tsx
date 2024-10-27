@@ -64,7 +64,7 @@ const Cart = () => {
                                           Kích cỡ: <span>{item.size_pro}</span>
                                        </p>
                                        <p className="size-flavout-product-cart">
-                                          Toppings: <span>{item.toppings.join(", ")}</span>
+                                          Toppings: <span>{item.toppings.length != 0 ? item.toppings.join(", "): 'Không có'}</span>
                                        </p>
                                     </div>
                                  </div>

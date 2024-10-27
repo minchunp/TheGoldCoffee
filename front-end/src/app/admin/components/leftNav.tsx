@@ -33,6 +33,9 @@ const LeftNav = () => {
                <Link href="/admin/toppings">
                   <div className={`items ${pathName == "/admin/toppings" || pathName == "/admin/toppings/add" || pathName == "/admin/toppings/edit" ? "active" : ""}`}>Topping</div>
                </Link>
+               <Link href="/admin/orders">
+                  <div className={`items ${pathName == "/admin/orders" || pathName == "/admin/orderDetail" ? "active" : ""}`}>Đơn hàng</div>
+               </Link>
             </div>
 
             {/* <!-- Menu website admin --> */}

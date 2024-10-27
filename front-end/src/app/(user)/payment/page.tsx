@@ -93,6 +93,7 @@ const Payment = () => {
         quantity: item.quantity_pro,
         price: item.price_pro,
         size: item.size_pro,
+        toppings: item.toppings
       })),
     };
 

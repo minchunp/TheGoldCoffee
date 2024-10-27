@@ -112,6 +112,7 @@
 .quantity-pro-cate-menu {
    font-size: 15px;
    margin: 0;
+   color: var(--color-tertiary);
 }
 
 .availability-menu {

@@ -71,13 +71,14 @@ const cartSlice = createSlice({
       if (product && product.quantity_pro > 1) {
         product.quantity_pro -= 1;
       } else if (product && product.quantity_pro == 1) {
-        state.cartProducts = state.cartProducts.filter(
-          (pro) =>
-            !(
-              pro.productId === action.payload.productId &&
-              pro.size_pro === action.payload.size_pro
-            )
-        );
+        // state.cartProducts = state.cartProducts.filter(
+        //   (pro) =>
+        //     !(
+        //       pro.productId === action.payload.productId &&
+        //       pro.size_pro === action.payload.size_pro
+        //     )
+        // );
+        product.quantity_pro = 1;
       }
     },
 

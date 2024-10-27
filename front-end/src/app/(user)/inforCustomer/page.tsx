@@ -4,6 +4,8 @@ import axios from "axios";
 import jwt_decode from "jsonwebtoken"; // Thư viện để giải mã token
 import "../../../../public/css/inforCustomer.css";
 import "../../../../public/css/login_register.css";
+import { useSelector } from "react-redux";
+import { selectCartProducts } from "@/app/redux/cartSelector";
 
 const InforCustomer = () => {
   const [userData, setUserData] = useState({
@@ -12,6 +14,9 @@ const InforCustomer = () => {
     address_user: "Vui lòng cập nhật thông tin",
   });
   const [loading, setLoading] = useState(true);
+
+  // Sử dụng Redux
+  const cartProduct = useSelector(selectCartProducts);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -78,7 +83,7 @@ const InforCustomer = () => {
 
                 <div className="content-inforCustomer">
                   <a href="#!">Chỉnh sửa thông tin</a>
-                  <a href="#!">Giỏ hàng (1)</a>
+                  <a href="/cart">Giỏ hàng ({cartProduct.length})</a>
                   <a
                     href="#!"
                     onClick={() => {

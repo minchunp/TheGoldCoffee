@@ -6,7 +6,8 @@ import BlogList from "./components/blog/listBlog";
 import { fetchProducts } from "../api";
 import useSWR from "swr";
 import ButtonScrollTop from "./components/buttonScrollTop/page";
-import React from "react";
+import ModalProductDetail from "./components/modalProductDetail/[id]/page";
+import React, { useState } from "react";
 
 interface ProductInterface {
    _id: string,
@@ -46,6 +47,9 @@ interface BLogInterface {
 }
 
 export default function Home() {
+   const [isModalOpenProductDetail, setIsModalOpenProductDetail] = useState(false);
+   const [selectedProductId, setSelectedProductId] = useState<string | null>(null);
+
    // Fetch API Products
    const fetcher = (url: string) => fetchProducts();
    const {data, error} = useSWR<ProductWithToppings[]>(`listProductTopping`, fetcher);
@@ -111,8 +115,19 @@ export default function Home() {
       }
    ]
 
+   const openModal = (id: string) => {
+      setSelectedProductId(id);
+      setIsModalOpenProductDetail(true);
+   }
+   const closeModal = () => setIsModalOpenProductDetail(false);
+
    return (
       <>
+         {
+            selectedProductId && (
+               <ModalProductDetail id={selectedProductId} isOpen={isModalOpenProductDetail} onClose={closeModal} />
+            )
+         }
          <ButtonScrollTop/>
          <Slide />
 
@@ -177,7 +192,7 @@ export default function Home() {
               <h2 className="main-title">Sản phẩm nổi bật</h2>
 
             </div>
-            <ProductList products={data} />
+            <ProductList products={data} idProductDetail={openModal} />
          </section>
 
          {/* Section Banner introduce */}

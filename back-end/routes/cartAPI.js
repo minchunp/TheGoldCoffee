@@ -4,10 +4,128 @@ var modelOrder = require("../models/Cart");
 var modelDetailedOrder = require("../models/Detailed_order");
 var modelPromotion = require("../models/Promotion");
 var modelTopping = require("../models/Topping");
+var modelProduct = require("../models/Product");
 
-router.get("/detailOrder/:id", async function (req, res) {});
 
-router.get("/detailOrder/:id/:tatus", async function (req, res) {});
+// API thay đổi trạng thái đơn hàng
+// POST http://localhost:3001/cartsAPI/detailOrder/setSTT
+router.post("/detailOrder/setSTT", async function (req, res) {
+  try {
+    const { id, status_order } = req.body;
+
+    // Kiểm tra dữ liệu đầu vào
+    if (!id || !status_order) {
+      return res.status(400).json({ message: "Thiếu id hoặc trạng thái đơn hàng" });
+    }
+
+    // Cập nhật trạng thái của đơn hàng
+    const updatedOrder = await modelOrder.findByIdAndUpdate(
+      id,
+      { status_order: status_order },
+      { new: true } // Trả về tài liệu đã cập nhật
+    );
+
+    if (!updatedOrder) {
+      return res.status(404).json({ message: "Không tìm thấy đơn hàng" });
+    }
+
+    res.status(200).json({
+      message: "Cập nhật trạng thái đơn hàng thành công",
+      order: updatedOrder,
+    });
+  } catch (error) {
+    console.error("Error updating order status:", error);
+    res.status(500).json({ message: "Lỗi khi cập nhật trạng thái đơn hàng" });
+  }
+});
+
+
+// API lấy đơn hàng theo ID
+// GET http://localhost:3001/cartsAPI/detailOrder/:id
+router.get("/detailOrder/:id", async function (req, res) {
+  try {
+    const orderId = req.params.id;
+
+    // Lấy thông tin đơn hàng
+    const order = await modelOrder.findById(orderId);
+    if (!order) {
+      return res.status(404).json({ message: "Order not found" });
+    }
+
+    // Lấy chi tiết đơn hàng
+    const detailedOrders = await modelDetailedOrder.find({ id_order: orderId });
+
+    // Tách chi tiết đơn hàng thành hai mảng: products và toppings
+    const products = [];
+    const toppings = [];
+
+    detailedOrders.forEach((detail) => {
+      if (!detail.id_fd) {
+        // Không có id_fd thì đây là sản phẩm
+        products.push({
+          productId: detail.id_pro,
+          quantity: detail.quantity_detailedOrder,
+          price: detail.price_detailedOrder,
+          size: detail.size_detailedOrder || null,
+          toppings: [],
+        });
+      } else {
+        // Có id_fd thì đây là topping
+        toppings.push(detail);
+      }
+    });
+
+    // Duyệt qua các topping và thêm vào mảng `toppings` của sản phẩm tương ứng
+    toppings.forEach((topping) => {
+      // Tìm sản phẩm cha có id_pro bằng với id_fd của topping
+      const parentProduct = products.find(
+        (product) => product.productId === topping.id_fd
+      );
+      if (parentProduct) {
+        parentProduct.toppings.push(topping.id_pro); // Chỉ thêm id của topping vào
+      }
+    });
+
+    // Lấy tên topping từ modelTopping
+    const toppingIds = toppings.map((topping) => topping.id_pro);
+    const toppingNames = await modelTopping
+      .find({ _id: { $in: toppingIds } })
+      .lean();
+
+    // Chuyển đổi id topping thành tên
+    products.forEach((product) => {
+      product.toppings = product.toppings.map((toppingId) => {
+        const topping = toppingNames.find(
+          (t) => t._id.toString() === toppingId
+        );
+        return topping ? topping.name_topping : toppingId; // Nếu không tìm thấy, giữ nguyên id
+      });
+    });
+
+    // Định dạng dữ liệu đơn hàng phản hồi
+    const response = {
+      id_user: order.id_user,
+      id_promotion: order.id_promotion !== "none" ? order.id_promotion : null,
+      total_order: order.total_order,
+      name_user: order.name_user,
+      phoneNumber_user: order.phoneNumber_user,
+      address_user: order.address_user,
+      note_order: order.note_order,
+      date_order: order.date_order.toISOString(),
+      rating_order: order.rating_order,
+      feedback_order: order.feedback_order,
+      isFeedback_order: order.isFeedback_order,
+      status_order: order.status_order,
+      products: products,
+    };
+
+    res.status(200).json(response);
+  } catch (error) {
+    console.error("Error fetching order details:", error);
+    res.status(500).json({ message: "Error fetching order details" });
+  }
+});
+
 
 //lấy danh sách các đơn hàng {id, name_user, address, total, date, status} "bảng: orders"
 router.get("/list_order", async function (req, res) {
@@ -127,6 +245,7 @@ router.post("/order", async function (req, res) {
             const newDetailTopping = new modelDetailedOrder({
               id_pro: toppingG.id,
               id_order: savedOrder.id,
+              id_fd: products[index].productId,
               quantity_detailedOrder: 1,
               price_detailedOrder: toppingG.price_topping,
             });

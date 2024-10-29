@@ -38,6 +38,11 @@
 - Register: http://localhost:3001/auth/register [POST] { user name, email, pass }
 
 
-// API CART
+// API CART -> pending
 - Create Order: http://localhost:3001/cartsAPI/order [POST] "bảng: orders, detailedorders, promotions"
 
+
+// API ORDER
+- Get {id, name_user, address, total, date, status}: http://localhost:3001/cartsAPI/list_order [GET] "bảng: orders"
+- Get Order By ID: http://localhost:3001/cartsAPI/detailOrder/:id [GET]
+- Set Status Order By ID: http://localhost:3001/cartsAPI/detailOrder/setSTT [POST] {id_order, satus_new}

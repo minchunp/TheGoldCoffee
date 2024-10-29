@@ -84,7 +84,7 @@ function ProductDetail({ params }: { params: { id: string } }) {
    const handleAddToCart = (product: ProductWithToppings) => {
       if (product) {
          const productInCart = {
-            productId: product._id,
+            productId: params.id,
             name_pro: product.product.name_pro,
             img_pro: product.product.img_pro,
             price_pro: product.product.price_pro,

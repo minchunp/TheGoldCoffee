@@ -9,6 +9,7 @@ import Category from "../components/category/Cate";
 import ButtonScrollTop from "../components/buttonScrollTop/page";
 import React, { useState } from "react";
 import ReactPaginate from "react-paginate";
+import ModalProductDetail from "../components/modalProductDetail/[id]/page";
 
 interface ProductInterface {
    _id: string;
@@ -45,7 +46,15 @@ interface CategoryInterface {
 }
 
 export default function Menu() {
-   // Fetch data
+   const [isModalOpenProductDetail, setIsModalOpenProductDetail] = useState(false);
+   const [selectedProductId, setSelectedProductId] = useState<string | null>(null);
+
+   const openModal = (id: string) => {
+      setSelectedProductId(id);
+      setIsModalOpenProductDetail(true);
+   }
+   const closeModal = () => setIsModalOpenProductDetail(false);
+
 
    // Product
    const { data: products, error: errorProducts } = useSWR<ProductWithToppings[]>("listProductTopping", fetchProducts);
@@ -113,6 +122,12 @@ export default function Menu() {
    };
    return (
       <>
+         {
+            selectedProductId && (
+               <ModalProductDetail id={selectedProductId} isOpen={isModalOpenProductDetail} onClose={closeModal} />
+            )
+         }
+
          <section className="banner-title-other-page overlay-bg">
             <div className="main-title-other-page">
                <p>Trang chủ / Menu cửa hàng</p>
@@ -225,7 +240,7 @@ export default function Menu() {
                      {/* Product List */}
                      <div className="container-list-pro-menu">
                         {currentProducts.map((pro) => (
-                           <Product key={pro._id} product={pro} />
+                           <Product key={pro._id} product={pro} idProductDetail={openModal} />
                         ))}
                      </div>
 

@@ -106,9 +106,9 @@ const OrderAdmin: React.FC = () => {
                             ? "pending"
                             : order.status === "đã xác nhận"
                             ? "confirm"
-                            : order.status === "Đang giao hàng"
+                            : order.status === "đang giao hàng"
                             ? "in-transit"
-                            : order.status === "Đã giao hàng"
+                            : order.status === "đã giao hàng"
                             ? "complete"
                             : "rejected"
                         }`}

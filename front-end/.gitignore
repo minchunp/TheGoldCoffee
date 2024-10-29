@@ -25,12 +25,9 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# local env files
-.env*.local
+# Dependency directories
+node_modules/
 
-# vercel
-.vercel
-
-# typescript
-*.tsbuildinfo
-next-env.d.ts
+# misc
+.DS_Store
+>>>>>>> a16e60ecc808d8a139ded7c5c04b44bc516a57d0

@@ -15,11 +15,27 @@ interface ProductInterface {
    status_pro: number;
 }
 
-interface ProductListProps {
-   products: ProductInterface[];
+interface ToppingInterface {
+   _id: string;
+  id_cate: string;
+  img_topping: string;
+  name_topping: string;
+  price_topping: number;
+  status_topping: string;
 }
 
-const ProductList: React.FC<ProductListProps> = ({ products }) => {
+interface ProductWithToppings {
+   _id: string,
+   product: ProductInterface,
+   toppings: ToppingInterface[]
+}
+
+interface ProductListProps {
+   products: ProductWithToppings[];
+   idProductDetail: (id: string) => void;
+}
+
+const ProductList: React.FC<ProductListProps> = ({ products, idProductDetail }) => {
    const settings = {
       dots: false,
       infinite: true,
@@ -38,7 +54,7 @@ const ProductList: React.FC<ProductListProps> = ({ products }) => {
                   {products.map((pro) => {
                      return (
                         <div key={pro._id} className="box-product">
-                           <Product product={pro} />
+                           <Product product={pro} idProductDetail={idProductDetail} />
                         </div>
                      );
                   })}

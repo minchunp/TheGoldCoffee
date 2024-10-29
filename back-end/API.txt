@@ -14,6 +14,10 @@
 - Get {cate}: http://localhost:3001/productsAPI/productsByCategory/idcate
 - Get {salesVolume_pro}: http://localhost:3001/productsAPI/productsBySales?limit=6
 
+//API PRODUCT + TOPPING
+- Get All: http://localhost:3001/productsAPI/listProductTopping [GET] (routes/productAPI.js)
+- Get By ID: http://localhost:3001/productsAPI/proWithTopping/:id [GET] (routes/productAPI.js)
+
 
 // API TOPPING
 - Get ALL: http://localhost:3001/toppingsAPI/listTopping [GET]
@@ -26,8 +30,14 @@
 - Get ALL: http://localhost:3001/usersAPI/listUser [GET]
 - Get By ID: http://localhost:3001/usersAPI/detailUser/:id [GET]
 - Delete By ID: http://localhost:3001/user/delete/:id [DELETE]
-- Create: http://localhost:3001/user/add [POST]
+- Create: http://localhost:3001/user/add [POST] {admin dùng}
 - Update: http://localhost:3001/user/update/:id [PUT]
 
-S
+// API LOGIN VÀ REGISTER 
+- Login: http://localhost:3001/auth/login [POST] { email, pass }
+- Register: http://localhost:3001/auth/register [POST] { user name, email, pass }
+
+
+// API CART
+- Create Order: http://localhost:3001/cartsAPI/order [POST] "bảng: orders, detailedorders, promotions"
 

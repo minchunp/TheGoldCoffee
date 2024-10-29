@@ -1,6 +1,8 @@
 var express = require("express");
 var router = express.Router();
 var modelProduct = require("../models/Product");
+var modelProductDetail = require("../models/Product_detail");
+const modelTopping = require("../models/Topping");
 
 // Lấy danh sách tất cả sản phẩm
 // http://localhost:3000/productsAPI/listProduct
@@ -176,6 +178,81 @@ router.get("/productsBySales", async function (req, res, next) {
     res
       .status(500)
       .json({ message: "Đã xảy ra lỗi khi lấy sản phẩm theo lượt bán." });
+  }
+});
+
+// http://localhost:3001/productsAPI/proWithTopping/:id
+router.get("/proWithTopping/:id", async function (req, res, next) {
+  try {
+    var id = req.params.id;
+    var data = await modelProductDetail.findById(id);
+    if (!data) {
+      return res.status(404).json({ message: "Không tìm thấy." });
+    }
+    // // lấy product
+    const id_pro = data.id_pro;
+    var product = await modelProduct.findById(id_pro);
+
+    // lấy list topping
+    const list_id_topping = data.list_topping;
+
+    console.log("here", list_id_topping);
+    const list_topping = [];
+    for (let i = 0; i < list_id_topping.length; i++) {
+      console.log("id", list_id_topping[i]);
+      const topping = await modelTopping.findById(list_id_topping[i]);
+      console.log("toping: ", topping);
+      list_topping.push(topping);
+    }
+    console.log(list_topping);
+
+    // Trả về thông tin sản phẩm và topping
+    return res.status(200).json({
+      _id: id,
+      product: product,
+      toppings: list_topping,
+    });
+
+    res.json(list_topping);
+  } catch (error) {
+    console.error("Lỗi khi lấy data", error);
+    res.status(500).json({ message: "Đã xảy ra lỗi khi lấy data" });
+  }
+});
+
+router.get("/listProductTopping", async function (req, res, next) {
+  try {
+    var data = await modelProductDetail.find();
+    var ALL = [];
+
+    // Lặp qua từng đối tượng trong mảng data
+    for (const item of data) {
+      const id_pro = item.id_pro; // Lấy id_pro từ từng đối tượng
+      var product = await modelProduct.findById(id_pro); // Lấy thông tin sản phẩm
+
+      // Lấy list topping
+      const list_id_topping = item.list_topping;
+      const list_topping = [];
+
+      // Lặp qua list_id_topping để lấy thông tin topping
+      for (let i = 0; i < list_id_topping.length; i++) {
+        const topping = await modelTopping.findById(list_id_topping[i]);
+        list_topping.push(topping); // Thêm topping vào mảng
+      }
+
+      // Đưa sản phẩm và topping vào mảng ALL
+      ALL.push({
+        _id: item._id,
+        product: product,
+        toppings: list_topping,
+      });
+    }
+
+    // Trả về tất cả thông tin sản phẩm và topping
+    return res.status(200).json(ALL);
+  } catch (error) {
+    console.error("Lỗi khi lấy data", error);
+    res.status(500).json({ message: "Đã xảy ra lỗi khi lấy data" });
   }
 });
 

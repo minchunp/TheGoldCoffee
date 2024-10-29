@@ -119,14 +119,16 @@
 }
 
 .sizeAndFlavour-product-detail p,
-.quantity-pro p {
+.quantity-pro p,
+.toppings-pro p {
    margin: 0;
    color: var(--color-tertiary);
    font-weight: 600;
    font-size: 16px;
 }
 
-.quantity-pro {
+.quantity-pro,
+.toppings-pro {
    margin-top: 20px;
 }
 
@@ -463,3 +465,65 @@
    margin-top: 40px;
 }
 
+.container-toppings-pro {
+   margin-top: 20px;
+   display: flex;
+   flex-direction: row;
+   justify-content: flex-start;
+   gap: 25px;
+}
+
+.container-toppings-pro label {
+   cursor: pointer;
+   padding: 0;
+   margin: 0;
+}
+
+.container-toppings-pro img {
+   width: 70px;
+}
+
+.container-toppings-pro input[type=checkbox] {
+   display: none;
+   margin: 0;
+   padding: 0;
+}
+
+.container-toppings-pro input[type='checkbox']:checked + label img {
+   border: 1px solid var(--color-tertiary);
+}
+
+/* Modal product detail */
+.main-bg-modal-product-detail {
+   display: grid;
+   place-items: center;
+   z-index: 10;
+   position: fixed;
+   top: 0;
+   left: 0;
+   height: 100%;
+   width: 100%;
+   background-color: rgba(0, 0, 0, 15%);
+   opacity: 0;
+   visibility: hidden;
+   transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.main-bg-modal-product-detail.open {
+   opacity: 1;
+   visibility: visible;
+}
+
+.modal-product-detail {
+   border-radius: 5px;
+   width: 1050px;
+   background-color: #fff;
+   padding: 30px 40px 10px;
+   grid-template-columns: 1fr 1fr;
+   transform: translateY(-30px);
+   transition: transform .3s ease-in-out;
+}
+
+.main-bg-modal-product-detail.open .modal-product-detail {
+   transform: translateY(0);
+}

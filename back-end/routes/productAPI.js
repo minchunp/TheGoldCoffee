@@ -126,7 +126,7 @@ router.get("/detailProductFind_name", async function (req, res, next) {
   try {
     var nameKeyword = req.query.name;
     const regex = new RegExp(nameKeyword, "i");
-    var data = await modelProduct.find({ name: { $regex: regex } });
+    var data = await modelProduct.find({ name_pro: { $regex: regex } });
     res.json(data);
   } catch (error) {
     console.error("Lỗi khi tìm sản phẩm theo tên:", error);
@@ -256,4 +256,19 @@ router.get("/listProductTopping", async function (req, res, next) {
   }
 });
 
+// router.get("/search", async function (req, res, next) {
+//   try {
+//     var nameKeyword = req.query.name;
+//     console.log("Từ khóa tìm kiếm:", nameKeyword); // Kiểm tra từ khóa
+//     const regex = new RegExp(nameKeyword, "i");
+//     var data = await modelProduct.find({ name_pro: { $regex: regex } });
+//     console.log("Kết quả tìm kiếm:", data); // Kiểm tra kết quả tìm kiếm
+//     res.json(data);
+//   } catch (error) {
+//     console.error("Lỗi khi tìm sản phẩm theo tên:", error);
+//     res
+//       .status(500)
+//       .json({ message: "Đã xảy ra lỗi khi tìm sản phẩm theo tên." });
+//   }
+// });
 module.exports = router;

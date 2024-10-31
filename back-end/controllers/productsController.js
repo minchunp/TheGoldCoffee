@@ -1,5 +1,6 @@
 var modelProduct = require("../models/Product");
 var modelCategory = require("../models/Category");
+const removeDiacritics = require("diacritics").remove;
 
 class ProductsController {
   // product/listproduct
@@ -130,6 +131,36 @@ class ProductsController {
       res.json({ message: "Cập nhật thông tin sản phẩm thành công." });
     } catch (err) {
       next(err);
+    }
+  }
+
+  async findByName(req, res, next) {
+    try {
+      var nameKeyword = req.query.name;
+      console.log("Từ khóa tìm kiếm gốc:", nameKeyword);
+
+      // Loại bỏ dấu, ký tự đặc biệt và chuyển thành chữ thường
+      var normalizedKeyword = removeDiacritics(nameKeyword)
+        .toLowerCase()
+        .replace(/[^a-zA-Z0-9 ]/g, "");
+      console.log("Từ khóa tìm kiếm đã chuẩn hóa:", normalizedKeyword);
+
+      // Lấy tất cả sản phẩm và chuẩn hóa tên sản phẩm để tìm kiếm
+      var data = await modelProduct.find();
+      var filteredData = data.filter((product) => {
+        var normalizedProductName = removeDiacritics(product.name_pro)
+          .toLowerCase()
+          .replace(/[^a-zA-Z0-9 ]/g, "");
+        return normalizedProductName.includes(normalizedKeyword);
+      });
+
+      console.log("Kết quả tìm kiếm:", filteredData);
+      res.json(filteredData);
+    } catch (error) {
+      console.error("Lỗi khi tìm sản phẩm theo tên:", error);
+      res
+        .status(500)
+        .json({ message: "Đã xảy ra lỗi khi tìm sản phẩm theo tên." });
     }
   }
 }

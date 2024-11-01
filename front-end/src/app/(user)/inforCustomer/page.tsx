@@ -7,11 +7,22 @@ import "../../../../public/css/login_register.css";
 import { useSelector } from "react-redux";
 import { selectCartProducts } from "@/app/redux/cartSelector";
 import ModalOrderDetail from "../components/modalOrderDetail/[id]/page";
+import { log } from "console";
 
+interface Oder {
+   id: string;
+   name_user: string;
+   date: Date;
+   status: string;
+   userID: string
+}
 const InforCustomer = () => {
    const [isModalOpenOrderDetail, setIsModalOpenOrderDetail] = useState(false);
    const [selectedOrderDetailId, setSelectedOrderDetailId] = useState<string>('');
    const [order, setOrder] = useState(true);
+   const [showOder, setShowOder] = useState<Oder[]>([]);
+   const [oderStatus, setOderStatus] = useState<string>('chờ xác nhận');
+   const [filterOder, setFilterOder] = useState<Oder[]>([]);
    const [confirm, setConfirm] = useState(false);
    const [inTransit, setInTransit] = useState(false);
    const [complete, setComplete] = useState(false);
@@ -22,6 +33,13 @@ const InforCustomer = () => {
       address_user: "Vui lòng cập nhật thông tin",
    });
    const [loading, setLoading] = useState(true);
+   const [orderCount, setOrdercount] = useState({
+      order: 0,
+      confirm: 0,
+      transit: 0,
+      complete: 0,
+      rejected: 0
+   })
 
    // Sử dụng Redux
    const cartProduct = useSelector(selectCartProducts);
@@ -41,8 +59,22 @@ const InforCustomer = () => {
                   },
                });
 
+               // Gửi yêu cầu GET lên API để lấy thông tin Order
+               const orderResponse = await axios.get(`http://localhost:3001/cartsAPI/list_order `, {
+                  headers: {
+                     Authorization: `Bearer ${token}`, // Đính kèm token vào tiêu đề
+                  },
+               })
+
+
+               setShowOder(orderResponse.data);
+               setFilterOder(orderResponse.data);
+               console.log(setFilterOder);
+               
+               
+
                const user = response.data; // Lưu thông tin người dùng
-               console.log("Thông tin người dùng: ", user);
+               // console.log("Thông tin người dùng: ", user);
 
                // Cập nhật state với thông tin người dùng hoặc giá trị mặc định nếu rỗng
                setUserData({
@@ -60,6 +92,31 @@ const InforCustomer = () => {
 
       fetchUserData(); // Gọi hàm lấy thông tin người dùng
    }, []);
+
+   // set default tại OpenOder
+   useEffect(() => {
+      if (showOder.length > 0) {
+         filterOderByStatus("chờ xác nhận");
+         openOrder();
+      }
+   }, [showOder]);
+
+   
+
+   // count order
+   useEffect(() => {
+      const calculateOrderCounts = () => {
+         const counts = {
+            order: showOder.filter((order) => order.status === "chờ xác nhận").length,
+            confirm: showOder.filter((order) => order.status === "đã xác nhận").length,
+            transit: showOder.filter((order) => order.status === "đang giao hàng").length,
+            complete: showOder.filter((order) => order.status === "giao thành công").length,
+            rejected: showOder.filter((order) => order.status === "đơn đã hủy").length,
+         };
+         setOrdercount(counts);
+      };
+      calculateOrderCounts();
+   }, [showOder]);
 
    if (loading) {
       return <h2>Đang tải dữ liệu...</h2>; // Hiển thị khi dữ liệu đang được tải
@@ -106,12 +163,23 @@ const InforCustomer = () => {
       setRejected(true);
    };
 
+   // xử lý show theo trừng trạng thái
+   const filterOderByStatus = (status:string) => {
+      setOderStatus(status);
+      const filtered = showOder.filter((order) => order.status === status);
+      setFilterOder(filtered);
+   }
   //  Xử lý sự kiện click xem chi tiết đơn hàng
-  const openModal = (id: string) => {
-    setIsModalOpenOrderDetail(true);
-    setSelectedOrderDetailId(id);
-  }
-  const closeModal = () => setIsModalOpenOrderDetail(false);
+   const openModal = (id: string) => {
+      setIsModalOpenOrderDetail(true);
+      setSelectedOrderDetailId(id);
+   }
+   const closeModal = () => setIsModalOpenOrderDetail(false);
+   
+   // 
+   
+   
+   
 
    return (
       <>
@@ -157,30 +225,30 @@ const InforCustomer = () => {
                            <p>Số điện thoại: {userData.phoneNumber_user}</p>
                            <p>Địa chỉ: {userData.address_user}</p>
                         </div>
-                     </div>
+                        </div>
                   </div>
                </div>
 
                <div className="order-information">
                   <div className="main-icon-order-information">
-                     <div onClick={() => openOrder()} className={`icon-order-information ${order ? "check" : ""}`}>
-                        <div className="quantity-order-information">3</div>
+                     <div onClick={() => { filterOderByStatus("chờ xác nhận"); openOrder()}} className={`icon-order-information ${order ? "check" : ""}`} >
+                        <div className="quantity-order-information">{orderCount.order}</div>
                         <i className="bi bi-hourglass-top"></i>
                      </div>
-                     <div onClick={() => openConfirm()} className={`icon-order-information ${confirm ? "check" : ""}`}>
-                        <div className="quantity-order-information">0</div>
+                     <div onClick={() => { filterOderByStatus("đã xác nhận"); openConfirm()}} className={`icon-order-information ${confirm ? "check" : ""}`}>
+                        <div className="quantity-order-information">{orderCount.confirm}</div>
                         <i className="bi bi-box"></i>
                      </div>
-                     <div onClick={() => openInTransit()} className={`icon-order-information ${inTransit ? "check" : ""}`}>
-                        <div className="quantity-order-information">0</div>
+                     <div onClick={() => { filterOderByStatus("đang giao hàng"); openInTransit()}} className={`icon-order-information ${inTransit ? "check" : ""}`}>
+                        <div className="quantity-order-information">{orderCount.transit}</div>
                         <i className="bi bi-truck"></i>
                      </div>
-                     <div onClick={() => openComplete()} className={`icon-order-information ${complete ? "check" : ""}`}>
-                        <div className="quantity-order-information">0</div>
+                     <div onClick={() => { filterOderByStatus("giao thành công"); openComplete()}} className={`icon-order-information ${complete ? "check" : ""}`}>
+                        <div className="quantity-order-information">{orderCount.complete}</div>
                         <i className="bi bi-check2-circle"></i>
                      </div>
-                     <div onClick={() => openRejected()} className={`icon-order-information ${rejected ? "check" : ""}`}>
-                        <div className="quantity-order-information">0</div>
+                     <div onClick={() => { filterOderByStatus("đơn đã hủy"); openRejected()}} className={`icon-order-information ${rejected ? "check" : ""}`}>
+                        <div className="quantity-order-information">{orderCount.rejected}</div>
                         <i className="bi bi-x-octagon"></i>
                      </div>
                   </div>
@@ -194,7 +262,23 @@ const InforCustomer = () => {
                         <h2>Chức năng</h2>
                      </div>
                      <div className="content-body-order-information">
-                        <div className="item-order-information">
+                        {/* filterOder.map */}
+                        {
+                           filterOder.length > 0 
+                           ?
+                           (filterOder.map((order) => (
+                              <div key={order.id} className="item-order-information">
+                                 <p>{order.id.slice(-4)}</p>
+                                 <p>{order.name_user}</p>
+                                 <p>{order.date.toLocaleString()}</p>
+                                 
+                                 <p>{(order.status).charAt(0).toUpperCase()+(order.status).slice(1)}</p>
+                                 <p onClick={() => openModal('123123')} className="btn-check-orderDetail">Xem chi tiết</p>
+                              </div>
+                           ))
+                        ):(<div className="empty-item-order-information">Không có đơn hàng!</div>)
+                        }
+                        {/* <div className="item-order-information">
                            <p>234d</p>
                            <p>Huỳnh Minh Trung</p>
                            <p>20:00 5-11-2024</p>
@@ -207,22 +291,22 @@ const InforCustomer = () => {
                            <p>20:00 5-11-2024</p>
                            <p>Chờ xác nhận</p>
                            <p className="btn-check-orderDetail">Xem chi tiết</p>
-                        </div>
-                        <div className="item-order-information">
-                           <p>234d</p>
+                        </div> */}
+                        {/* <div className="item-order-information">
+                        <p>234d</p>
                            <p>Huỳnh Minh Trung</p>
                            <p>20:00 5-11-2024</p>
                            <p>Chờ xác nhận</p>
                            <p className="btn-check-orderDetail">Xem chi tiết</p>
+                        </div> */}
                         </div>
                         {/* <div className="empty-item-order-information">Không có đơn hàng!</div> */}
                      </div>
                   </div>
                </div>
-            </div>
          </main>
-      </>
-   );
-};
+         </>
+      );
+   };
 
 export default InforCustomer;

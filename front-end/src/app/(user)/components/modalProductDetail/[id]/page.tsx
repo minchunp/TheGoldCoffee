@@ -81,11 +81,20 @@ function ModalProductDetail({ id, isOpen, onClose }: ModalProductDetailProps) {
    const dispatch = useDispatch();
    const handleAddToCart = (product: ProductWithToppings) => {
       if (product) {
+         let priceBySize = 0;
+         if (size_pro == "S") {
+            priceBySize = product.product.price_pro
+         } else if (size_pro == "M") {
+            priceBySize = product.product.price_pro + 5000;
+         } else if (size_pro == "L") {
+            priceBySize = product.product.price_pro + 10000;
+         }
+
          const productInCart = {
             productId: product._id,
             name_pro: product.product.name_pro,
             img_pro: product.product.img_pro,
-            price_pro: product.product.price_pro,
+            price_pro: priceBySize,
             sale_pro: product.product.sale_pro,
             size_pro: size_pro,
             quantity_pro: quantity_pro,

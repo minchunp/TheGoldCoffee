@@ -20,7 +20,7 @@ function OrderDetailAdmin({ params }: { params: { id: string } }) {
     confirm: "đã xác nhận",
     shipping: "đang giao hàng",
     success: "đã giao hàng",
-    cancel: "huỷ đơn hàng",
+    cancel: "hủy đơn hàng",
   };
 
   const fetchOrderDetails = async () => {

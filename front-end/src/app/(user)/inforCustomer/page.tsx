@@ -264,7 +264,10 @@ const InforCustomer = () => {
                                  <p>{order.name_user}</p>
                                  <p>{order.date.toLocaleString()}</p>
                                  <p>{(order.status).charAt(0).toUpperCase()+(order.status).slice(1)}</p>
-                                 <p onClick={() => openModal(order.id)} className="btn-check-orderDetail">Xem chi tiết</p>
+                                 <div className="container-btn-func-order-information">
+                                    <p onClick={() => openModal(order.id)} className="btn-check-orderDetail">Xem chi tiết</p>
+                                    <p className="btn-check-orderDetail btn-check-orderDetail__cancle">Huỷ đơn hàng</p>
+                                 </div>
                               </div>
                            ))
                         ):(<div className="empty-item-order-information">Không có đơn hàng!</div>) 

@@ -7,7 +7,6 @@ import "../../../../public/css/login_register.css";
 import { useSelector } from "react-redux";
 import { selectCartProducts } from "@/app/redux/cartSelector";
 import ModalOrderDetail from "../components/modalOrderDetail/[id]/page";
-import { log } from "console";
 
 interface Oder {
    id: string;
@@ -65,14 +64,12 @@ const InforCustomer = () => {
                      Authorization: `Bearer ${token}`, // Đính kèm token vào tiêu đề
                   },
                })
-
+               // 
                const UoderResponse = orderResponse.data.filter((Uorder : Oder) => Uorder.id_user === userId)
-
                setShowOder(UoderResponse);
                setFilterOder(UoderResponse);
                const user = response.data; // Lưu thông tin người dùng
                // console.log("Thông tin người dùng: ", user);
-
                // Cập nhật state với thông tin người dùng hoặc giá trị mặc định nếu rỗng
                setUserData({
                   name_user: user.name_user || "Vui lòng cập nhật thông tin",
@@ -108,7 +105,7 @@ const InforCustomer = () => {
             confirm: showOder.filter((order) => order.status === "đã xác nhận").length,
             transit: showOder.filter((order) => order.status === "đang giao hàng").length,
             complete: showOder.filter((order) => order.status === "đã giao hàng").length,
-            rejected: showOder.filter((order) => order.status === "đơn đã hủy").length,
+            rejected: showOder.filter((order) => order.status === "hủy đơn hàng").length
          };
          setOrdercount(counts);
       };
@@ -174,6 +171,7 @@ const InforCustomer = () => {
    const closeModal = () => setIsModalOpenOrderDetail(false);
    
    // 
+   console.log(showOder);
 
    return (
       <>
@@ -241,7 +239,7 @@ const InforCustomer = () => {
                         <div className="quantity-order-information">{orderCount.complete}</div>
                         <i className="bi bi-check2-circle"></i>
                      </div>
-                     <div onClick={() => { filterOderByStatus("đơn đã hủy"); openRejected()}} className={`icon-order-information ${rejected ? "check" : ""}`}>
+                     <div onClick={() => { filterOderByStatus("hủy đơn hàng"); openRejected()}} className={`icon-order-information ${rejected ? "check" : ""}`}>
                         <div className="quantity-order-information">{orderCount.rejected}</div>
                         <i className="bi bi-x-octagon"></i>
                      </div>
@@ -265,37 +263,13 @@ const InforCustomer = () => {
                                  <p>{order.id.slice(-4)}</p>
                                  <p>{order.name_user}</p>
                                  <p>{order.date.toLocaleString()}</p>
-                                 
                                  <p>{(order.status).charAt(0).toUpperCase()+(order.status).slice(1)}</p>
                                  <p onClick={() => openModal(order.id)} className="btn-check-orderDetail">Xem chi tiết</p>
                               </div>
                            ))
                         ):(<div className="empty-item-order-information">Không có đơn hàng!</div>) 
                         }
-                        
-                        {/* <div className="item-order-information">
-                           <p>234d</p>
-                           <p>Huỳnh Minh Trung</p>
-                           <p>20:00 5-11-2024</p>
-                           <p>Chờ xác nhận</p>
-                           <p onClick={() => openModal('123123')} className="btn-check-orderDetail">Xem chi tiết</p>
                         </div>
-                        <div className="item-order-information">
-                           <p>234d</p>
-                           <p>Huỳnh Minh Trung</p>
-                           <p>20:00 5-11-2024</p>
-                           <p>Chờ xác nhận</p>
-                           <p className="btn-check-orderDetail">Xem chi tiết</p>
-                        </div> */}
-                        {/* <div className="item-order-information">
-                        <p>234d</p>
-                           <p>Huỳnh Minh Trung</p>
-                           <p>20:00 5-11-2024</p>
-                           <p>Chờ xác nhận</p>
-                           <p className="btn-check-orderDetail">Xem chi tiết</p>
-                        </div> */}
-                        </div>
-                        {/* <div className="empty-item-order-information">Không có đơn hàng!</div> */}
                      </div>
                   </div>
                </div>

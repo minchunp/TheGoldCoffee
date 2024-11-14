@@ -174,13 +174,14 @@ const Cart = () => {
               <div className="footer-main-cart">
                 <div className="discount-cart">
                   <input
+                    className="discount-cart-input"
                     type="text"
                     placeholder="Nhập mã khuyến mãi"
                     value={makm}
                     onChange={(e) => setMakm(e.target.value)}
                   />
                   <button onClick={handleMaKm} className="icon-submit-discount">
-                    Áp dụng mã
+                    <i className="bi bi-arrow-right"></i>
                   </button>
                 </div>
 

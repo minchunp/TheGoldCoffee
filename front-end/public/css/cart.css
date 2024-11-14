@@ -210,12 +210,14 @@
 }
 
 .icon-submit-discount {
+   border: none;
+   outline: none;
    cursor: pointer;
    display: grid;
    place-items: center;
    height: 48px;
    width: 48px;
-   font-size: 25px;
+   font-size: 15px;
    background-color: var(--color-tertiary);
    color: #fff;
    transition: all 0.3s ease-in-out;

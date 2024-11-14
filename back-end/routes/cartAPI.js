@@ -6,7 +6,6 @@ var modelPromotion = require("../models/Promotion");
 var modelTopping = require("../models/Topping");
 var modelProduct = require("../models/Product");
 
-
 // API thay đổi trạng thái đơn hàng
 // POST http://localhost:3001/cartsAPI/detailOrder/setSTT
 router.post("/detailOrder/setSTT", async function (req, res) {
@@ -15,7 +14,9 @@ router.post("/detailOrder/setSTT", async function (req, res) {
 
     // Kiểm tra dữ liệu đầu vào
     if (!id || !status_order) {
-      return res.status(400).json({ message: "Thiếu id hoặc trạng thái đơn hàng" });
+      return res
+        .status(400)
+        .json({ message: "Thiếu id hoặc trạng thái đơn hàng" });
     }
 
     // Cập nhật trạng thái của đơn hàng
@@ -39,7 +40,6 @@ router.post("/detailOrder/setSTT", async function (req, res) {
   }
 });
 
-
 // API lấy đơn hàng theo ID
 // GET http://localhost:3001/cartsAPI/detailOrder/:id
 router.get("/detailOrder/:id", async function (req, res) {
@@ -48,7 +48,7 @@ router.get("/detailOrder/:id", async function (req, res) {
 
     // Lấy thông tin đơn hàng
     const order = await modelOrder.findById(orderId);
-    
+
     if (!order) {
       return res.status(404).json({ message: "Order not found" });
     }
@@ -127,7 +127,6 @@ router.get("/detailOrder/:id", async function (req, res) {
   }
 });
 
-
 //lấy danh sách các đơn hàng {id, id_user, name_user, address, total, date, status} "bảng: orders"
 router.get("/list_order", async function (req, res) {
   try {
@@ -136,7 +135,7 @@ router.get("/list_order", async function (req, res) {
       {},
       {
         _id: 1,
-        id_user:1,
+        id_user: 1,
         name_user: 1,
         address_user: 1,
         total_order: 1,
@@ -189,6 +188,7 @@ router.post("/order", async function (req, res) {
       id_user,
       id_promotion,
       total_order,
+      discount,
       name_user,
       phoneNumber_user,
       address_user,
@@ -206,6 +206,7 @@ router.post("/order", async function (req, res) {
       id_user,
       id_promotion: "none",
       total_order,
+      discount,
       name_user,
       phoneNumber_user,
       address_user,

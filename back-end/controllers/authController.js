@@ -111,6 +111,7 @@ const login = async (req, res) => {
       name_user: user.name_user,
       role_user: user.role_user,
       status_user: user.status_user,
+      email_user: user.email_user,
     };
 
     const token = genToken(payload);

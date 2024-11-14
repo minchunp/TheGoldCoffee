@@ -15,6 +15,8 @@ const userAPIRouter = require("./userAPI");
 const ratingAPIRouter = require("./ratingAPI");
 const cartAPIRouter = require("./cartAPI");
 const toppingAPIRouter = require("./toppingAPI");
+const promotionAPIRouter = require("./promotionAPI");
+const commentAPIRouter = require("./commentAPI");
 
 // Middleware check token - kiểm tra JWT Token từ request
 
@@ -95,12 +97,14 @@ function route(app) {
   app.use("/topping", toppingRouter);
 
   //API
-  app.use("/productsAPI", productAPIRouter); // productsAPI/listProduct
-  app.use("/categorysAPI", categoryAPIRouter); // categorysAPI/listCategory
-  app.use("/usersAPI", checkToken, userAPIRouter); // usersAPI/listUsers
-  app.use("/cartsAPI", cartAPIRouter); // cartsAPI/listCarts
-  app.use("/ratingsAPI", ratingAPIRouter); // ratingsAPI/listRatings
-  app.use("/toppingsAPI", toppingAPIRouter); // toppingsAPI/listtoppings
+  app.use("/productsAPI", productAPIRouter);
+  app.use("/categorysAPI", categoryAPIRouter);
+  app.use("/usersAPI", checkToken, userAPIRouter);
+  app.use("/cartsAPI", cartAPIRouter);
+  app.use("/ratingsAPI", ratingAPIRouter);
+  app.use("/toppingsAPI", toppingAPIRouter);
+  app.use("/promotionsAPI", promotionAPIRouter);
+  app.use("/commentsAPI", commentAPIRouter);
 }
 
 module.exports = route;

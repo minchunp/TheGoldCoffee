@@ -11,6 +11,109 @@ import axios from "axios";
 
 const Payment = () => {
   const [hydrated, setHydrated] = useState(false);
+
+  // CALL API TỈNH, QUẬN HUYỆN, PHƯỜNG XÃ
+  const [tinhs, setTinhs] = useState<any[]>([]);
+  const [quanhuyens, setQuanHuyens] = useState<any[]>([]);
+  const [phuongxas, setPhuongXas] = useState<any[]>([]);
+  const [token, setToken] = useState("");
+  const [idtinh, setIdTinh] = useState(79);
+  const [idPhuongXa, setIdPhuongXa] = useState(999);
+
+  const [discount, setDiscount] = useState(0);
+  const [codeDiscount, setCodeDiscount] = useState("");
+
+  const [selectedTinh, setSelectedTinh] = useState<string | number>(""); // Tỉnh
+  const [selectedQuanHuyen, setSelectedQuanHuyen] = useState<string | number>(
+    ""
+  ); // Quận huyện
+  const [selectedPhuongXa, setSelectedPhuongXa] = useState<string | number>(""); // Phường xã
+  const [errorMessage, setErrorMessage] = useState(""); // Lỗi validation
+  //TỈNH THÀNH
+  const fetchTinhs = async () => {
+    try {
+      const response = await axios.get(
+        `https://esgoo.net/api-tinhthanh/1/0.htm`
+      );
+      const dsTinh = response.data.data;
+      setTinhs(dsTinh);
+    } catch (error) {
+      console.error("Lỗi khi lấy thông tin tỉnh thành: ", error);
+    }
+  };
+
+  const handleTinh = (event: any) => {
+    const selectedTinhId = event.target.value;
+    // Lấy tên của tỉnh từ textContent của option đã chọn
+    const selectedTinhName =
+      event.target.options[event.target.selectedIndex].textContent;
+    console.log(selectedTinhName);
+    setIdTinh(selectedTinhId);
+    setIdPhuongXa(999); // Reset phường xã khi đổi tỉnh
+    setSelectedTinh(selectedTinhId);
+    setErrorMessage(""); // Reset lỗi khi người dùng thay đổi lựa chọn
+    setSelectedQuanHuyen(""); // Reset Quận huyện khi thay đổi tỉnh
+    setSelectedPhuongXa(""); // Reset Phường xã khi thay đổi tỉnh
+    fetchQuanHuyens(selectedTinhId);
+  };
+
+  //QUẬN HUYỆN
+  const fetchQuanHuyens = async (selectedTinhId: number) => {
+    try {
+      const response = await axios.get(
+        `https://esgoo.net/api-tinhthanh/2/${selectedTinhId}.htm`
+      );
+      const dsQuanHuyen = response.data.data;
+      setQuanHuyens(dsQuanHuyen);
+      setPhuongXas([]); // Reset phường xã khi đổi quận huyện
+    } catch (error) {
+      console.error("Lỗi khi lấy thông tin quận huyện: ", error);
+    }
+  };
+
+  const handleQuanHuyen = (event: any) => {
+    const selectedQuanHuyenId = event.target.value;
+    // Lấy tên của quận huyện từ textContent của option đã chọn
+    const selectedQuanHuyenName =
+      event.target.options[event.target.selectedIndex].textContent;
+    console.log(selectedQuanHuyenName);
+    setIdPhuongXa(999); // Reset phường xã khi đổi quận huyện
+    setSelectedQuanHuyen(selectedQuanHuyenId);
+    setErrorMessage(""); // Reset lỗi khi người dùng thay đổi lựa chọn
+    setSelectedPhuongXa(""); // Reset Phường xã khi thay đổi Quận huyện
+    fetchPhuongXas(selectedQuanHuyenId); // Gọi API lấy phường xã khi thay đổi quận huyện
+  };
+
+  //PHƯỜNG XÃ
+  const fetchPhuongXas = async (selectedQuanHuyenId: number) => {
+    try {
+      const response = await axios.get(
+        `https://esgoo.net/api-tinhthanh/3/${selectedQuanHuyenId}.htm`
+      );
+      if (response.data.data != null) {
+        const dsPhuongXa = response.data.data;
+        setPhuongXas(dsPhuongXa);
+      }
+    } catch (error) {
+      console.error("Lỗi khi lấy thông tin phường xã: ", error);
+    }
+  };
+
+  // Handle chọn Phường xã
+  const handlePhuongXa = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedPhuongXaId = event.target.value;
+    // Lấy tên của phường xã từ textContent của option đã chọn
+    const selectedPhuongXaName =
+      event.target.options[event.target.selectedIndex].textContent;
+    console.log(selectedPhuongXaName);
+    setSelectedPhuongXa(selectedPhuongXaId);
+  };
+
+  // ........................................................
+  //khuyến mãi
+
+  //..........................................................
+
   const [userData, setUserData] = useState({
     name_user: "",
     phoneNumber_user: "",
@@ -25,6 +128,23 @@ const Payment = () => {
   useEffect(() => {
     setHydrated(true);
     fetchUserData();
+    fetchTinhs();
+    // Lấy chuỗi JSON từ localStorage bằng khóa
+    const jsonString = localStorage.getItem("myObjectKey");
+
+    // Kiểm tra nếu có dữ liệu trong localStorage
+    if (jsonString) {
+      // Chuyển chuỗi JSON thành đối tượng JavaScript
+      const myObject = JSON.parse(jsonString);
+      setDiscount(myObject.value);
+      setCodeDiscount(myObject.makm);
+      console.log(myObject);
+      console.log(discount);
+    } else {
+      console.log("Không có dữ liệu trong localStorage với khóa này");
+    }
+    // fetchQuanHuyens();
+    // fetchPhuongXas();
   }, []);
 
   const fetchUserData = async () => {
@@ -33,6 +153,7 @@ const Payment = () => {
       if (token) {
         const decoded: any = jwt_decode.decode(token);
         const userId = decoded.id;
+        setToken(token);
 
         const response = await axios.get(
           `http://localhost:3001/usersAPI/detailUser/${userId}`,
@@ -70,18 +191,27 @@ const Payment = () => {
       userId = decoded.id;
     }
 
+    if (!selectedTinh || !selectedQuanHuyen || !selectedPhuongXa) {
+      setErrorMessage(
+        "Vui lòng chọn đầy đủ thông tin: Tỉnh, Quận/Huyện và Phường/Xã."
+      );
+      alert("vui lòng điền đủ các thông tin");
+      return;
+    }
+
     // Tính toán tổng thanh toán
-    const shippingFee = 15000; // Phí vận chuyển
-    const discount = 20000; // Mã khuyến mãi
-    const totalPayment = totalPriceCart + shippingFee - discount;
+    // const shippingFee = 15000; // Phí vận chuyển
+
+    const totalPayment = totalPriceCart - discount;
 
     const orderData = {
       id_user: userId,
       id_promotion: null,
       total_order: totalPayment, // Sử dụng tổng thanh toán
+      discount: discount,
       name_user: userData.name_user,
       phoneNumber_user: userData.phoneNumber_user,
-      address_user: userData.address_user,
+      address_user: ` ${userData.address_user}`,
       note_order: userData.note_order,
       date_order: new Date().toISOString(),
       rating_order: null,
@@ -93,7 +223,7 @@ const Payment = () => {
         quantity: item.quantity_pro,
         price: item.price_pro,
         size: item.size_pro,
-        toppings: item.toppings
+        toppings: item.toppings,
       })),
     };
 
@@ -104,7 +234,6 @@ const Payment = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(orderData),
-        
       });
 
       if (response.ok) {
@@ -132,7 +261,7 @@ const Payment = () => {
             <div className="info-payment">
               <div className="confirm-info">
                 <h2>Xác nhận thanh toán</h2>
-                <div className="input-payment">
+                {/* <div className="input-payment">
                   <p>Địa chỉ cửa hàng</p>
                   <select name="" id="">
                     <option value="">
@@ -146,7 +275,7 @@ const Payment = () => {
                       123, Đ. Phan Văn Trị, Quận Gò Vấp, Hồ Chí Minh
                     </option>
                   </select>
-                </div>
+                </div> */}
 
                 <div className="input-payment">
                   <p>Tên người nhận</p>
@@ -177,9 +306,37 @@ const Payment = () => {
 
                 <div className="input-payment">
                   <p>Địa chỉ</p>
+                  <select name="" id="" onChange={handleTinh}>
+                    <option value="">Tỉnh Thành</option>
+                    {tinhs.length > 0 &&
+                      tinhs.map((tinh) => (
+                        <option key={tinh?.id} value={tinh.id}>
+                          {tinh.full_name}
+                        </option>
+                      ))}
+                  </select>
+                  <select name="" id="" onChange={handleQuanHuyen}>
+                    <option value="">Quận Huyện</option>
+                    {quanhuyens.length > 0 &&
+                      quanhuyens.map((quanhuyen) => (
+                        <option key={quanhuyen.id} value={quanhuyen.id}>
+                          {quanhuyen.full_name}
+                        </option>
+                      ))}
+                  </select>
+
+                  <select name="" id="" onChange={handlePhuongXa}>
+                    <option value="">Phường Xã</option>
+                    {phuongxas.length > 0 &&
+                      phuongxas.map((phuongxa) => (
+                        <option key={phuongxa?.id} value={phuongxa.id}>
+                          {phuongxa.full_name}
+                        </option>
+                      ))}
+                  </select>
                   <input
                     type="text"
-                    placeholder="Địa chỉ"
+                    placeholder="Địa chỉ chi tiết"
                     value={userData.address_user}
                     onChange={(e) =>
                       setUserData({ ...userData, address_user: e.target.value })
@@ -258,16 +415,18 @@ const Payment = () => {
                     </div>
                     <div className="result-subtotal result-subtotal__0">
                       <p className="title-subtotal">Mã khuyến mãi</p>
-                      <p className="price-subtotal">-20,000đ</p>
+                      <p className="price-subtotal">
+                        -{discount.toLocaleString()}đ
+                      </p>
                     </div>
-                    <div className="result-subtotal result-subtotal__0">
+                    {/* <div className="result-subtotal result-subtotal__0">
                       <p className="title-subtotal">Phí vận chuyển</p>
                       <p className="price-subtotal">+15,000đ</p>
-                    </div>
+                    </div> */}
                     <div className="result-subtotal result-subtotal__1">
                       <p className="title-subtotal">Tổng thanh toán</p>
                       <p className="price-subtotal">
-                        {(totalPriceCart + 15000 - 20000).toLocaleString()}đ
+                        {(totalPriceCart - discount).toLocaleString()}đ
                       </p>
                     </div>
                   </div>

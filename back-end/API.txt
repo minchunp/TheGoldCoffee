@@ -34,6 +34,14 @@
 - Create: http://localhost:3001/user/add [POST] {admin dùng}
 - Update: http://localhost:3001/user/update/:id [PUT]
 
+// API PROMOTION
+- Get By Code: http://localhost:3001/promotionsAPI/checkcode/:code [GET]
+
+// API COMMENT
+- Get List Cmt By ID_Product: http://localhost:3001/CommentsAPI/getByProduct/:id_pro
+- Create: http://localhost:3001/CommentsAPI/add
+
+
 // API LOGIN VÀ REGISTER 
 - Login: http://localhost:3001/auth/login [POST] { email, pass }
 - Register: http://localhost:3001/auth/register [POST] { user name, email, pass }

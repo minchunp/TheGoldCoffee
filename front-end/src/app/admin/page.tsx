@@ -73,9 +73,9 @@ const Dashboard = () => {
                   </div>
                 </div>
                 <div className="content-infor-dashboard">
-                  <i className="bi bi-graph-up-arrow up"></i>
+                  {/* <i className="bi bi-graph-up-arrow up"></i> */}
                   <p>
-                    <span className="up">Tăng 8.3%</span> so với tuần trước
+                    {/* <span className="up">Tăng 8.3%</span> so với tuần trước */}
                   </p>
                 </div>
               </div>
@@ -91,9 +91,9 @@ const Dashboard = () => {
                   </div>
                 </div>
                 <div className="content-infor-dashboard">
-                  <i className="bi bi-graph-up-arrow up"></i>
+                  {/* <i className="bi bi-graph-up-arrow up"></i> */}
                   <p>
-                    <span className="up">Tăng 1.3%</span> so với tuần trước
+                    {/* <span className="up">Tăng 1.3%</span> so với tuần trước */}
                   </p>
                 </div>
               </div>
@@ -109,9 +109,9 @@ const Dashboard = () => {
                   </div>
                 </div>
                 <div className="content-infor-dashboard">
-                  <i className="bi bi-graph-down-arrow down"></i>
+                  {/* <i className="bi bi-graph-down-arrow down"></i> */}
                   <p>
-                    <span className="down">Giảm 4.5%</span> so với tuần trước
+                    {/* <span className="down">Giảm 4.5%</span> so với tuần trước */}
                   </p>
                 </div>
               </div>
@@ -127,9 +127,9 @@ const Dashboard = () => {
                   </div>
                 </div>
                 <div className="content-infor-dashboard">
-                  <i className="bi bi-graph-up-arrow up"></i>
+                  {/* <i className="bi bi-graph-up-arrow up"></i> */}
                   <p>
-                    <span className="up">Tăng 1.3%</span> so với tuần trước
+                    {/* <span className="up">Tăng 1.3%</span> so với tuần trước */}
                   </p>
                 </div>
               </div>
@@ -155,7 +155,7 @@ const Dashboard = () => {
                     .filter((order) => order.status === "chờ xác nhận")
                     .map((order) => (
                       <div className="main-order-pending" key={order.id}>
-                        <a href={`/admin/order/${order.id}`}>
+                        <a href={`/admin/orderDetail/${order.id}`}>
                           <p>{order.id.slice(-5)}</p>
                         </a>
                         <p>{order.name_user}</p>

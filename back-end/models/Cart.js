@@ -8,6 +8,7 @@ const orderSchema = new Schema(
     id_user: { type: ObjectId, ref: "User" }, // khóa ngoại tới bảng User
     id_promotion: { type: String },
     total_order: { type: Number }, // tổng đơn hàng
+    discount: { type: Number },
     name_user: { type: String }, // tên người dùng
     phoneNumber_user: { type: String }, // số điện thoại người dùng
     address_user: { type: String }, // địa chỉ người dùng

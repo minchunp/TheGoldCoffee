@@ -1,16 +1,17 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const ObjectId = Schema.ObjectId;
 
 const promotionSchema = new Schema(
   {
-    id_promotion: { type: ObjectId }, // khóa chính
-    name_promotion: { type: String }, // tên khuyến mãi
-    content_promotion: { type: String }, // nội dung khuyến mãi
-    value_promotion: { type: Number }, // giá trị khuyến mãi
+    code_promotion: { type: String },
+    name_promotion: { type: String },
+    content_promotion: { type: String },
+    value_promotion: { type: Number },
+    expiry_promotion: { type: String },
+    quantity_promotion: { type: Number },
   },
   { versionKey: false }
 );
 
 module.exports =
-  mongoose.models.Promotion || mongoose.model("Promotion", promotionSchema);
+  mongoose.models.promotion || mongoose.model("promotion", promotionSchema);

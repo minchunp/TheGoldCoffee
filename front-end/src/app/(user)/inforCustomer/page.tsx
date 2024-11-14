@@ -169,9 +169,60 @@ const InforCustomer = () => {
       setSelectedOrderDetailId(id);
    }
    const closeModal = () => setIsModalOpenOrderDetail(false);
-   
-   // 
-   console.log(showOder);
+
+   // xử lý hủy đơn hàng của đơn hàng đang chờ xác nhận
+   const cancelOrder = async (id: string) => {
+      try {
+         const token = localStorage.getItem("token"); // Lấy token từ localStorage
+         await axios.post(`http://localhost:3001/cartsAPI/detailOrder/setSTT`, 
+         {
+            id : id,
+            status_order: "hủy đơn hàng",
+         }, 
+         {
+            headers: {
+               Authorization: `Bearer ${token}`, // Đính kèm token vào tiêu đề
+            },
+         });
+         
+         // Cập nhật lại danh sách đơn hàng sau khi hủy
+         const updatedOrders = showOder.map((order) => 
+            order.id === id ? { ...order, status: "hủy đơn hàng" } : order
+      );
+      setShowOder(updatedOrders);
+      setFilterOder(updatedOrders.filter((order) => order.status === oderStatus));
+   } catch (error) {
+      console.error("Lỗi khi hủy đơn hàng: ", error);
+   }
+   console.log({ id, status: "hủy đơn hàng" });
+};
+
+   // Khôi phục đơn hàng đã hủy
+   const restoreOrder = async (id: string) => {
+      try {
+         const token = localStorage.getItem("token"); // Lấy token từ localStorage
+         await axios.post(`http://localhost:3001/cartsAPI/detailOrder/setSTT`, 
+         {
+            id : id,
+            status_order: "chờ xác nhận",
+         }, 
+         {
+            headers: {
+               Authorization: `Bearer ${token}`, // Đính kèm token vào tiêu đề
+            },
+         });
+         
+         // Cập nhật lại danh sách đơn hàng sau khi hủy
+         const updatedOrders = showOder.map((order) => 
+            order.id === id ? { ...order, status: "chờ xác nhận" } : order
+      );
+      setShowOder(updatedOrders);
+      setFilterOder(updatedOrders.filter((order) => order.status === oderStatus));
+   } catch (error) {
+      console.error("Lỗi khi phục hồi: ", error);
+   }
+   console.log({ id, status: "chờ xác nhận" });
+};
 
    return (
       <>
@@ -266,7 +317,13 @@ const InforCustomer = () => {
                                  <p>{(order.status).charAt(0).toUpperCase()+(order.status).slice(1)}</p>
                                  <div className="container-btn-func-order-information">
                                     <p onClick={() => openModal(order.id)} className="btn-check-orderDetail">Xem chi tiết</p>
-                                    <p className="btn-check-orderDetail btn-check-orderDetail__cancle">Huỷ đơn hàng</p>
+                                    {order.status === "chờ xác nhận" && (
+                                    <p onClick={() => cancelOrder(order.id)} className="btn-check-orderDetail btn-check-orderDetail__cancle">Huỷ đơn hàng</p>
+                                    )}
+                                    {order.status === "hủy đơn hàng" && (
+                                    <p onClick={() => restoreOrder(order.id)} className="btn-check-orderDetail btn-check-orderDetail__cancle">Khôi phục đơn</p>
+                                 )}
+                                 {/* onClick={() => restoreOrder(order.id)} */}
                                  </div>
                               </div>
                            ))

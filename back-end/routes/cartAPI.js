@@ -7,7 +7,10 @@ var modelTopping = require("../models/Topping");
 var modelProduct = require("../models/Product");
 
 
-// API thay đổi trạng thái đơn hàng
+// API cập nhật trạng thái đơn hàng
+
+
+
 // POST http://localhost:3001/cartsAPI/detailOrder/setSTT
 router.post("/detailOrder/setSTT", async function (req, res) {
   try {

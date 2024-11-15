@@ -42,7 +42,7 @@ const Cart = () => {
         setDiscountData(data);
         setGiamGia(data?.value_promotion);
         const myObject = {
-          id: data?.id,
+          id: data?._id,
           makm: data?.code_promotion,
           value: data?.value_promotion, // Sử dụng giá trị từ API trực tiếp
         };

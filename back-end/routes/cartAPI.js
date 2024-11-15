@@ -204,7 +204,7 @@ router.post("/order", async function (req, res) {
     // Tạo một đơn hàng mới trong bảng Order
     const newOrder = new modelOrder({
       id_user,
-      id_promotion: "none",
+      id_promotion,
       total_order,
       discount,
       name_user,

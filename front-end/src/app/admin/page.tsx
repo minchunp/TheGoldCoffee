@@ -153,6 +153,7 @@ const Dashboard = () => {
                 <div className="main-list">
                   {orders
                     .filter((order) => order.status === "chờ xác nhận")
+                    .reverse() // Đảo ngược thứ tự mảng
                     .map((order) => (
                       <div className="main-order-pending" key={order.id}>
                         <a href={`/admin/orderDetail/${order.id}`}>

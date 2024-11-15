@@ -22,6 +22,7 @@ const Payment = () => {
 
   const [discount, setDiscount] = useState(0);
   const [codeDiscount, setCodeDiscount] = useState("");
+  const [discountID, setDiscountID] = useState("");
 
   const [selectedTinh, setSelectedTinh] = useState<string | number>(""); // Tỉnh
   const [selectedQuanHuyen, setSelectedQuanHuyen] = useState<string | number>(
@@ -138,6 +139,7 @@ const Payment = () => {
       const myObject = JSON.parse(jsonString);
       setDiscount(myObject.value);
       setCodeDiscount(myObject.makm);
+      setDiscountID(myObject.id);
       console.log(myObject);
       console.log(discount);
     } else {
@@ -206,7 +208,7 @@ const Payment = () => {
 
     const orderData = {
       id_user: userId,
-      id_promotion: null,
+      id_promotion: discountID,
       total_order: totalPayment, // Sử dụng tổng thanh toán
       discount: discount,
       name_user: userData.name_user,

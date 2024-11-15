@@ -5,8 +5,8 @@ const ObjectId = Schema.ObjectId;
 const orderSchema = new Schema(
   {
     id_order: { type: ObjectId }, // khóa chính
-    id_user: { type: ObjectId, ref: "User" }, // khóa ngoại tới bảng User
-    id_promotion: { type: String },
+    id_user: { type: ObjectId, ref: "users" }, // khóa ngoại tới bảng User
+    id_promotion: { type: ObjectId, ref: "promotions" },
     total_order: { type: Number }, // tổng đơn hàng
     discount: { type: Number },
     name_user: { type: String }, // tên người dùng

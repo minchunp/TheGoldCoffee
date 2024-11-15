@@ -20,7 +20,7 @@ function OrderDetailAdmin({ params }: { params: { id: string } }) {
     confirm: "đã xác nhận",
     shipping: "đang giao hàng",
     success: "đã giao hàng",
-    cancel: "huỷ đơn hàng",
+    cancel: "hủy đơn hàng",
   };
 
   const fetchOrderDetails = async () => {
@@ -138,7 +138,7 @@ function OrderDetailAdmin({ params }: { params: { id: string } }) {
                             <option value="confirm">Đã xác nhận</option>
                             <option value="shipping">Đang giao hàng</option>
                             <option value="success">Đã giao hàng</option>
-                            <option value="cancel">Huỷ đơn hàng</option>
+                            <option value="cancel">Hủy đơn hàng</option>
                           </select>
                         </div>
                       )}
@@ -155,7 +155,7 @@ function OrderDetailAdmin({ params }: { params: { id: string } }) {
                             <option value="order">Chờ xác nhận</option>
                             <option value="shipping">Đang giao hàng</option>
                             <option value="success">Đã giao hàng</option>
-                            <option value="cancel">Huỷ đơn hàng</option>
+                            <option value="cancel">Hủy đơn hàng</option>
                           </select>
                         </div>
                       )}
@@ -172,7 +172,7 @@ function OrderDetailAdmin({ params }: { params: { id: string } }) {
                             <option value="order">Chờ xác nhận</option>
                             <option value="confirm">Đã xác nhận</option>
                             <option value="success">Đã giao hàng</option>
-                            <option value="cancel">Huỷ đơn hàng</option>
+                            <option value="cancel">Hủy đơn hàng</option>
                           </select>
                         </div>
                       )}
@@ -189,12 +189,12 @@ function OrderDetailAdmin({ params }: { params: { id: string } }) {
                             <option value="shipping">Đang giao hàng</option>
                             <option value="order">Chờ xác nhận</option>
                             <option value="confirm">Đã xác nhận</option>
-                            <option value="cancel">Huỷ đơn hàng</option>
+                            <option value="cancel">Hủy đơn hàng</option>
                           </select>
                         </div>
                       )}
 
-                      {status === "huỷ đơn hàng" && (
+                      {status === "hủy đơn hàng" && (
                         <div className="status rejected">
                           <select
                             name="status"
@@ -202,7 +202,7 @@ function OrderDetailAdmin({ params }: { params: { id: string } }) {
                             value={pendingStatus}
                             onChange={handleStatusSelect}
                           >
-                            <option value="cancel">Huỷ đơn hàng</option>
+                            <option value="cancel">Hủy đơn hàng</option>
                             <option value="shipping">Đang giao hàng</option>
                             <option value="success">Đã giao hàng</option>
                             <option value="order">Chờ xác nhận</option>

@@ -8,6 +8,12 @@ const multer = require("multer");
 const upload = multer();
 var methodOverride = require("method-override");
 var app = express();
+var cartsAPI = require("./routes/cartAPI");
+
+app.use(logger("dev"));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 // cors [cho phép gọi API từ bên ngoài]
 var corsOptionsDelegate = function (req, callback) {
@@ -22,6 +28,9 @@ app.use(
     allowedHeaders: "Content-Type,Authorization",
   })
 );
+//payment
+
+app.use("/cartsAPI", cartsAPI);
 
 // override with POST having ?_method=PUT
 app.use(methodOverride("_method"));
@@ -54,10 +63,6 @@ app.use(cors(corsOptionsDelegate));
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "hbs");
 
-app.use(logger("dev"));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
 //css

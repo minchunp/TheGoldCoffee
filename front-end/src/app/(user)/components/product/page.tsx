@@ -40,7 +40,7 @@ const Product: React.FC<ProductProps> = ({product, idProductDetail}) => {
       <>
          <div className="item-product" key={product._id}>
             <div className="func-item-product">
-               <img src={`${process.env.NEXT_PUBLIC_IMAGE_PRO_URL}${product.product.img_pro}`} alt="" />
+               <img onClick={() => idProductDetail(product._id)} src={`${process.env.NEXT_PUBLIC_IMAGE_PRO_URL}${product.product.img_pro}`} alt="" />
                <div className="container-func-item-product">
                   <div className="icon-func-item-product">
                      {/* Button khi nhấn vào sẽ mở modal product detail */}

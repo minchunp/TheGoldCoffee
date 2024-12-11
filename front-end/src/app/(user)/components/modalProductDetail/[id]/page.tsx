@@ -7,7 +7,7 @@ import { addProductToCart } from "@/app/redux/cartSlice";
 import ModalCofirm from "../../modalCofirm/page";
 
 interface ModalProductDetailProps {
-   id: string
+   id: string;
    isOpen: boolean;
    onClose: () => void;
 }
@@ -48,14 +48,14 @@ function ModalProductDetail({ id, isOpen, onClose }: ModalProductDetailProps) {
 
    useEffect(() => {
       if (isOpen) {
-         document.body.style.overflow = 'hidden';
+         document.body.style.overflow = "hidden";
       } else {
-         document.body.style.overflow = '';
+         document.body.style.overflow = "";
       }
 
       return () => {
-         document.body.style.overflow = '';
-      }
+         document.body.style.overflow = "";
+      };
    }, [isOpen]);
 
    // Fetch API Product detail
@@ -81,18 +81,26 @@ function ModalProductDetail({ id, isOpen, onClose }: ModalProductDetailProps) {
    const dispatch = useDispatch();
    const handleAddToCart = (product: ProductWithToppings) => {
       if (product) {
+         let priceBySize = 0;
+         if (size_pro == "S") {
+            priceBySize = product.product.price_pro
+         } else if (size_pro == "M") {
+            priceBySize = product.product.price_pro + 5000;
+         } else if (size_pro == "L") {
+            priceBySize = product.product.price_pro + 10000;
+         }
+
          const productInCart = {
             productId: product._id,
             name_pro: product.product.name_pro,
             img_pro: product.product.img_pro,
-            price_pro: product.product.price_pro,
+            price_pro: priceBySize,
             sale_pro: product.product.sale_pro,
             size_pro: size_pro,
             quantity_pro: quantity_pro,
             toppings: topping_pro,
          };
          console.log(productInCart);
-         
 
          dispatch(addProductToCart(productInCart));
       }
@@ -104,13 +112,13 @@ function ModalProductDetail({ id, isOpen, onClose }: ModalProductDetailProps) {
    // Sự kiện Onclick tổng hợp
    const totalOnclick = (product: ProductWithToppings) => {
       handleAddToCart(product);
-      openModalConfirm()
+      openModalConfirm();
    };
 
    return (
       <>
          <ModalCofirm isOpen={isModalOpenConfirm} onClose={closeModalConfirm} />
-         <div className={`main-bg-modal-product-detail ${isOpen?'open':''}`} onClick={onClose}>
+         <div className={`main-bg-modal-product-detail ${isOpen ? "open" : ""}`} onClick={onClose}>
             <div className="container-body-product-detail modal-product-detail" onClick={(e) => e.stopPropagation()}>
                <section className="main-img-product-detail">
                   <div className="top-big-img-product-detail">
@@ -186,27 +194,29 @@ function ModalProductDetail({ id, isOpen, onClose }: ModalProductDetailProps) {
                      </div>
                   </div>
 
-                  <div className="toppings-pro">
-                     <p>Toppings (tuỳ chọn):</p>
-                     <div className="container-toppings-pro">
-                        {data.toppings.map((top) => {
-                           return (
-                              <>
-                                 <input
-                                    id={top._id}
-                                    type="checkbox"
-                                    value={top.name_topping}
-                                    onChange={handleCheckBoxTopping}
-                                    checked={topping_pro.includes(`${top.name_topping}`)}
-                                 />
-                                 <label htmlFor={top._id}>
-                                    <img src={`${process.env.NEXT_PUBLIC_IMAGE_TOPPING_URL}${top.img_topping}`} alt="" />
-                                 </label>
-                              </>
-                           );
-                        })}
+                  {data.toppings.length != 0 && (
+                     <div className="toppings-pro">
+                        <p>Toppings (tuỳ chọn):</p>
+                        <div className="container-toppings-pro">
+                           {data.toppings.map((top) => {
+                              return (
+                                 <>
+                                    <input
+                                       id={top._id}
+                                       type="checkbox"
+                                       value={top.name_topping}
+                                       onChange={handleCheckBoxTopping}
+                                       checked={topping_pro.includes(`${top.name_topping}`)}
+                                    />
+                                    <label htmlFor={top._id}>
+                                       <img src={`${process.env.NEXT_PUBLIC_IMAGE_TOPPING_URL}${top.img_topping}`} alt="" />
+                                    </label>
+                                 </>
+                              );
+                           })}
+                        </div>
                      </div>
-                  </div>
+                  )}
 
                   <div className="container-button-pro-detail">
                      <button onClick={() => totalOnclick(data)} className="main-btn main-btn__addCartDetail">

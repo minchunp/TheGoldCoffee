@@ -53,6 +53,7 @@ router.get("/detailOrder/:id", async function (req, res) {
 
     // Lấy thông tin đơn hàng
     const order = await modelOrder.findById(orderId);
+    
     if (!order) {
       return res.status(404).json({ message: "Order not found" });
     }
@@ -131,7 +132,8 @@ router.get("/detailOrder/:id", async function (req, res) {
   }
 });
 
-//lấy danh sách các đơn hàng {id, name_user, address, total, date, status} "bảng: orders"
+
+//lấy danh sách các đơn hàng {id, id_user, name_user, address, total, date, status} "bảng: orders"
 router.get("/list_order", async function (req, res) {
   try {
     // Lấy danh sách các đơn hàng với các thuộc tính cần thiết
@@ -139,6 +141,7 @@ router.get("/list_order", async function (req, res) {
       {},
       {
         _id: 1,
+        id_user:1,
         name_user: 1,
         address_user: 1,
         total_order: 1,
@@ -159,6 +162,7 @@ router.get("/list_order", async function (req, res) {
 
       return {
         id: order._id,
+        id_user: order.id_user,
         name_user: order.name_user,
         address: order.address_user,
         total: order.total_order,

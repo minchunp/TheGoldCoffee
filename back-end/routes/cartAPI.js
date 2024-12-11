@@ -198,6 +198,8 @@ router.post("/order", async function (req, res) {
       feedback_order,
       isFeedback_order,
       status_order,
+      method_pay_type,
+      method_pay_status,
       products, // Danh sách sản phẩm từ cart
     } = req.body;
 
@@ -215,6 +217,8 @@ router.post("/order", async function (req, res) {
       rating_order,
       feedback_order: "none",
       isFeedback_order,
+      method_pay_type,
+      method_pay_status,
       status_order,
     });
 
@@ -255,6 +259,107 @@ router.post("/order", async function (req, res) {
             });
 
             console.log(newDetailTopping);
+
+            await newDetailTopping.save();
+          } else {
+            console.log(`Topping '${toppingName}' không tìm thấy.`);
+          }
+        }
+      }
+
+      await newDetail.save();
+    }
+
+    // Phản hồi thành công
+    res.status(201).json({
+      message: "Order and detailed orders created successfully",
+      orderId: savedOrder._id,
+    });
+  } catch (error) {
+    console.error("Error creating order:", error);
+    res.status(500).json({ message: "Error creating order" });
+  }
+});
+router.post("/orderzalopay", async function (req, res) {
+  try {
+    // Lấy dữ liệu từ request body
+    const {
+      id_user,
+      id_promotion,
+      total_order,
+      discount,
+      name_user,
+      phoneNumber_user,
+      address_user,
+      note_order,
+      date_order,
+      rating_order,
+      feedback_order,
+      isFeedback_order,
+      status_order,
+      method_pay_type,
+      method_pay_status,
+      app_trans_id, // app_trans_id sẽ được gửi từ frontend hoặc ZaloPay
+      products, // Danh sách sản phẩm từ cart
+    } = req.body;
+
+    console.log("orderzalopay: " + app_trans_id);
+
+    // Tạo một đơn hàng mới trong bảng Order với app_trans_id
+    const newOrder = new modelOrder({
+      id_user,
+      id_promotion,
+      total_order,
+      discount,
+      name_user,
+      phoneNumber_user,
+      address_user,
+      note_order,
+      date_order,
+      rating_order,
+      feedback_order: "none",
+      isFeedback_order,
+      method_pay_type,
+      method_pay_status,
+      app_trans_id, // Lưu app_trans_id vào cơ sở dữ liệu
+      status_order,
+    });
+
+    // Lưu đơn hàng vào cơ sở dữ liệu
+    const savedOrder = await newOrder.save();
+
+    // Lưu chi tiết từng sản phẩm trong đơn
+    for (let index = 0; index < products.length; index++) {
+      const newDetail = new modelDetailedOrder({
+        id_pro: products[index].productId,
+        id_order: savedOrder.id,
+        quantity_detailedOrder: products[index].quantity,
+        size_detailedOrder: products[index].size,
+        price_detailedOrder: products[index].price,
+      });
+
+      // Lưu topping nếu có
+      if (products[index].toppings && products[index].toppings.length > 0) {
+        const mangtopping = products[index].toppings;
+
+        for (let z = 0; z < mangtopping.length; z++) {
+          const toppingName = mangtopping[z]; // tên của topping
+
+          // Lấy thông tin topping từ tên topping trong cơ sở dữ liệu
+          const toppingG = await modelTopping.findOne({
+            name_topping: toppingName,
+          });
+
+          // Kiểm tra nếu topping được tìm thấy
+          if (toppingG) {
+            // Lưu topping vào chi tiết đơn hàng
+            const newDetailTopping = new modelDetailedOrder({
+              id_pro: toppingG.id,
+              id_order: savedOrder.id,
+              id_fd: products[index].productId,
+              quantity_detailedOrder: 1,
+              price_detailedOrder: toppingG.price_topping,
+            });
 
             await newDetailTopping.save();
           } else {

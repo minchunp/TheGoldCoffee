@@ -25,10 +25,14 @@ const Payment = () => {
   const [discountID, setDiscountID] = useState("");
 
   const [selectedTinh, setSelectedTinh] = useState<string | number>(""); // Tỉnh
+  const [selectedTinhName, setSelectedTinhName] = useState<string>(""); // Phường xã
+  const [selectedQuanHuyenName, setselectedQuanHuyenName] =
+    useState<string>(""); // Phường xã
   const [selectedQuanHuyen, setSelectedQuanHuyen] = useState<string | number>(
     ""
   ); // Quận huyện
   const [selectedPhuongXa, setSelectedPhuongXa] = useState<string | number>(""); // Phường xã
+  const [selectedPhuongXaName, setSelectedPhuongXaName] = useState<string>(""); // Phường xã
   const [errorMessage, setErrorMessage] = useState(""); // Lỗi validation
   //TỈNH THÀNH
   const fetchTinhs = async () => {
@@ -56,6 +60,9 @@ const Payment = () => {
     setSelectedQuanHuyen(""); // Reset Quận huyện khi thay đổi tỉnh
     setSelectedPhuongXa(""); // Reset Phường xã khi thay đổi tỉnh
     fetchQuanHuyens(selectedTinhId);
+    if (typeof selectedTinhName == "string") {
+      setSelectedTinhName(selectedTinhName);
+    }
   };
 
   //QUẬN HUYỆN
@@ -83,6 +90,9 @@ const Payment = () => {
     setErrorMessage(""); // Reset lỗi khi người dùng thay đổi lựa chọn
     setSelectedPhuongXa(""); // Reset Phường xã khi thay đổi Quận huyện
     fetchPhuongXas(selectedQuanHuyenId); // Gọi API lấy phường xã khi thay đổi quận huyện
+    if (typeof selectedQuanHuyenName == "string") {
+      setselectedQuanHuyenName(selectedQuanHuyenName);
+    }
   };
 
   //PHƯỜNG XÃ
@@ -108,6 +118,9 @@ const Payment = () => {
       event.target.options[event.target.selectedIndex].textContent;
     console.log(selectedPhuongXaName);
     setSelectedPhuongXa(selectedPhuongXaId);
+    if (typeof selectedPhuongXaName == "string") {
+      setSelectedPhuongXaName(selectedPhuongXaName);
+    }
   };
 
   // ........................................................
@@ -213,12 +226,14 @@ const Payment = () => {
       discount: discount,
       name_user: userData.name_user,
       phoneNumber_user: userData.phoneNumber_user,
-      address_user: ` ${userData.address_user}`,
+      address_user: `${selectedTinhName}, ${selectedQuanHuyenName}, ${selectedPhuongXaName}, ${userData.address_user}`,
       note_order: userData.note_order,
       date_order: new Date().toISOString(),
       rating_order: null,
       feedback_order: null,
       isFeedback_order: false,
+      method_pay_type: "Tiền mặt",
+      method_pay_status: "",
       status_order: "chờ xác nhận",
       products: cartProducts.map((item) => ({
         productId: item.productId,
@@ -246,6 +261,100 @@ const Payment = () => {
       }
     } catch (error) {
       console.error("Lỗi kết nối đến API:", error);
+    }
+  };
+
+  // THANH TOÁN ZALOPAY
+  const handleOrderSubmitZaloPay = async () => {
+    const token = localStorage.getItem("token");
+    let userId = null;
+
+    if (token) {
+      const decoded: any = jwt_decode.decode(token);
+      userId = decoded.id;
+    }
+
+    if (!selectedTinh || !selectedQuanHuyen || !selectedPhuongXa) {
+      setErrorMessage(
+        "Vui lòng chọn đầy đủ thông tin: Tỉnh, Quận/Huyện và Phường/Xã."
+      );
+      alert("Vui lòng điền đủ các thông tin.");
+      return;
+    }
+
+    const totalPayment = totalPriceCart - discount;
+    // Tạo một mã giao dịch tạm thời cho app_trans_id
+    const tempAppTransId = `temp_${Date.now()}`;
+
+    const orderData = {
+      id_user: userId,
+      id_promotion: discountID,
+      total_order: totalPayment,
+      discount,
+      name_user: userData.name_user,
+      phoneNumber_user: userData.phoneNumber_user,
+      address_user: `${selectedTinhName}, ${selectedQuanHuyenName}, ${selectedPhuongXaName}, ${userData.address_user}`,
+      note_order: userData.note_order,
+      date_order: new Date().toISOString(),
+      method_pay_type: "ZaloPay",
+      method_pay_status: "chưa thanh toán",
+      app_trans_id: tempAppTransId,
+      status_order: "chờ xác nhận",
+      products: cartProducts.map((item) => ({
+        productId: item.productId,
+        quantity: item.quantity_pro,
+        price: item.price_pro,
+        size: item.size_pro,
+        toppings: item.toppings,
+      })),
+    };
+
+    try {
+      // Gửi đơn hàng lên server
+      const orderResponse = await fetch(
+        "http://localhost:3001/cartsAPI/orderzalopay",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(orderData),
+        }
+      );
+
+      if (!orderResponse.ok) {
+        console.error("Lỗi tạo đơn hàng");
+        return;
+      }
+
+      // Tạo thanh toán với ZaloPay
+      const zaloPayResponse = await fetch(
+        `http://localhost:3001/zaloPayAPI/payment`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            amount: totalPayment,
+            description: `Thanh toán đơn hàng #${orderData.id_user}`,
+            tempAppTransId: tempAppTransId,
+          }),
+        }
+      );
+
+      if (zaloPayResponse.ok) {
+        const data = await zaloPayResponse.json();
+        if (data.order_url) {
+          dispatch(clearAllCart());
+          // Điều hướng người dùng tới URL thanh toán
+          window.location.href = data.order_url;
+        }
+      } else {
+        console.error("Lỗi kết nối đến ZaloPay.");
+      }
+    } catch (error) {
+      console.error("Lỗi:", error);
     }
   };
 
@@ -367,7 +476,13 @@ const Payment = () => {
                 className="main-btn main-btn__payment"
                 onClick={handleOrderSubmit}
               >
-                Đặt hàng
+                Thanh Toán Khi Nhận Hàng
+              </button>
+              <button
+                className="main-btn main-btn__payment"
+                onClick={handleOrderSubmitZaloPay}
+              >
+                Thanh Toán ZaloPay
               </button>
             </div>
 

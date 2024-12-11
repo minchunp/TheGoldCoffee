@@ -4,6 +4,7 @@ import "../../../../../public/css/dashboardAdmin.css";
 import BannerSectionAdmin from "../../../../../public/images/wallpaper-angledwares.jpg";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import jwt_decode from "jsonwebtoken";
 
 // Interface user
 interface UserInterface {
@@ -38,9 +39,25 @@ function EditUser({ params }: { params: { id: string } }) {
 
    const fetchUsers = async (userId: string) => {
       try {
-         const respone = await axios.get(`http://localhost:3001/usersAPI/detailUser/${userId}`);
-         const dataUser = respone.data;
-         setUser(dataUser);
+         const token = localStorage.getItem("token"); // Lấy token từ localStorage
+         if (token) {
+            const decoded: any = jwt_decode.decode(token); // Giải mã token
+            // const userId = decoded.id; // Lấy ID từ token
+  
+            // Gửi yêu cầu GET lên API để lấy thông tin người dùng
+            const response = await axios.get(
+              `http://localhost:3001/usersAPI/detailUser/${userId}`,
+              {
+                headers: {
+                  Authorization: `Bearer ${token}`, // Đính kèm token vào tiêu đề
+                },
+              }
+            );
+            const dataUser = response.data;
+            setUser(dataUser);
+         }
+         // const respone = await axios.get(`http://localhost:3001/usersAPI/detailUser/${userId}`);
+         
       } catch (e) {
          console.log("Lỗi khi lấy thông tin khách hàng", e);
       }

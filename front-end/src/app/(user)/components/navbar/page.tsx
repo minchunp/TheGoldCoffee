@@ -1,11 +1,10 @@
 "use client";
 import Link from "next/link";
 import "../../../../../public/css/navbar.css";
-import { useContext, useEffect, useRef, useState } from "react";
-import { CartContex } from "@/app/context/cartContext";
-import jwt from "jsonwebtoken"; // Import thư viện jsonwebtoken để giải mã token
+import { useEffect, useRef, useState } from "react";
+import jwt from "jsonwebtoken"; // Import thư viện jsonwebtoken
+import axios from "axios"; // Import thư viện axios để gọi API
 import logoWebsiteURL from "../../../../../public/images/The Gold Coffee Logo SVG.png";
-
 import { useSelector } from "react-redux";
 import { selectCartProducts } from "@/app/redux/cartSelector";
 import { useRouter } from "next/navigation";
@@ -20,40 +19,50 @@ interface User {
 export default function Navbar() {
   // Sử dụng Redux
   const cartProducts = useSelector(selectCartProducts);
-
   const [user, setUser] = useState<User | null>(null);
   const [isSticky, setIsSticky] = useState<boolean>(false);
   const sticky = useRef<HTMLDivElement>(null);
-
   const [searchTerm, setSearchTerm] = useState("");
   const router = useRouter();
 
-  // Sử dụng Context cho giỏ hàng
-  // const context = useContext(CartContex);
-  // if (!context) {
-  //    throw new Error("Trang giỏ hàng phải được sử dụng trong CartProvider!");
-  // }
-  // const { items, removeItem, clearItem } = context;
-
-  // Lấy token từ localStorage và giải mã token để lấy thông tin người dùng
+  // Lấy token từ localStorage và gọi API để lấy thông tin người dùng
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const token = localStorage.getItem("token");
-      if (token) {
-        try {
-          const decoded: any = jwt.decode(token); // Giải mã token để lấy thông tin người dùng
-          setUser({
-            name_user: decoded.name_user,
-            role_user: decoded.role_user,
-            avatar: decoded.avatar || "images/avatarAccountUser.jpg", // Đặt ảnh đại diện mặc định nếu không có
-          });
-          console.log(decoded);
-        } catch (error) {
-          console.error("Lỗi khi giải mã token:", error);
-          setUser(null);
+    const fetchUserData = async () => {
+      if (typeof window !== "undefined") {
+        const token = localStorage.getItem("token");
+        if (token) {
+          try {
+            const decoded: any = jwt.decode(token); // Giải mã token để lấy ID
+            const userId = decoded.id; // Lấy ID từ token
+
+            // Gửi yêu cầu GET lên API để lấy thông tin người dùng
+            const response = await axios.get(
+              `http://localhost:3001/usersAPI/detailUser/${userId}`,
+              {
+                headers: {
+                  Authorization: `Bearer ${token}`, // Đính kèm token vào tiêu đề
+                },
+              }
+            );
+
+            // Kiểm tra và cập nhật thông tin người dùng
+            if (response.data) {
+              setUser(response.data);
+            } else {
+              // Xóa token khỏi localStorage nếu không có data trả về (token hết hạn)
+              localStorage.removeItem("token");
+              setUser(null);
+            }
+          } catch (error) {
+            console.error("Lỗi khi lấy thông tin người dùng:", error);
+            localStorage.removeItem("token"); // Xóa token nếu có lỗi (có thể do token không hợp lệ hoặc hết hạn)
+            setUser(null);
+          }
         }
       }
-    }
+    };
+
+    fetchUserData();
   }, []);
 
   // Thêm hiệu ứng sticky cho navbar khi scroll
@@ -63,7 +72,7 @@ export default function Navbar() {
         const offset = sticky.current.getBoundingClientRect().top;
         if (window.scrollY - offset > 46) {
           setIsSticky(true);
-        } else if (window.scrollY - offset == 46) {
+        } else if (window.scrollY - offset === 46) {
           setIsSticky(false);
         }
       }
@@ -88,7 +97,8 @@ export default function Navbar() {
       <nav className="main-nav">
         <div
           ref={sticky}
-          className={`main-top-nav ${isSticky ? "sticky" : ""}`}>
+          className={`main-top-nav ${isSticky ? "sticky" : ""}`}
+        >
           <div className="boxcenter">
             <div className="top-nav">
               <div className="container-top-nav">
@@ -149,7 +159,8 @@ export default function Navbar() {
                           <div className="func-main-modal">
                             <Link
                               data-tooltip="Thông tin"
-                              href="/inforCustomer">
+                              href="/inforCustomer"
+                            >
                               <i className="bi bi-info"></i>
                             </Link>
                             {user.role_user === "admin" && (
@@ -163,7 +174,8 @@ export default function Navbar() {
                               onClick={() => {
                                 localStorage.removeItem("token"); // Xóa token khỏi localStorage
                                 window.location.href = "/login"; // Điều hướng về trang login
-                              }}>
+                              }}
+                            >
                               <i className="bi bi-box-arrow-left"></i>
                             </a>
                           </div>
@@ -171,7 +183,12 @@ export default function Navbar() {
                           {/* Hiển thị thông tin người dùng */}
                           <div className="main-modal">
                             <div className="image-user">
-                              <img src={user.avatar} alt="User Avatar" />
+                              {/* <img src={"images/avatarAccountUser.jpg"} /> */}
+                              <img
+                                src={
+                                  "https://i.pinimg.com/736x/c6/e5/65/c6e56503cfdd87da299f72dc416023d4.jpg"
+                                }
+                              />
                             </div>
                             <div className="name-user">
                               <a href="#">

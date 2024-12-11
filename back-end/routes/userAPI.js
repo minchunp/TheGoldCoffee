@@ -19,7 +19,10 @@ router.get("/detailUser/:id", async (req, res, next) => {
   try {
     const id = req.params.id;
     const data = await modelUser.findById(id);
-    res.json(data);
+    // Chuyển đổi sang đối tượng JS thuần túy
+    const user = data.toObject();
+    delete user.pass_user;
+    res.json(user);
   } catch (err) {
     next(err);
   }

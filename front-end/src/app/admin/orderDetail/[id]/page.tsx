@@ -107,6 +107,10 @@ function OrderDetailAdmin({ params }: { params: { id: string } }) {
                     <p>{orderDetails.name_user}</p>
                   </div>
                   <div className="name-user-order-detail">
+                    <h3>Số điện thoại:</h3>
+                    <p>{orderDetails.phoneNumber_user}</p>
+                  </div>
+                  <div className="name-user-order-detail">
                     <h3>Giá trị đơn:</h3>
                     <p>{orderDetails.total_order.toLocaleString()}đ</p>
                   </div>
@@ -124,8 +128,9 @@ function OrderDetailAdmin({ params }: { params: { id: string } }) {
                   <div className="address-user-order-detail">
                     <h3>Phương thức thanh toán:</h3>
                     <p>
-                      {orderDetails.method_pay_type} -{" "}
-                      {orderDetails.method_pay_status}
+                      {orderDetails.method_pay_type}
+                      {orderDetails.method_pay_type !== "Tiền mặt" &&
+                        ` - ${orderDetails.method_pay_status}`}
                     </p>
                   </div>
 

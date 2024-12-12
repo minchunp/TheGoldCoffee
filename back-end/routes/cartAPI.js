@@ -144,6 +144,9 @@ router.get("/list_order", async function (req, res) {
         total_order: 1,
         date_order: 1,
         status_order: 1,
+        method_pay_status: 1,
+        method_pay_type: 1,
+        app_trans_id: 1,
       }
     );
 
@@ -165,6 +168,9 @@ router.get("/list_order", async function (req, res) {
         total: order.total_order,
         date: formattedDate,
         status: order.status_order,
+        method_pay_type: order.method_pay_type,
+        method_pay_status: order.method_pay_status,
+        app_trans_id: order.app_trans_id,
         originalDate: date, // Lưu giữ date gốc để sắp xếp
       };
     });

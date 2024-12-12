@@ -117,6 +117,9 @@ router.get("/detailOrder/:id", async function (req, res) {
       feedback_order: order.feedback_order,
       isFeedback_order: order.isFeedback_order,
       status_order: order.status_order,
+      method_pay_type: order.method_pay_type,
+      method_pay_status: order.method_pay_status,
+      app_trans_id: order.app_trans_id || null,
       products: products,
     };
 

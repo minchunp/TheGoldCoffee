@@ -264,6 +264,7 @@ const Payment = () => {
 
   const handleOrderSubmit = async () => {
     const token = localStorage.getItem("token");
+    localStorage.removeItem("myObjectKey");
     let userId = null;
 
     if (token) {
@@ -286,9 +287,9 @@ const Payment = () => {
 
     const orderData = {
       id_user: userId,
-      id_promotion: discountID,
+      id_promotion: discountID || "none",
       total_order: totalPayment, // Sử dụng tổng thanh toán
-      discount: discount,
+      discount: discount || 0,
       name_user: userData.name_user,
       phoneNumber_user: userData.phoneNumber_user,
       address_user: `${selectedTinhName}, ${selectedQuanHuyenName}, ${selectedPhuongXaName}, ${userData.address_user}`,
@@ -353,6 +354,7 @@ const Payment = () => {
   // THANH TOÁN ZALOPAY
   const handleOrderSubmitZaloPay = async () => {
     const token = localStorage.getItem("token");
+    localStorage.removeItem("myObjectKey");
     let userId = null;
 
     if (token) {
@@ -374,9 +376,9 @@ const Payment = () => {
 
     const orderData = {
       id_user: userId,
-      id_promotion: discountID,
+      id_promotion: discountID || "none",
       total_order: totalPayment,
-      discount,
+      discount: discount || 0,
       name_user: userData.name_user,
       phoneNumber_user: userData.phoneNumber_user,
       address_user: `${selectedTinhName}, ${selectedQuanHuyenName}, ${selectedPhuongXaName}, ${userData.address_user}`,
@@ -422,8 +424,9 @@ const Payment = () => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
+            title: "Thanh Toán The Gold Coffee",
             amount: totalPayment,
-            description: `Thanh toán đơn hàng #${orderData.id_user}`,
+            description: `The Gold Coffee - Thanh toán đơn hàng #${orderData.id_user}`,
             tempAppTransId: tempAppTransId,
           }),
         }

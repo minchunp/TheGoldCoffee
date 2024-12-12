@@ -106,6 +106,10 @@ function OrderDetailAdmin({ params }: { params: { id: string } }) {
                     <h3>Tên khách hàng:</h3>
                     <p>{orderDetails.name_user}</p>
                   </div>
+                  <div className="name-user-order-detail">
+                    <h3>Giá trị đơn:</h3>
+                    <p>{orderDetails.total_order.toLocaleString()}đ</p>
+                  </div>
 
                   <div className="address-user-order-detail">
                     <h3>Địa chỉ khách hàng:</h3>
@@ -119,7 +123,10 @@ function OrderDetailAdmin({ params }: { params: { id: string } }) {
 
                   <div className="address-user-order-detail">
                     <h3>Phương thức thanh toán:</h3>
-                    <p>Tiền mặt</p>
+                    <p>
+                      {orderDetails.method_pay_type} -{" "}
+                      {orderDetails.method_pay_status}
+                    </p>
                   </div>
 
                   <form onSubmit={handleSubmitStatusChange}>

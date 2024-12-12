@@ -29,35 +29,48 @@ router.use(express.json());
  * description: tạo đơn hàng, thanh toán
  */
 router.post("/payment", async (req, res) => {
-  const { amount, description, tempAppTransId } = req.body;
+  const { amount, description, tempAppTransId, title } = req.body;
 
+  // Kiểm tra giá trị đầu vào
+  if (!amount || !description || !tempAppTransId) {
+    return res.status(400).json({ message: "Missing required fields" });
+  }
+
+  // Dữ liệu embed_data cho URL redirect
   const embed_data = {
     redirecturl: "http://localhost:3000/inforCustomer",
   };
 
-  console.log(tempAppTransId);
-
+  // Tạo mã giao dịch ngẫu nhiên
   const transID = Math.floor(Math.random() * 1000000);
   const order = {
     app_id: config.app_id,
     app_trans_id: `${moment().format("YYMMDD")}_${transID}`,
     app_user: "user123",
     app_time: Date.now(),
-    item: "[]",
+    item: "[]", // Danh sách sản phẩm, để trống nếu không dùng
     embed_data: JSON.stringify(embed_data),
-    amount,
+    amount: amount, // Số tiền thanh toán
     callback_url:
       "https://6eef-42-113-249-253.ngrok-free.app/zaloPayAPI/callback",
-    description,
-    bank_code: "",
+    description: description, // Nội dung giao dịch
+    bank_code: "", // Để trống nếu không yêu cầu ngân hàng cụ thể
+    title: title || "Merchant Default Title", // Tiêu đề mặc định nếu không truyền
   };
 
-  const updatedTransID = await modelOrder.findOneAndUpdate(
-    { app_trans_id: tempAppTransId, app_trans_id: tempAppTransId }, // Tìm đơn hàng
-    { app_trans_id: order.app_trans_id }, // Cập nhật trạng thái
-    { new: true } // Trả về tài liệu đã cập nhật
-  );
+  // Cập nhật mã giao dịch mới cho đơn hàng trong DB
+  try {
+    await modelOrder.findOneAndUpdate(
+      { app_trans_id: tempAppTransId }, // Tìm theo mã giao dịch tạm thời
+      { app_trans_id: order.app_trans_id }, // Cập nhật mã giao dịch mới
+      { new: true } // Trả về tài liệu đã cập nhật
+    );
+  } catch (err) {
+    console.error("Lỗi cập nhật DB:", err);
+    return res.status(500).json({ message: "Database update error" });
+  }
 
+  // Tạo chữ ký HMAC (mac) cho yêu cầu
   const data =
     config.app_id +
     "|" +
@@ -74,12 +87,18 @@ router.post("/payment", async (req, res) => {
     order.item;
   order.mac = CryptoJS.HmacSHA256(data, config.key1).toString();
 
+  // Gửi yêu cầu tới ZaloPay
   try {
     const result = await axios.post(config.endpoint, null, { params: order });
-    return res.status(200).json({ order_url: result.data.order_url });
+    if (result.data && result.data.order_url) {
+      return res.status(200).json({ order_url: result.data.order_url });
+    } else {
+      console.error("Phản hồi không hợp lệ từ ZaloPay:", result.data);
+      return res.status(500).json({ message: "Invalid response from ZaloPay" });
+    }
   } catch (error) {
     console.error("Lỗi kết nối ZaloPay:", error);
-    res.status(500).send("Lỗi kết nối ZaloPay");
+    return res.status(500).json({ message: "ZaloPay connection error" });
   }
 });
 

@@ -6,7 +6,7 @@ const orderSchema = new Schema(
   {
     id_order: { type: ObjectId }, // khóa chính
     id_user: { type: ObjectId, ref: "users" }, // khóa ngoại tới bảng User
-    id_promotion: { type: ObjectId, ref: "promotions" },
+    id_promotion: { type: String },
     total_order: { type: Number }, // tổng đơn hàng
     discount: { type: Number },
     name_user: { type: String }, // tên người dùng

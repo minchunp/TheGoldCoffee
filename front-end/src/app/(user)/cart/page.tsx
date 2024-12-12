@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import "../../../../public/css/cart.css";
 import "../../../../public/css/login_register.css";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { selectCartProducts, selectCartTotal } from "@/app/redux/cartSelector";
 import { useDispatch } from "react-redux";
 import {
@@ -27,6 +27,10 @@ const Cart = () => {
   const [makm, setMakm] = useState(""); // Biến lưu mã khuyến mãi
   const [giamgia, setGiamGia] = useState(0); // Biến lưu mã khuyến mãi
   const [discountData, setDiscountData] = useState<DiscountData | null>(null);
+
+  useEffect(() => {
+    localStorage.removeItem("myObjectKey");
+  }, []); // Mảng dependencies rỗng
 
   // Handle chọn Mã Khuyến Mãi
   const handleMaKm = async () => {

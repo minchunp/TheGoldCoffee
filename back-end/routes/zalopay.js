@@ -20,7 +20,7 @@ const config = {
   endpoint: "https://sb-openapi.zalopay.vn/v2/create",
 };
 
-router.use(express.json());
+// router.use(express.json());
 
 /**
  * methed: POST

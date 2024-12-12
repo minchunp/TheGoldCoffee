@@ -55,3 +55,7 @@
 - Get {id, name_user, address, total, date, status}: http://localhost:3001/cartsAPI/list_order [GET] "bảng: orders"
 - Get Order By ID: http://localhost:3001/cartsAPI/detailOrder/:id [GET]
 - Set Status Order By ID: http://localhost:3001/cartsAPI/detailOrder/setSTT [POST] {id_order, satus_new}
+
+// API THANH TOÁN ZALOPAY
+- Tạo thanh toán: http://localhost:3001/zaloPayAPI/payment
+- Callback: http://localhost:3001/zaloPayAPI/callback

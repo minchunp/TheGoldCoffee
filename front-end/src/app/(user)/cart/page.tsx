@@ -240,7 +240,7 @@ const Cart = () => {
                   className="main-btn main-btn__checkout-shipping"
                   onClick={handleCheckout}
                 >
-                  Thanh toán
+                  Đặt hàng
                 </button>
               </div>
             </div>

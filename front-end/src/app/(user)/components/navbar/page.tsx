@@ -8,6 +8,7 @@ import logoWebsiteURL from "../../../../../public/images/The Gold Coffee Logo SV
 import { useSelector } from "react-redux";
 import { selectCartProducts } from "@/app/redux/cartSelector";
 import { useRouter } from "next/navigation";
+import Cart from "./cart";
 
 // Kiểu dữ liệu người dùng
 interface User {
@@ -20,6 +21,7 @@ export default function Navbar() {
   // Sử dụng Redux
   const cartProducts = useSelector(selectCartProducts);
   const [user, setUser] = useState<User | null>(null);
+  const [isClient, setIsClient] = useState(false);
   const [isSticky, setIsSticky] = useState<boolean>(false);
   const sticky = useRef<HTMLDivElement>(null);
   const [searchTerm, setSearchTerm] = useState("");
@@ -27,6 +29,7 @@ export default function Navbar() {
 
   // Lấy token từ localStorage và gọi API để lấy thông tin người dùng
   useEffect(() => {
+    setIsClient(true);
     const fetchUserData = async () => {
       if (typeof window !== "undefined") {
         const token = localStorage.getItem("token");
@@ -91,6 +94,8 @@ export default function Navbar() {
       setSearchTerm("");
     }
   };
+
+  // if(!isClient) return null;
 
   return (
     <>
@@ -206,10 +211,11 @@ export default function Navbar() {
                       </Link>
                     )}
 
-                    <Link className="func-cart" href="/cart">
-                      <div id="cart-count">{cartProducts.length}</div>
+                    {/* <Link className="func-cart" href="/cart">
+                      <span id="cart-count">{cartProducts.length}</span>
                       <i className="bi bi-bag"></i>
-                    </Link>
+                    </Link> */}
+                    <Cart />
                   </div>
                 </div>
               </div>

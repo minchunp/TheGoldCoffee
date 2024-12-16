@@ -8,10 +8,12 @@ const productWithTopping = new Schema(
     id_pro: {
       type: ObjectId,
       required: true,
+      ref: "product",
     },
     list_topping: [
       {
         type: ObjectId,
+        ref: "Topping",
       },
     ],
   },

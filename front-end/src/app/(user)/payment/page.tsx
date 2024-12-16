@@ -134,6 +134,7 @@ const Payment = () => {
     address_user: "",
     note_order: "",
   });
+  const [paymentMethod, setPaymentMethod] = useState(""); // Phương thức thanh toán (Tiền mặt hoặc ZaloPay)
   const cartProducts = useSelector(selectCartProducts);
   const totalPriceCart = useSelector(selectCartTotal);
   const router = useRouter();
@@ -192,6 +193,70 @@ const Payment = () => {
       console.error("Lỗi khi lấy thông tin người dùng: ", error);
     }
   };
+
+  const confirmPaymentAndSaveOrder = async (
+    orderId: string,
+    orderData: any
+  ) => {
+    try {
+      const response = await fetch(
+        `http://localhost:3001/cartsAPI/detailOrder/paymentCallback`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(orderData),
+        }
+      );
+
+      if (response.ok) {
+        console.log("Đơn hàng đã được lưu thành công sau thanh toán");
+        dispatch(clearAllCart());
+        localStorage.removeItem("tempOrder");
+        alert("Thanh toán thành công!");
+        router.push("/");
+      } else {
+        console.error("Có lỗi khi lưu đơn hàng vào DB");
+      }
+    } catch (error) {
+      console.error("Lỗi khi lưu đơn hàng vào DB:", error);
+    }
+  };
+  useEffect(() => {
+    const checkPaymentStatus = async () => {
+      // Lấy các tham số từ URL bằng router.query
+      const urlParams = new URLSearchParams(window.location.search);
+      const orderId = urlParams.get("apptransid");
+      const status = urlParams.get("status");
+
+      if (orderId && status === "1") {
+        console.log("Thanh toán thành công, đang xử lý đơn hàng...");
+
+        // Nếu thanh toán thành công, lấy đơn hàng từ localStorage
+        const tempOrder = localStorage.getItem("tempOrder");
+        if (tempOrder) {
+          const orderData = JSON.parse(tempOrder);
+
+          try {
+            // Gọi hàm để lưu đơn hàng vào cơ sở dữ liệu
+            await confirmPaymentAndSaveOrder(orderId, orderData);
+
+            // Thông báo thành công và dọn dẹp dữ liệu
+            alert("Thanh toán thành công!");
+            dispatch(clearAllCart());
+            localStorage.removeItem("tempOrder");
+            router.push("/"); // Chuyển hướng về trang chủ
+          } catch (error) {
+            console.error("Lỗi khi xác nhận đơn hàng:", error);
+            alert("Có lỗi khi xác nhận thanh toán. Vui lòng thử lại.");
+          }
+        }
+      } else if (status === "0") {
+        alert("Thanh toán thất bại hoặc bị hủy.");
+      }
+    };
+
+    checkPaymentStatus();
+  }, [dispatch, router]);
 
   if (!hydrated) {
     return <div>Loading...</div>;
@@ -253,15 +318,36 @@ const Payment = () => {
         },
         body: JSON.stringify(orderData),
       });
+        if (response.ok) {
+          const orderResponse = await response.json();
+          localStorage.setItem("app_trans_id", orderResponse.app_trans_id);
+          window.location.href = orderResponse.paymentUrl; // Chuyển hướng đến ZaloPay
+        } else {
+          console.error("Lỗi khi tạo đơn hàng ZaloPay");
+          alert("Lỗi khi tạo đơn hàng ZaloPay. Vui lòng thử lại.");
+        }
+      } else if (paymentMethod === "cash") {
+        // Xử lý thanh toán tiền mặt
+        const response = await fetch(
+          "http://localhost:3001/cartsAPI/order/cash",
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(orderData),
+          }
+        );
 
-      if (response.ok) {
-        dispatch(clearAllCart());
-        router.push("/");
-      } else {
-        console.error("Có lỗi xảy ra khi tạo đơn hàng");
+        if (response.ok) {
+          alert("Đặt hàng thành công!");
+          dispatch(clearAllCart());
+          router.push("/");
+        } else {
+          console.error("Lỗi khi tạo đơn hàng tiền mặt");
+        }
       }
     } catch (error) {
       console.error("Lỗi kết nối đến API:", error);
+      alert("Có lỗi xảy ra, vui lòng thử lại.");
     }
   };
 
@@ -473,6 +559,26 @@ const Payment = () => {
 
               <div className="method-payment">
                 <h2>Phương thức thanh toán</h2>
+                <label>
+                  <input
+                    type="radio"
+                    name="paymentMethod"
+                    value="cash"
+                    checked={paymentMethod === "cash"}
+                    onChange={(e) => setPaymentMethod(e.target.value)}
+                  />
+                  Tiền mặt
+                </label>
+                <label>
+                  <input
+                    type="radio"
+                    name="paymentMethod"
+                    value="zalopay"
+                    checked={paymentMethod === "zalopay"}
+                    onChange={(e) => setPaymentMethod(e.target.value)}
+                  />
+                  Ví <img src="images/logo-zalopay.svg" alt="" />
+                </label>
               </div>
 
               <button

@@ -17,6 +17,7 @@ const orderSchema = new Schema(
     rating_order: { type: Number, default: null }, // đánh giá đơn hàng (tùy chọn)
     feedback_order: { type: String, default: "" }, // phản hồi đơn hàng (tùy chọn)
     isFeedback_order: { type: Boolean, default: false }, // đã có phản hồi chưa
+
     status_order: { type: String }, // trạng thái đơn hàng
     method_pay_type: { type: String },
     method_pay_status: { type: String },

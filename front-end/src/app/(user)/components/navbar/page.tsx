@@ -26,6 +26,8 @@ export default function Navbar() {
   const sticky = useRef<HTMLDivElement>(null);
   const [searchTerm, setSearchTerm] = useState("");
   const router = useRouter();
+  const [suggestedProducts, setSuggestedProducts] = useState<any[]>([]);
+  const [isSuggestionsVisible, setIsSuggestionsVisible] = useState(false);
 
   // Lấy token từ localStorage và gọi API để lấy thông tin người dùng
   useEffect(() => {
@@ -67,7 +69,6 @@ export default function Navbar() {
 
     fetchUserData();
   }, []);
-
   // Thêm hiệu ứng sticky cho navbar khi scroll
   useEffect(() => {
     const handleScroll = () => {
@@ -86,6 +87,30 @@ export default function Navbar() {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
+  // Thêm gợi ý sản phầm khi tìm kiếm
+  useEffect(() => {
+    const fetchSuggestedProducts = async () => {
+      if (searchTerm.trim()) {
+        try {
+          const response = await axios.get(
+            `http://localhost:3001/productsAPI/search?keyword=${encodeURIComponent(
+              searchTerm
+            )}`
+          );
+          setSuggestedProducts(response.data.slice(0, 5)); // Lấy tối đa 5 sản phẩm
+          setIsSuggestionsVisible(true); // Hiển thị gợi ý
+        } catch (error) {
+          console.error("Lỗi khi lấy gợi ý sản phẩm:", error);
+        }
+      } else {
+        setIsSuggestionsVisible(false); // Nếu không có từ khóa tìm kiếm, ẩn gợi ý
+      }
+    };
+
+    const debounceTimeout = setTimeout(fetchSuggestedProducts, 300); // Debounce để giảm số lượng request
+
+    return () => clearTimeout(debounceTimeout); // Hủy request cũ nếu người dùng nhập quá nhanh
+  }, [searchTerm]);
 
   const handleSearch = () => {
     if (searchTerm.trim()) {
@@ -102,8 +127,7 @@ export default function Navbar() {
       <nav className="main-nav">
         <div
           ref={sticky}
-          className={`main-top-nav ${isSticky ? "sticky" : ""}`}
-        >
+          className={`main-top-nav ${isSticky ? "sticky" : ""}`}>
           <div className="boxcenter">
             <div className="top-nav">
               <div className="container-top-nav">
@@ -151,6 +175,34 @@ export default function Navbar() {
                       }}
                     />
                     <i className="bi bi-search" onClick={handleSearch}></i>
+                    {isSuggestionsVisible && searchTerm.trim() && (
+                      <div className="suggestions-list">
+                        {suggestedProducts.map((product) => (
+                          <div
+                            key={product._id}
+                            className="suggestion-item"
+                            onClick={() => {
+                              setSearchTerm(product.name);
+                              handleSearch();
+                            }}>
+                            <Link href={`/product/${product.id}`}>
+                              <img
+                                src={`${process.env.NEXT_PUBLIC_IMAGE_PRO_URL}${product.image}`}
+                                alt={product.name}
+                              />
+                              <div className="product-info">
+                                <p>{product.name}</p>
+                                <p className="product-price">
+                                  {product.price
+                                    ? product.price.toLocaleString("vi-VN")
+                                    : "Giá không có sẵn"}
+                                </p>
+                              </div>
+                            </Link>
+                          </div>
+                        ))}
+                      </div>
+                    )}
                   </div>
 
                   <div className="func-user-nav">
@@ -164,8 +216,7 @@ export default function Navbar() {
                           <div className="func-main-modal">
                             <Link
                               data-tooltip="Thông tin"
-                              href="/inforCustomer"
-                            >
+                              href="/inforCustomer">
                               <i className="bi bi-info"></i>
                             </Link>
                             {user.role_user === "admin" && (
@@ -179,8 +230,7 @@ export default function Navbar() {
                               onClick={() => {
                                 localStorage.removeItem("token"); // Xóa token khỏi localStorage
                                 window.location.href = "/login"; // Điều hướng về trang login
-                              }}
-                            >
+                              }}>
                               <i className="bi bi-box-arrow-left"></i>
                             </a>
                           </div>

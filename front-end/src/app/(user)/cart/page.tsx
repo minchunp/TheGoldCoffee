@@ -26,11 +26,19 @@ const Cart = () => {
 
   const [makm, setMakm] = useState(""); // Biến lưu mã khuyến mãi
   const [giamgia, setGiamGia] = useState(0); // Biến lưu mã khuyến mãi
+  const [tongtien, settongtien] = useState(0); // Biến lưu mã khuyến mãi
   const [discountData, setDiscountData] = useState<DiscountData | null>(null);
 
   useEffect(() => {
     localStorage.removeItem("myObjectKey");
+    settongtien(totalPriceCart);
   }, []); // Mảng dependencies rỗng
+
+  useEffect(() => {
+    const newTotal = totalPriceCart - giamgia;
+    settongtien(newTotal > 0 ? newTotal : 0); // Tổng không âm
+    console.log(newTotal, tongtien);
+  }, [totalPriceCart, giamgia]);
 
   // Handle chọn Mã Khuyến Mãi
   const handleMaKm = async () => {
@@ -54,6 +62,7 @@ const Cart = () => {
         const jsonString = JSON.stringify(myObject);
         // Lưu vào localStorage
         localStorage.setItem("myObjectKey", jsonString);
+        settongtien(totalPriceCart - giamgia);
 
         console.log(discountData);
       } catch (error) {
@@ -222,13 +231,13 @@ const Cart = () => {
                   <div className="result-subtotal result-subtotal__0">
                     <p className="title-subtotal">Mã khuyến mãi</p>
                     <p className="price-subtotal">
-                      {giamgia.toLocaleString()}đ
+                      - {giamgia.toLocaleString()}đ
                     </p>
                   </div>
                   <div className="result-subtotal result-subtotal__1">
                     <p className="title-subtotal">Tổng thanh toán</p>
                     <p className="price-subtotal">
-                      {totalPriceCart.toLocaleString()}đ
+                      {tongtien.toLocaleString()}đ
                     </p>
                   </div>
                 </div>

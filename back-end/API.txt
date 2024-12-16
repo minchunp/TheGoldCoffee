@@ -36,6 +36,7 @@
 
 // API PROMOTION
 - Get By Code: http://localhost:3001/promotionsAPI/checkcode/:code [GET]
+- Get All (show_list): http://localhost:3001/promotionsAPI/listPromotion
 
 // API COMMENT
 - Get List Cmt By ID_Product: http://localhost:3001/CommentsAPI/getByProduct/:id_pro

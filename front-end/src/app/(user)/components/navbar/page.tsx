@@ -198,20 +198,18 @@ export default function Navbar() {
                               setSearchTerm("");
                               router.push(`/product/${product.id}`); // Chuyển tới trang chi tiết sản phẩm
                             }}>
-                            <Link href={`/product/${product.id}`}>
-                              <img
-                                src={`${process.env.NEXT_PUBLIC_IMAGE_PRO_URL}${product.image}`}
-                                alt={product.name}
-                              />
-                              <div className="product-info">
-                                <p>{product.name}</p>
-                                <p className="product-price">
-                                  {product.price
-                                    ? product.price.toLocaleString("vi-VN")
-                                    : "Giá không có sẵn"}
-                                </p>
-                              </div>
-                            </Link>
+                            <img
+                              src={`${process.env.NEXT_PUBLIC_IMAGE_PRO_URL}${product.image}`}
+                              alt={product.name}
+                            />
+                            <div className="product-info">
+                              <p>{product.name}</p>
+                              <p className="product-price">
+                                {product.price
+                                  ? product.price.toLocaleString("vi-VN")
+                                  : "Giá không có sẵn"}
+                              </p>
+                            </div>
                           </div>
                         ))}
                       </div>

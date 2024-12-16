@@ -51,18 +51,26 @@ const Cart = () => {
           throw new Error("Mã khuyến mãi không hợp lệ hoặc không tồn tại.");
         }
         const data = await response.json();
-        setDiscountData(data);
-        setGiamGia(data?.value_promotion);
-        const myObject = {
-          id: data?._id,
-          makm: data?.code_promotion,
-          value: data?.value_promotion, // Sử dụng giá trị từ API trực tiếp
-        };
-        // Chuyển đổi đối tượng thành chuỗi JSON
-        const jsonString = JSON.stringify(myObject);
-        // Lưu vào localStorage
-        localStorage.setItem("myObjectKey", jsonString);
-        settongtien(totalPriceCart - giamgia);
+        console.log(data.message);
+
+        if (data?.message == "Khuyến mãi đã hết lượt dùng.") {
+          alert(data?.message);
+        }
+
+        if (data?.message != "Khuyến mãi đã hết lượt dùng.") {
+          setDiscountData(data);
+          setGiamGia(data?.value_promotion);
+          const myObject = {
+            id: data?._id,
+            makm: data?.code_promotion,
+            value: data?.value_promotion, // Sử dụng giá trị từ API trực tiếp
+          };
+          // Chuyển đổi đối tượng thành chuỗi JSON
+          const jsonString = JSON.stringify(myObject);
+          // Lưu vào localStorage
+          localStorage.setItem("myObjectKey", jsonString);
+          settongtien(totalPriceCart - giamgia);
+        }
 
         console.log(discountData);
       } catch (error) {

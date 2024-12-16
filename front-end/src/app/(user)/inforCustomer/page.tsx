@@ -427,7 +427,7 @@ const InforCustomer = () => {
                         {order.method_pay_type !== "Tiền mặt" && (
                           <>
                             {order.method_pay_status === "đã thanh toán" ? (
-                              ` - ${order.method_pay_status}`
+                              ` - Đã thanh toán`
                             ) : (
                               <>
                                 {" - Chưa thanh toán "}

@@ -21,7 +21,7 @@ const Payment = () => {
   const [idPhuongXa, setIdPhuongXa] = useState(999);
 
   const [discount, setDiscount] = useState(0);
-  const [codeDiscount, setCodeDiscount] = useState("");
+  const [codeDiscount, setCodeDiscount] = useState("NONEKM");
   const [discountID, setDiscountID] = useState("");
 
   const [selectedTinh, setSelectedTinh] = useState<string | number>(""); // Tỉnh
@@ -199,6 +199,18 @@ const Payment = () => {
 
   const handleOrderSubmit = async () => {
     const token = localStorage.getItem("token");
+
+    var kq = await checkKM(codeDiscount);
+
+    if (kq == 500) {
+      setDiscount(0);
+      setCodeDiscount("NONEKM");
+      setDiscountID("67324e6c785de7124c3e1d6b");
+      localStorage.removeItem("myObjectKey");
+      setErrorMessage("khuyễn mãi hết hiệu lực.");
+      return;
+    }
+
     localStorage.removeItem("myObjectKey");
     let userId = null;
 
@@ -267,6 +279,17 @@ const Payment = () => {
 
   // THANH TOÁN ZALOPAY
   const handleOrderSubmitZaloPay = async () => {
+    var kq = await checkKM(codeDiscount);
+
+    if (kq == 500) {
+      setDiscount(0);
+      setCodeDiscount("NONEKM");
+      setDiscountID("67324e6c785de7124c3e1d6b");
+      localStorage.removeItem("myObjectKey");
+      setErrorMessage("khuyễn mãi hết hiệu lực.");
+      return;
+    }
+
     const token = localStorage.getItem("token");
     localStorage.removeItem("myObjectKey");
     let userId = null;
@@ -360,6 +383,29 @@ const Payment = () => {
       console.error("Lỗi:", error);
     }
   };
+
+  async function checkKM(code: string) {
+    try {
+      const response = await fetch(
+        `http://localhost:3001/promotionsAPI/checkcode/${code}`
+      );
+      if (!response.ok) {
+        throw new Error("Mã khuyến mãi không hợp lệ hoặc không tồn tại.");
+      }
+      const data = await response.json();
+      console.log(data.message);
+
+      if (data?.message == "Khuyến mãi đã hết lượt dùng.") {
+        alert(
+          "Khuyến mãi này đã được dùng hết. Vui lòng kiểm tra lại TỔNG TIỀN hoặc chọn khuyến mãi khác."
+        );
+        return 500;
+      }
+      return 200;
+    } catch (error) {
+      throw error; // Ném lỗi lên trên để ngừng xử lý tiếp
+    }
+  }
 
   return (
     <>

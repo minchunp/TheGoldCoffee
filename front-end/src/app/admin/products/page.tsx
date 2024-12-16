@@ -125,12 +125,12 @@ const ProductAdmin: React.FC = () => {
                     <Link href={`/admin/products/${product._id}`}>
                       <button className="openEditProduct">Sửa sản phẩm</button>
                     </Link>
-                    <button
+                    {/* <button
                       className="deleteProduct"
                       onClick={() => deleteProduct(product._id)}
                     >
                       Xoá sản phẩm
-                    </button>
+                    </button> */}
                   </div>
                 </div>
               ))}

@@ -190,7 +190,12 @@ function ModalProductDetail({ id, isOpen, onClose }: ModalProductDetailProps) {
                   <div className="quantity-pro">
                      <div className="container-quantity-pro">
                         <p>Số lượng:</p>
-                        <input type="number" defaultValue={1} onChange={(e) => setQuantityPro(Number(e.target.value))} />
+                        <input type="number" min={1} defaultValue={1} onChange={(e) => {
+                           const value = Number(e.target.value);
+                           if (value >= 1) {
+                              setQuantityPro(value);
+                           }
+                        }}/>
                      </div>
                   </div>
 

@@ -1,5 +1,6 @@
 const defaultRouter = require("./default");
 const authRouter = require("./auth");
+const zaloPay = require("./zalopay");
 
 const productRouter = require("./Rt_product");
 const categoryRouter = require("./Rt_category");
@@ -87,7 +88,7 @@ const checkIsAdmin = (req, res, next) => {
 
 function route(app) {
   app.use("/", defaultRouter);
-  app.use("/auth", authRouter);
+  app.use("/auth", authRouter); // dùng file auth.js cho path /auth
 
   app.use("/product", productRouter);
   app.use("/category", categoryRouter);
@@ -105,6 +106,7 @@ function route(app) {
   app.use("/toppingsAPI", toppingAPIRouter);
   app.use("/promotionsAPI", promotionAPIRouter);
   app.use("/commentsAPI", commentAPIRouter);
+  app.use("/zaloPayAPI", zaloPay);
 }
 
 module.exports = route;

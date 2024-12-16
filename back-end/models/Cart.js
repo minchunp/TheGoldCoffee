@@ -5,7 +5,7 @@ const ObjectId = Schema.ObjectId;
 const orderSchema = new Schema(
   {
     id_order: { type: ObjectId }, // khóa chính
-    id_user: { type: ObjectId, ref: "User" }, // khóa ngoại tới bảng User
+    id_user: { type: ObjectId, ref: "users" }, // khóa ngoại tới bảng User
     id_promotion: { type: String },
     total_order: { type: Number }, // tổng đơn hàng
     discount: { type: Number },
@@ -18,6 +18,9 @@ const orderSchema = new Schema(
     feedback_order: { type: String, default: "" }, // phản hồi đơn hàng (tùy chọn)
     isFeedback_order: { type: Boolean, default: false }, // đã có phản hồi chưa
     status_order: { type: String }, // trạng thái đơn hàng
+    method_pay_type: { type: String },
+    method_pay_status: { type: String },
+    app_trans_id: { type: String },
   },
   { versionKey: false }
 );

@@ -41,7 +41,7 @@ const Dashboard = () => {
 
         // Tổng tiền bán được cho các đơn hàng "Đã giao hàng"
         const salesSum = data
-          .filter((order) => order.status === "Đã giao hàng")
+          .filter((order) => order.status === "đã giao hàng")
           .reduce((sum, order) => sum + order.total, 0);
         setTotalSales(salesSum);
       } catch (error) {
@@ -153,6 +153,7 @@ const Dashboard = () => {
                 <div className="main-list">
                   {orders
                     .filter((order) => order.status === "chờ xác nhận")
+                    .reverse() // Đảo ngược thứ tự mảng
                     .map((order) => (
                       <div className="main-order-pending" key={order.id}>
                         <a href={`/admin/orderDetail/${order.id}`}>

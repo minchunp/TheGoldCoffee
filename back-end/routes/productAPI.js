@@ -222,13 +222,23 @@ router.get("/proWithTopping/:id", async function (req, res, next) {
 
 router.get("/listProductTopping", async function (req, res, next) {
   try {
-    var data = await modelProductDetail.find();
-    var ALL = [];
+    const data = await modelProductDetail.find();
+    const ALL = [];
 
     // Lặp qua từng đối tượng trong mảng data
     for (const item of data) {
       const id_pro = item.id_pro; // Lấy id_pro từ từng đối tượng
-      var product = await modelProduct.findById(id_pro); // Lấy thông tin sản phẩm
+
+      // Chỉ lấy sản phẩm có status_pro = "1"
+      const product = await modelProduct.findOne({
+        _id: id_pro,
+        status_pro: "1",
+      });
+
+      if (!product) {
+        // Bỏ qua sản phẩm không thỏa điều kiện
+        continue;
+      }
 
       // Lấy list topping
       const list_id_topping = item.list_topping;

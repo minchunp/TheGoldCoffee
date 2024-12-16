@@ -482,10 +482,10 @@ const Payment = () => {
                 Thanh Toán Khi Nhận Hàng
               </button>
               <button
-                className="main-btn main-btn__payment"
+                className="main-btn main-btn__payment zalopay-button"
                 onClick={handleOrderSubmitZaloPay}
               >
-                Thanh Toán ZaloPay
+                Thanh Toán Trước Với ZaloPay
               </button>
             </div>
 

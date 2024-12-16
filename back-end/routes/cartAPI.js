@@ -5,6 +5,7 @@ var modelDetailedOrder = require("../models/Detailed_order");
 var modelPromotion = require("../models/Promotion");
 var modelTopping = require("../models/Topping");
 var modelProduct = require("../models/Product");
+var modelProductDetail = require("../models/Product_detail");
 
 // API thay đổi trạng thái đơn hàng
 // POST http://localhost:3001/cartsAPI/detailOrder/setSTT
@@ -192,7 +193,6 @@ router.get("/list_order", async function (req, res) {
 // POST http://localhost:3001/cartsAPI/order
 router.post("/order", async function (req, res) {
   try {
-    // Lấy dữ liệu từ request body
     const {
       id_user,
       id_promotion,
@@ -209,10 +209,10 @@ router.post("/order", async function (req, res) {
       status_order,
       method_pay_type,
       method_pay_status,
-      products, // Danh sách sản phẩm từ cart
+      products,
     } = req.body;
 
-    // Tạo một đơn hàng mới trong bảng Order
+    // Tạo một đơn hàng mới
     const newOrder = new modelOrder({
       id_user,
       id_promotion,
@@ -231,52 +231,68 @@ router.post("/order", async function (req, res) {
       status_order,
     });
 
-    // Lưu đơn hàng vào cơ sở dữ liệu
     const savedOrder = await newOrder.save();
 
     // Lưu chi tiết từng sản phẩm trong đơn
     for (let index = 0; index < products.length; index++) {
+      const product = products[index];
+
+      // Lấy thông tin id_pro từ Product_detail
+      const productDetail = await modelProductDetail.findById(
+        product.productId
+      );
+      if (!productDetail) {
+        console.error(
+          `Không tìm thấy Product_detail với ID: ${product.productId}`
+        );
+        continue; // Bỏ qua nếu không tìm thấy
+      }
+
+      const productId = productDetail.id_pro; // Lấy id_pro của sản phẩm chính
+
+      // Lưu chi tiết đơn hàng
       const newDetail = new modelDetailedOrder({
-        id_pro: products[index].productId,
+        id_pro: product.productId,
         id_order: savedOrder.id,
-        quantity_detailedOrder: products[index].quantity,
-        size_detailedOrder: products[index].size,
-        price_detailedOrder: products[index].price,
+        quantity_detailedOrder: product.quantity,
+        size_detailedOrder: product.size,
+        price_detailedOrder: product.price,
       });
 
+      await newDetail.save();
+
+      // **Cập nhật salesVolume_pro trong bảng Product**
+      await modelProduct.findByIdAndUpdate(
+        productId,
+        { $inc: { salesVolume_pro: product.quantity } }, // Tăng salesVolume_pro
+        { new: true }
+      );
+
       // Lưu topping nếu có
-      if (products[index].toppings && products[index].toppings.length > 0) {
-        const mangtopping = products[index].toppings;
+      if (product.toppings && product.toppings.length > 0) {
+        const mangtopping = product.toppings;
 
         for (let z = 0; z < mangtopping.length; z++) {
-          const toppingName = mangtopping[z]; // tên của topping
-
-          // Lấy thông tin topping từ tên topping trong cơ sở dữ liệu
+          const toppingName = mangtopping[z]; // Tên topping
           const toppingG = await modelTopping.findOne({
             name_topping: toppingName,
           });
 
-          // Kiểm tra nếu topping được tìm thấy
           if (toppingG) {
-            // Lưu topping vào chi tiết đơn hàng
             const newDetailTopping = new modelDetailedOrder({
               id_pro: toppingG.id,
               id_order: savedOrder.id,
-              id_fd: products[index].productId,
+              id_fd: productId, // Gán vào sản phẩm chính
               quantity_detailedOrder: 1,
               price_detailedOrder: toppingG.price_topping,
             });
 
-            console.log(newDetailTopping);
-
             await newDetailTopping.save();
           } else {
-            console.log(`Topping '${toppingName}' không tìm thấy.`);
+            console.error(`Topping '${toppingName}' không tìm thấy.`);
           }
         }
       }
-
-      await newDetail.save();
     }
 
     // Phản hồi thành công
@@ -289,6 +305,7 @@ router.post("/order", async function (req, res) {
     res.status(500).json({ message: "Error creating order" });
   }
 });
+
 router.post("/orderzalopay", async function (req, res) {
   try {
     // Lấy dữ liệu từ request body
@@ -339,6 +356,17 @@ router.post("/orderzalopay", async function (req, res) {
 
     // Lưu chi tiết từng sản phẩm trong đơn
     for (let index = 0; index < products.length; index++) {
+      const productDetail = await modelProductDetail.findById(
+        products[index].productId
+      );
+
+      if (!productDetail) {
+        console.log(
+          `ProductDetail với ID '${products[index].productId}' không tồn tại.`
+        );
+        continue;
+      }
+
       const newDetail = new modelDetailedOrder({
         id_pro: products[index].productId,
         id_order: savedOrder.id,
@@ -346,6 +374,13 @@ router.post("/orderzalopay", async function (req, res) {
         size_detailedOrder: products[index].size,
         price_detailedOrder: products[index].price,
       });
+
+      // Cập nhật salesVolume_pro trong Product
+      await modelProduct.findByIdAndUpdate(
+        productDetail.id_pro,
+        { $inc: { salesVolume_pro: products[index].quantity } },
+        { new: true }
+      );
 
       // Lưu topping nếu có
       if (products[index].toppings && products[index].toppings.length > 0) {

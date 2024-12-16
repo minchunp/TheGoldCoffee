@@ -1,151 +1,182 @@
 :root {
-   --font-family-body: "Open Sans", sans-serif;
-   --font-family-title: "Nunito", sans-serif; 
-   --color-primary: #382210;
-   --color-secondary: #FFE8CF;
-   --color-tertiary: #96725A;
-   --color-body-bg: #fff;
-   --color-body: #6F6F6F;
-   --font-weight-paragraph: 400;
-   --font-weight-title: 600;
+  --font-family-body: "Open Sans", sans-serif;
+  --font-family-title: "Nunito", sans-serif;
+  --color-primary: #382210;
+  --color-secondary: #ffe8cf;
+  --color-tertiary: #96725a;
+  --color-body-bg: #fff;
+  --color-body: #6f6f6f;
+  --font-weight-paragraph: 400;
+  --font-weight-title: 600;
 }
 
 /* Body payment */
 .body-payment {
-   margin: 70px 0;
+  margin: 70px 0;
 }
 
 .boxcenter-payment {
-   width: 78%;
-   margin: 0 auto;
+  width: 78%;
+  margin: 0 auto;
 }
 
 .container-payment {
-   display: grid;
-   grid-template-columns: 1fr 1fr;
-   column-gap: 50px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 50px;
 }
 
 /* Info payment */
 .info-payment h2 {
-   font-size: 22px;
+  font-size: 22px;
 }
 
 .input-payment {
-   margin-bottom: 10px;
+  margin-bottom: 10px;
 }
 
 .input-payment p {
-   font-size: 15px;
-   margin-bottom: 5px;
+  font-size: 15px;
+  margin-bottom: 5px;
 }
 
 .input-payment input,
 .input-payment select {
-   box-sizing: border-box;
-   -webkit-appearance: none;
-   appearance: none;
-   outline: none;
-   border: 1px solid rgba(0, 0, 0, 20%);
-   width: 100%;
-   height: 45px;
-   padding-left: 12px;
-   border-radius: 3px;
+  box-sizing: border-box;
+  -webkit-appearance: none;
+  appearance: none;
+  outline: none;
+  border: 1px solid rgba(0, 0, 0, 20%);
+  width: 100%;
+  height: 45px;
+  padding-left: 12px;
+  border-radius: 3px;
 }
 
 .method-payment {
-   margin-top: 30px;
+  margin-top: 30px;
 }
 
 .main-btn__payment {
-   width: 100%;
-   margin-top: 30px;
-   background-color: var(--color-tertiary);
+  width: 100%;
+  margin-top: 30px;
+  background-color: var(--color-tertiary);
 }
 
 .main-btn__payment:hover {
-   background-color: var(--color-primary);
+  background-color: var(--color-primary);
 }
 
 /* Products payment */
 .main-products-payment {
-   border: 1px solid rgba(0, 0, 0, 20%);
-   border-radius: 3px;
-   padding: 20px 25px;
+  border: 1px solid rgba(0, 0, 0, 20%);
+  border-radius: 3px;
+  padding: 20px 25px;
 }
 
 .title-products-payment {
-   border-bottom: 1px solid rgba(0, 0, 0, 20%);
+  border-bottom: 1px solid rgba(0, 0, 0, 20%);
 }
 
 .title-products-payment h2 {
-   font-size: 22px;
-   margin-bottom: 10px;
+  font-size: 22px;
+  margin-bottom: 10px;
 }
 
 .container-products-payment {
-   display: flex;
-   flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .product-payment {
-   padding-bottom: 15px;
-   display: flex;
-   justify-content: space-between;
-   border-bottom: 1px solid rgba(0, 0, 0, 20%);
+  padding-bottom: 15px;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(0, 0, 0, 20%);
 }
 
 .product-payment:last-child {
-   border-bottom: none;
+  border-bottom: none;
 }
 
 .name-pro-payment {
-   color: var(--color-tertiary);
-   font-size: 15px;
-   margin-bottom: 10px;
+  color: var(--color-tertiary);
+  font-size: 15px;
+  margin-bottom: 10px;
 }
 
 .content-pro-payment {
-   font-size: 12px;
-   margin: 8px 0;
+  font-size: 12px;
+  margin: 8px 0;
 }
 
 .total-price-pro-payment {
-   color: var(--color-tertiary);
-   font-weight: 600;
+  color: var(--color-tertiary);
+  font-weight: 600;
 }
 
 .main-total-products-payment {
-   margin-top: 100px;
+  margin-top: 100px;
 }
 
 .main-total-products-payment h2 {
-   font-size: 22px;
-   margin-bottom: 15px;
+  font-size: 22px;
+  margin-bottom: 15px;
 }
 
 .container-total-products-payment {
-   display: flex;
-   flex-direction: column;
-   gap: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .result-subtotal {
-   display: flex;
-   justify-content: space-between;
-   align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .result-subtotal__0 p {
-   font-weight: 600;
-   color: var(--color-body);
-   margin: 0;
-   font-size: 14px;
+  font-weight: 600;
+  color: var(--color-body);
+  margin: 0;
+  font-size: 14px;
 }
 
 .result-subtotal__1 p {
-   font-weight: 600;
-   color: var(--color-tertiary);
-   font-size: 18px;
-   margin: 0;
+  font-weight: 600;
+  color: var(--color-tertiary);
+  font-size: 18px;
+  margin: 0;
+}
+
+.zalopay-button {
+  background-color: #0068ff; /* Màu xanh đặc trưng của Zalopay */
+  color: #ffffff; /* Màu chữ trắng */
+  border: none;
+  border-radius: 8px; /* Bo góc */
+  padding: 12px 24px; /* Khoảng cách bên trong nút */
+  font-size: 16px; /* Kích thước chữ */
+  font-weight: bold;
+  text-align: center;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 104, 255, 0.3); /* Hiệu ứng đổ bóng */
+  transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Hiệu ứng chuyển đổi */
+}
+
+.zalopay-button:hover {
+  background-color: #0053cc; /* Màu xanh đậm hơn khi hover */
+  box-shadow: 0 6px 8px rgba(0, 83, 204, 0.4); /* Tăng đổ bóng khi hover */
+}
+
+.zalopay-button:active {
+  background-color: #0041a8; /* Màu xanh đậm hơn khi click */
+  box-shadow: 0 2px 4px rgba(0, 65, 168, 0.5); /* Giảm đổ bóng khi click */
+}
+
+.zalopay-button:disabled {
+  background-color: #b3d7ff; /* Màu xám xanh khi nút bị vô hiệu hóa */
+  color: #ffffff;
+  cursor: not-allowed;
+  box-shadow: none;
 }

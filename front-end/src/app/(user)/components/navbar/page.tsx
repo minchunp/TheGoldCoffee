@@ -93,14 +93,25 @@ export default function Navbar() {
   useEffect(() => {
     const fetchSuggestedProducts = async () => {
       if (searchTerm.trim()) {
+        console.log("Search Term: ", searchTerm);
         try {
           const response = await axios.get(
             `http://localhost:3001/productsAPI/search?keyword=${encodeURIComponent(
               searchTerm
             )}`
           );
-          setSuggestedProducts(response.data.slice(0, 5)); // Lấy tối đa 5 sản phẩm
-          setIsSuggestionsVisible(true); // Hiển thị gợi ý
+          console.log("API Response: ", response.data); // Thêm dòng này để kiểm tra dữ liệu trả về từ API
+          // Kiểm tra nếu không tìm thấy sản phẩm chính xác, lấy gợi ý sản phẩm
+          if (
+            response.data.message ===
+            "Không tìm thấy sản phẩm. Đây là các gợi ý:"
+          ) {
+            setSuggestedProducts(response.data.suggestions); // Lấy gợi ý từ backend
+            setIsSuggestionsVisible(true); // Hiển thị gợi ý
+          } else {
+            setSuggestedProducts(response.data.slice(0, 5)); // Nếu có kết quả chính xác, sử dụng kết quả trả về
+            setIsSuggestionsVisible(true); // Hiển thị kết quả tìm kiếm
+          }
         } catch (error) {
           console.error("Lỗi khi lấy gợi ý sản phẩm:", error);
         }
@@ -109,7 +120,7 @@ export default function Navbar() {
       }
     };
 
-    const debounceTimeout = setTimeout(fetchSuggestedProducts, 300); // Debounce để giảm số lượng request
+    const debounceTimeout = setTimeout(fetchSuggestedProducts, 500); // Debounce để giảm số lượng request
 
     return () => clearTimeout(debounceTimeout); // Hủy request cũ nếu người dùng nhập quá nhanh
   }, [searchTerm]);
@@ -184,8 +195,8 @@ export default function Navbar() {
                             key={product._id}
                             className="suggestion-item"
                             onClick={() => {
-                              setSearchTerm(product.name);
-                              handleSearch();
+                              setSearchTerm("");
+                              router.push(`/product/${product.id}`); // Chuyển tới trang chi tiết sản phẩm
                             }}>
                             <Link href={`/product/${product.id}`}>
                               <img

@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import "../../../../public/css/cart.css";
 import "../../../../public/css/login_register.css";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React, { ChangeEvent, useEffect, useRef, useState } from "react";
 import { selectCartProducts, selectCartTotal } from "@/app/redux/cartSelector";
 import { useDispatch } from "react-redux";
 import {
@@ -18,6 +18,12 @@ type DiscountData = {
   discount: number;
 };
 
+type Promotion = {
+  _id: string;
+  code_promotion: string;
+  value_promotion?: number;
+};
+
 const Cart = () => {
   const cartProducts = useSelector(selectCartProducts);
   const totalPriceCart = useSelector(selectCartTotal);
@@ -28,7 +34,11 @@ const Cart = () => {
   const [giamgia, setGiamGia] = useState(0); // Biến lưu mã khuyến mãi
   const [tongtien, settongtien] = useState(0); // Biến lưu mã khuyến mãi
   const [discountData, setDiscountData] = useState<DiscountData | null>(null);
-
+  const [listPromotions, setListPromotions] = useState<Promotion[]>([]);
+  const [suggestions, setSuggestions] = useState([]);
+  const [isLoadingSuggestions, setIsLoadingSuggestions] = useState(false);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const suggestionsRef = useRef<HTMLUListElement>(null); // Ref để theo dõi vùng gợi ý
   useEffect(() => {
     localStorage.removeItem("myObjectKey");
     settongtien(totalPriceCart);
@@ -40,6 +50,62 @@ const Cart = () => {
     console.log(newTotal, tongtien);
   }, [totalPriceCart, giamgia]);
 
+  const fetchListPromotions = async () => {
+    try {
+      const response = await fetch(
+        "http://localhost:3001/promotionsAPI/listPromotion"
+      );
+      if (!response.ok)
+        throw new Error("Không thể lấy danh sách mã khuyến mãi.");
+      const data = await response.json();
+      setListPromotions(data);
+    } catch (error) {
+      console.error("Lỗi khi lấy danh sách mã khuyến mãi:", error);
+    }
+  };
+
+  useEffect(() => {
+    const fetchSuggestedPromotions = async () => {
+      if (makm.trim()) {
+        setIsLoadingSuggestions(true); // Bắt đầu loading
+        try {
+          const response = await fetch(
+            `http://localhost:3001/promotionsAPI/search?keyword=${encodeURIComponent(
+              makm
+            )}`
+          );
+          if (!response.ok) {
+            throw new Error("Không tìm thấy mã khuyến mãi.");
+          }
+          const data = await response.json();
+          setSuggestions(data.suggestions); // Cập nhật danh sách gợi ý từ data.suggestions
+          setShowSuggestions(true); // Hiển thị gợi ý khi có dữ liệu
+        } catch (error) {
+          console.error("Lỗi khi lấy gợi ý:", error);
+          setSuggestions([]); // Nếu có lỗi, đặt gợi ý thành mảng rỗng
+          setIsLoadingSuggestions(false); // Kết thúc loading
+        }
+      } else {
+        setSuggestions([]); // Nếu từ khóa trống, ẩn gợi ý
+      }
+    };
+
+    const debounceTimeout = setTimeout(fetchSuggestedPromotions, 300);
+
+    return () => clearTimeout(debounceTimeout);
+  }, [makm]);
+
+  const handleInputClick = async () => {
+    if (listPromotions.length === 0) {
+      fetchListPromotions(); // Lấy danh sách ban đầu nếu chưa có
+    }
+    // setSuggestions([]); // Bắt đầu với danh sách mặc định
+    setShowSuggestions(true); // Hiển thị gợi ý khi nhấp vào input
+  };
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setMakm(value); // Cập nhật giá trị makm // Cập nhật giá trị makm); // Cập nhật từ khóa tìm kiếm
+  };
   // Handle chọn Mã Khuyến Mãi
   const handleMaKm = async () => {
     if (makm.trim() !== "") {
@@ -77,7 +143,21 @@ const Cart = () => {
     // Chuyển sang trang thanh toán
     router.push("/payment");
   };
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        suggestionsRef.current &&
+        !suggestionsRef.current.contains(event.target as Node)
+      ) {
+        setShowSuggestions(false); // Ẩn gợi ý khi nhấp ra ngoài
+      }
+    };
 
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
   return (
     <>
       <section className="banner-title-other-page overlay-bg">
@@ -115,8 +195,7 @@ const Cart = () => {
                               onClick={() =>
                                 dispatch(removeProductToCart(item))
                               }
-                              className="delete-item-cart"
-                            >
+                              className="delete-item-cart">
                               <i className="bi bi-trash3"></i>
                             </button>
                           </div>
@@ -146,8 +225,7 @@ const Cart = () => {
                         <div className="quantity-pro-cart">
                           <button
                             onClick={() => dispatch(decQuantity(item))}
-                            className="decAndinc-quantity-product-cart"
-                          >
+                            className="decAndinc-quantity-product-cart">
                             -
                           </button>
                           {/* <input type="number" defaultValue={item.quantity_pro} /> */}
@@ -156,8 +234,7 @@ const Cart = () => {
                           </div>
                           <button
                             onClick={() => dispatch(incQuantity(item))}
-                            className="decAndinc-quantity-product-cart"
-                          >
+                            className="decAndinc-quantity-product-cart">
                             +
                           </button>
                         </div>
@@ -191,11 +268,29 @@ const Cart = () => {
                     type="text"
                     placeholder="Nhập mã khuyến mãi"
                     value={makm}
-                    onChange={(e) => setMakm(e.target.value)}
+                    onClick={handleInputClick} // Hiển thị danh sách mặc định
+                    onChange={handleInputChange} // Hiển thị danh sách gợi ý
                   />
                   <button onClick={handleMaKm} className="icon-submit-discount">
                     <i className="bi bi-arrow-right"></i>
                   </button>
+                  {showSuggestions && (
+                    <ul className="suggestions" ref={suggestionsRef}>
+                      {(suggestions.length > 0
+                        ? suggestions
+                        : listPromotions
+                      ).map((promotion) => (
+                        <li
+                          key={promotion._id}
+                          onClick={() => {
+                            setMakm(promotion.code_promotion); // Chọn mã khuyến mãi
+                            setSuggestions([]); // Ẩn gợi ý sau khi chọn
+                          }}>
+                          {promotion.code_promotion}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                 </div>
 
                 <div className="button-return-store">
@@ -247,8 +342,7 @@ const Cart = () => {
 
                 <button
                   className="main-btn main-btn__checkout-shipping"
-                  onClick={handleCheckout}
-                >
+                  onClick={handleCheckout}>
                   Đặt hàng
                 </button>
               </div>

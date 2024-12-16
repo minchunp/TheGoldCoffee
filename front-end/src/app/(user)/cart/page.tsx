@@ -54,7 +54,7 @@ const Cart = () => {
         console.log(data.message);
 
         if (data?.message == "Khuyến mãi đã hết lượt dùng.") {
-          alert(data?.message);
+          alert("Mã khuyến mãi sai hoặc đã hết hạn");
         }
 
         if (data?.message != "Khuyến mãi đã hết lượt dùng.") {

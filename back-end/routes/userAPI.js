@@ -2,6 +2,8 @@ const express = require("express");
 const router = express.Router();
 const modelUser = require("../models/User");
 
+
+
 // Lấy danh sách tất cả user
 // http://localhost:3000/usersAPI/listUser
 router.get("/listUser", async (req, res, next) => {
@@ -103,5 +105,6 @@ router.get("/detailUserFind_name", async (req, res, next) => {
     next(err);
   }
 });
+
 
 module.exports = router;

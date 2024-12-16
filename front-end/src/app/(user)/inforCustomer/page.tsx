@@ -249,6 +249,10 @@ const InforCustomer = () => {
     console.log({ id, status: "chờ xác nhận" });
   };
 
+  function handlePayment(id: string): void {
+    throw new Error("Function not implemented.");
+  }
+
   return (
     <>
       <ModalOrderDetail
@@ -386,8 +390,20 @@ const InforCustomer = () => {
                       </p>
                       <p>
                         {order.method_pay_type}
-                        {order.method_pay_type !== "Tiền mặt" &&
-                          ` - ${order.method_pay_status}`}
+                        {order.method_pay_type !== "Tiền mặt" && (
+                          <>
+                            {order.method_pay_status === "đã thanh toán" ? (
+                              ` - ${order.method_pay_status}`
+                            ) : (
+                              <>
+                                {" - Chưa thanh toán "}
+                                <button onClick={() => handlePayment(order.id)}>
+                                  Thanh toán
+                                </button>
+                              </>
+                            )}
+                          </>
+                        )}
                       </p>
                       <div className="container-btn-func-order-information">
                         <p

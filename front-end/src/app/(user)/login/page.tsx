@@ -16,9 +16,36 @@ const Login = () => {
   const [email_user, setEmailUser] = useState("");
   const [pass_user, setPassUser] = useState("");
   const [error, setError] = useState("");
+  const [emailError, setEmailError] = useState(""); // lỗi cho email
+  const [passwordError, setPasswordError] = useState(""); // lỗi cho password
+
+const validateForm = (): boolean =>{
+  let isValid = true;
+
+  //kiểm tra email
+  if(!/\S+@\S+\.\S+/.test(email_user)){
+    setEmailError("Email không đúng định dạng!");
+    isValid = false;
+  }else{
+    setEmailError("");
+  }
+
+  // kiểm tra mật khẩu
+  if(!/^(?=.*[A-Z])(?=.*[a-zA-Z0-9]).{6,}$/.test(pass_user)){
+    setPasswordError("Mật khẩu phải có ít nhất 6 ký tự, bao gồm 1 chữ hoa!");
+    isValid = false;
+  }else{
+    setPasswordError("");
+  }
+  return isValid;
+};
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // kiểm tra form trước khi gửi
+    if(!validateForm()) return;
+
     if (email_user && pass_user) {
       try {
         const response: AxiosResponse<{ token: string; users: User[] }> =
@@ -100,7 +127,9 @@ const Login = () => {
                   Đăng nhập
                 </button>
                 {error && <h3 className="error">{error}</h3>}
-                <a href="#!" className="forgot-password">
+                {emailError && <h3 className="error">{emailError}</h3>}
+                {passwordError && <h3 className="error">{passwordError}</h3>}
+                <a href="/forgotAccount" className="forgot-password">
                   Quên mật khẩu?
                 </a>
               </form>

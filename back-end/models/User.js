@@ -9,8 +9,8 @@ const userSchema = new Schema(
     pass_user: { type: String },
     address_user: { type: String },
     role_user: { type: String },
-    status_user: { type: Number },
-    // tokens: { type: Array },
+    status_user: { type: Number, default:1 }
+    // tokens: { type: Array }
   },
   { versionKey: false }
 );

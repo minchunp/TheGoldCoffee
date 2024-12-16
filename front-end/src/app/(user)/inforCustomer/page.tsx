@@ -17,6 +17,7 @@ interface Oder {
   method_pay_type: string;
   method_pay_status: string;
   app_trans_id: string;
+  total: number;
 }
 const InforCustomer = () => {
   const [isModalOpenOrderDetail, setIsModalOpenOrderDetail] = useState(false);
@@ -249,8 +250,41 @@ const InforCustomer = () => {
     console.log({ id, status: "chờ xác nhận" });
   };
 
-  function handlePayment(id: string): void {
-    throw new Error("Function not implemented.");
+  async function handlePayment(id: string): Promise<void> {
+    const foundOrder = showOder.find((order) => order.id === id);
+    console.log(foundOrder);
+    const tempAppTransId = foundOrder?.app_trans_id;
+
+    // Tạo thanh toán với ZaloPay
+    try {
+      const zaloPayResponse = await fetch(
+        `http://localhost:3001/zaloPayAPI/payment`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            title: "Thanh Toán The Gold Coffee",
+            amount: foundOrder?.total,
+            description: `The Gold Coffee - Thanh toán đơn hàng #${foundOrder?.id_user}`,
+            tempAppTransId: tempAppTransId,
+          }),
+        }
+      );
+
+      if (zaloPayResponse.ok) {
+        const data = await zaloPayResponse.json();
+        if (data.order_url) {
+          // Điều hướng người dùng tới URL thanh toán
+          window.location.href = data.order_url;
+        }
+      } else {
+        console.error("Lỗi kết nối đến ZaloPay.");
+      }
+    } catch (error) {
+      console.error("Lỗi:", error);
+    }
   }
 
   return (

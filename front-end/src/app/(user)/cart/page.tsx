@@ -231,7 +231,7 @@ const Cart = () => {
                   <div className="result-subtotal result-subtotal__0">
                     <p className="title-subtotal">Mã khuyến mãi</p>
                     <p className="price-subtotal">
-                      {giamgia.toLocaleString()}đ
+                      - {giamgia.toLocaleString()}đ
                     </p>
                   </div>
                   <div className="result-subtotal result-subtotal__1">

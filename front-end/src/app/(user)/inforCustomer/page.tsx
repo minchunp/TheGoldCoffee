@@ -406,7 +406,7 @@ const InforCustomer = () => {
                                  <p>{order.id.slice(-4)}</p>
                                  <p>{order.date.toLocaleString()}</p>
                                  <p>{order.status.charAt(0).toUpperCase() + order.status.slice(1)}</p>
-                                 <p>
+                                 <div className="container-status-payment">
                                     {order.method_pay_type}
                                     {order.method_pay_type !== "Tiền mặt" && (
                                        <>
@@ -415,12 +415,12 @@ const InforCustomer = () => {
                                           ) : (
                                              <>
                                                 {" - Chưa thanh toán "}
-                                                <button onClick={() => handlePayment(order.id)}>Thanh toán</button>
+                                                <button className="main-btn main-btn__status-payment" onClick={() => handlePayment(order.id)}>Thanh toán</button>
                                              </>
                                           )}
                                        </>
                                     )}
-                                 </p>
+                                 </div>
                                  <div className="container-btn-func-order-information">
                                     <p onClick={() => openModal(order.id)} className="btn-check-orderDetail">
                                        Xem chi tiết

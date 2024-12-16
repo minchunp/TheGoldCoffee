@@ -1,0 +1,61 @@
+:root {
+   --font-family-body: "Open Sans", sans-serif;
+   --font-family-title: "Nunito", sans-serif; 
+   --color-primary: #382210;
+   --color-secondary: #FFE8CF;
+   --color-tertiary: #96725A;
+   --color-body-bg: #fff;
+   --color-body: #6F6F6F;
+   --font-weight-paragraph: 400;
+   --font-weight-title: 600;
+}
+
+.main-show-promotion {
+   margin: 70px 0;
+}
+
+.container-show-promotion {
+   display: grid;
+   grid-template-columns: 1fr 1fr 1fr;
+   justify-items: space-between;
+   column-gap: 40px;
+   row-gap: 60px;
+}
+
+.box-promotion {
+   display: flex;
+   gap: 15px;
+   justify-content: center;
+}
+
+.box-promotion img {
+   width: 150px;
+   height: 150px;
+}
+
+.name-promotion {
+   font-size: 20px;
+}
+
+.code-promotion,
+.content-promotion {
+   font-size: 13px;
+   margin: 5px 0 6px 0;
+}
+
+.code-promotion {
+   font-weight: 600;
+   color: var(--color-tertiary);
+   font-size: 17px;
+}
+
+.main-btn__saveCodePromotion {
+   height: 30px;
+   width: 100px;
+   font-size: 13px;
+   background-color: var(--color-tertiary);
+}
+
+.main-btn__saveCodePromotion:hover {
+   background-color: var(--color-primary);
+}

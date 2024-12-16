@@ -59,7 +59,6 @@
 
 .name-pro p:hover {
    color: var(--color-tertiary);
-   font-weight: 600;
 }
 
 .price-sale-product {
@@ -71,7 +70,7 @@
 .price-sale-product p {
    font-size: 15px;
    font-weight: 600;
-   color: var(--color-primary);
+   color: var(--color-tertiary);
    margin-top: 0;
 }
 

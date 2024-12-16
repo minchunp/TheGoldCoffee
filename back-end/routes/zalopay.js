@@ -52,7 +52,7 @@ router.post("/payment", async (req, res) => {
     embed_data: JSON.stringify(embed_data),
     amount: amount, // Số tiền thanh toán
     callback_url:
-      "https://7607-2402-800-6319-4f0c-5427-219d-73b4-f223.ngrok-free.app/zaloPayAPI/callback",
+      "https://2d73-2402-800-6319-4f0c-5427-219d-73b4-f223.ngrok-free.app/zaloPayAPI/callback",
     description: description, // Nội dung giao dịch
     bank_code: "", // Để trống nếu không yêu cầu ngân hàng cụ thể
     title: title || "Merchant Default Title", // Tiêu đề mặc định nếu không truyền

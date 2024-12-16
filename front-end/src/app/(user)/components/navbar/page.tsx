@@ -236,17 +236,13 @@ export default function Navbar() {
               </Link>
               <div className="menu">
                 <div className="item-menu">
-                  <a href="#!">Trang chủ</a>
+                  <a href="/">Trang chủ</a>
                 </div>
                 <div className="item-menu">
                   <a href="#!">Cửa hàng</a>
                 </div>
                 <div className="item-menu">
-                  <a href="#!">Khuyến mãi</a>
-                </div>
-                <div className="item-menu">
-                  <a href="#!">Tuyển dụng</a>
-                  {/* <Link href="/recruitment">Tuyển dụng</Link> */}
+                  <a href="/promotions">Khuyến mãi</a>
                 </div>
                 <div className="item-menu">
                   <a href="#!">Tin tức</a>

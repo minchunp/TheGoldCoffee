@@ -123,6 +123,26 @@
    margin-top: 30px;
 }
 
+.container-status-payment {
+   color: var(--color-body);
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   gap: 5px;
+   font-size: 12px;
+}
+
+.main-btn__status-payment {
+   height: 28px;
+   font-size: 12px;
+   width: 80px;
+   background-color: #0068ff;
+}
+
+.main-btn__status-payment:hover {
+   background-color: #0053cc;
+}
+
 .title-body-order-information,
 .item-order-information {
    border-bottom: 1px solid rgba(0, 0, 0, 10%);

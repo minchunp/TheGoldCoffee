@@ -3,8 +3,11 @@ import React, { useState } from "react";
 import axios from "axios";
 import "../../../../public/css/login_register.css";
 
+import ModalCofirmRegister from "../components/modalConfirmRegister/page";
+
 
 const Register: React.FC = () => {
+  const [isOpenModal, setIsOpenModal] = useState(false);
   const [name_user, setNameUser] = useState("");
   const [email_user, setEmailUser] = useState("");
   const [pass_user, setPassUser] = useState("");
@@ -91,14 +94,17 @@ const Register: React.FC = () => {
       });
 
       if (registerResponse.status === 200) {
-        alert("Đăng ký thành công!");
-        window.location.href = "/login";
+        // alert("Đăng ký thành công!");
+        setIsOpenModal(true);
+        // window.location.href = "/login";
       }
     } catch (e: any) {
       console.error("Đăng ký thất bại!", e);
       setError(e.response?.data?.msg || "Đăng ký thất bại!");
     }
   };
+
+  const closeModal = () => setIsOpenModal(false);
 
   const startTimer = () =>{
     setTimer(60);
@@ -136,6 +142,7 @@ const Register: React.FC = () => {
 
   return (
     <>
+      <ModalCofirmRegister isOpen={isOpenModal} onClose={closeModal} />
       {/* Section Title */}
       <section className="banner-title-other-page overlay-bg">
         <div className="main-title-other-page">

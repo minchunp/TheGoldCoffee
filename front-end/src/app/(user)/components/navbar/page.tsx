@@ -8,6 +8,7 @@ import logoWebsiteURL from "../../../../../public/images/The Gold Coffee Logo SV
 import { useSelector } from "react-redux";
 import { selectCartProducts } from "@/app/redux/cartSelector";
 import { useRouter } from "next/navigation";
+
 import Cart from "./cart";
 
 // Kiểu dữ liệu người dùng
@@ -25,6 +26,8 @@ export default function Navbar() {
   const [isSticky, setIsSticky] = useState<boolean>(false);
   const sticky = useRef<HTMLDivElement>(null);
   const [searchTerm, setSearchTerm] = useState("");
+  const [suggestedProducts, setSuggestedProducts] = useState<any[]>([]);
+  const [isSuggestionsVisible, setIsSuggestionsVisible] = useState(false);
   const router = useRouter();
 
   // Lấy token từ localStorage và gọi API để lấy thông tin người dùng
@@ -87,6 +90,41 @@ export default function Navbar() {
     };
   }, []);
 
+  useEffect(() => {
+    const fetchSuggestedProducts = async () => {
+      if (searchTerm.trim()) {
+        console.log("Search Term: ", searchTerm);
+        try {
+          const response = await axios.get(
+            `http://localhost:3001/productsAPI/search?keyword=${encodeURIComponent(
+              searchTerm
+            )}`
+          );
+          console.log("API Response: ", response.data); // Thêm dòng này để kiểm tra dữ liệu trả về từ API
+          // Kiểm tra nếu không tìm thấy sản phẩm chính xác, lấy gợi ý sản phẩm
+          if (
+            response.data.message ===
+            "Không tìm thấy sản phẩm. Đây là các gợi ý:"
+          ) {
+            setSuggestedProducts(response.data.suggestions); // Lấy gợi ý từ backend
+            setIsSuggestionsVisible(true); // Hiển thị gợi ý
+          } else {
+            setSuggestedProducts(response.data.slice(0, 5)); // Nếu có kết quả chính xác, sử dụng kết quả trả về
+            setIsSuggestionsVisible(true); // Hiển thị kết quả tìm kiếm
+          }
+        } catch (error) {
+          console.error("Lỗi khi lấy gợi ý sản phẩm:", error);
+        }
+      } else {
+        setIsSuggestionsVisible(false); // Nếu không có từ khóa tìm kiếm, ẩn gợi ý
+      }
+    };
+
+    const debounceTimeout = setTimeout(fetchSuggestedProducts, 500); // Debounce để giảm số lượng request
+
+    return () => clearTimeout(debounceTimeout); // Hủy request cũ nếu người dùng nhập quá nhanh
+  }, [searchTerm]);
+
   const handleSearch = () => {
     if (searchTerm.trim()) {
       const url = `/menu?search=${encodeURIComponent(searchTerm)}`;
@@ -102,8 +140,7 @@ export default function Navbar() {
       <nav className="main-nav">
         <div
           ref={sticky}
-          className={`main-top-nav ${isSticky ? "sticky" : ""}`}
-        >
+          className={`main-top-nav ${isSticky ? "sticky" : ""}`}>
           <div className="boxcenter">
             <div className="top-nav">
               <div className="container-top-nav">
@@ -151,6 +188,32 @@ export default function Navbar() {
                       }}
                     />
                     <i className="bi bi-search" onClick={handleSearch}></i>
+                    {isSuggestionsVisible && searchTerm.trim() && (
+                      <div className="suggestions-list">
+                        {suggestedProducts.map((product) => (
+                          <div
+                            key={product._id}
+                            className="suggestion-item"
+                            onClick={() => {
+                              setSearchTerm("");
+                              router.push(`/product/${product.id}`); // Chuyển tới trang chi tiết sản phẩm
+                            }}>
+                            <img
+                              src={`${process.env.NEXT_PUBLIC_IMAGE_PRO_URL}${product.image}`}
+                              alt={product.name}
+                            />
+                            <div className="product-info">
+                              <p>{product.name}</p>
+                              <p className="product-price">
+                                {product.price
+                                  ? product.price.toLocaleString("vi-VN")
+                                  : "Giá không có sẵn"}
+                              </p>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
                   </div>
 
                   <div className="func-user-nav">
@@ -164,8 +227,7 @@ export default function Navbar() {
                           <div className="func-main-modal">
                             <Link
                               data-tooltip="Thông tin"
-                              href="/inforCustomer"
-                            >
+                              href="/inforCustomer">
                               <i className="bi bi-info"></i>
                             </Link>
                             {user.role_user === "admin" && (
@@ -179,8 +241,7 @@ export default function Navbar() {
                               onClick={() => {
                                 localStorage.removeItem("token"); // Xóa token khỏi localStorage
                                 window.location.href = "/login"; // Điều hướng về trang login
-                              }}
-                            >
+                              }}>
                               <i className="bi bi-box-arrow-left"></i>
                             </a>
                           </div>

@@ -7,11 +7,13 @@ const productWithTopping = new Schema(
     _id: { type: ObjectId, auto: true }, // Khóa chính tự động tạo ObjectId
     id_pro: {
       type: ObjectId,
+      ref: "product",
       required: true,
     },
     list_topping: [
       {
         type: ObjectId,
+        ref: "product",
       },
     ],
   },

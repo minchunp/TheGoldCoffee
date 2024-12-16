@@ -14,6 +14,15 @@
    margin: 70px 0;
 }
 
+.updateInfor {
+   color: var(--color-tertiary);
+   cursor: pointer;
+}
+
+.updateInfor:hover {
+   color: var(--color-primary);
+}
+
 /* Main information customer */
 .title-inforCustomer {
    margin-bottom: 20px;

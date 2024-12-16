@@ -88,9 +88,9 @@ const CategoryAdmin: React.FC = () => {
                             <i className="bi bi-gear"></i>
                           </button>
                         </Link>
-                        <button onClick={() => deleteCate(catea._id)}>
+                        {/* <button onClick={() => deleteCate(catea._id)}>
                           <i className="bi bi-x-lg"></i>
-                        </button>
+                        </button> */}
                       </div>
                     </div>
                   ))}

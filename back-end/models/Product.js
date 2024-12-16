@@ -49,6 +49,6 @@ const productSchema = new Schema(
   },
   { versionKey: false }
 );
-
+productSchema.index({ name_pro: "text" });
 module.exports =
   mongoose.models.Product || mongoose.model("product", productSchema);

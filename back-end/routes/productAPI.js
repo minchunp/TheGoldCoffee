@@ -311,7 +311,7 @@ router.get("/search", async (req, res) => {
     // Tìm các bản ghi kết hợp giữa sản phẩm và topping
     const productToppings = await modelProductDetail
       .find({ id_pro: { $in: productIds } })
-      .populate("id_pro");
+      .populate("id_pro", "name_pro img_pro price_pro"); // Chỉ lấy các trường cần thiết từ bảng Product
 
     // Tạo danh sách trả về
     const result = productToppings.map((item) => ({

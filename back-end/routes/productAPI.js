@@ -4,6 +4,8 @@ var modelProduct = require("../models/Product");
 var modelProductDetail = require("../models/Product_detail");
 const modelTopping = require("../models/Topping");
 
+const removeDiacritics = require("diacritics").remove;
+
 // Lấy danh sách tất cả sản phẩm
 // http://localhost:3000/productsAPI/listProduct
 router.get("/listProduct", async function (req, res, next) {
@@ -256,19 +258,75 @@ router.get("/listProductTopping", async function (req, res, next) {
   }
 });
 
-// router.get("/search", async function (req, res, next) {
-//   try {
-//     var nameKeyword = req.query.name;
-//     console.log("Từ khóa tìm kiếm:", nameKeyword); // Kiểm tra từ khóa
-//     const regex = new RegExp(nameKeyword, "i");
-//     var data = await modelProduct.find({ name_pro: { $regex: regex } });
-//     console.log("Kết quả tìm kiếm:", data); // Kiểm tra kết quả tìm kiếm
-//     res.json(data);
-//   } catch (error) {
-//     console.error("Lỗi khi tìm sản phẩm theo tên:", error);
-//     res
-//       .status(500)
-//       .json({ message: "Đã xảy ra lỗi khi tìm sản phẩm theo tên." });
-//   }
-// });
+router.get("/search", async (req, res) => {
+  const { keyword } = req.query; // Lấy từ khóa tìm kiếm
+
+  if (!keyword) {
+    return res
+      .status(400)
+      .json({ message: "Tên sản phẩm không được để trống" });
+  }
+
+  try {
+    // Chuẩn hóa từ khóa tìm kiếm
+    const normalizedKeyword = removeDiacritics(keyword)
+      .toLowerCase()
+      .replace(/[^a-zA-Z0-9 ]/g, "");
+
+    console.log("Từ khóa tìm kiếm đã chuẩn hóa:", normalizedKeyword);
+
+    // Tìm kiếm sản phẩm bằng $text
+    const products = await modelProduct
+      .find(
+        { $text: { $search: normalizedKeyword } }, // Tìm kiếm với $text
+        { score: { $meta: "textScore" } } // Trả về điểm số phù hợp
+      )
+      .limit(5) // Giới hạn số lượng kết quả tìm thấy
+      .sort({ score: { $meta: "textScore" } }); // Sắp xếp theo độ phù hợp
+
+    if (products.length === 0) {
+      // Nếu không tìm thấy sản phẩm chính xác, trả về danh sách gợi ý
+      const suggestions = await modelProduct
+        .find({
+          name_pro: { $regex: normalizedKeyword.slice(0, 3), $options: "i" },
+        })
+        .select("_id name_pro img_pro price_pro") // Chỉ lấy các trường cần thiết
+        .limit(5); // Giới hạn số lượng gợi ý
+
+      // Định dạng dữ liệu gợi ý
+      const formattedSuggestions = suggestions.map((product) => ({
+        id: product._id, // ID ngoài cùng
+        name: product.name_pro,
+        image: product.img_pro,
+        price: product.price_pro,
+      }));
+
+      return res.status(404).json({
+        message: "Không tìm thấy sản phẩm. Đây là các gợi ý:",
+        suggestions: formattedSuggestions,
+      });
+    }
+
+    // Lấy các productId từ sản phẩm đã tìm thấy
+    const productIds = products.map((product) => product._id);
+
+    // Tìm các bản ghi kết hợp giữa sản phẩm và topping
+    const productToppings = await modelProductDetail
+      .find({ id_pro: { $in: productIds } })
+      .populate("id_pro", "name_pro img_pro price_pro"); // Chỉ lấy các trường cần thiết từ bảng Product
+
+    // Tạo danh sách trả về
+    const result = productToppings.map((item) => ({
+      id: item._id, // ID ngoài cùng
+      name: item.id_pro.name_pro, // Tên sản phẩm
+      image: item.id_pro.img_pro, // Hình ảnh sản phẩm
+      price: item.id_pro.price_pro, // Giá sản phẩm
+    }));
+
+    res.status(200).json(result);
+  } catch (error) {
+    console.error("Lỗi khi tìm kiếm sản phẩm:", error);
+    res.status(500).json({ message: "Đã xảy ra lỗi server." });
+  }
+});
 module.exports = router;

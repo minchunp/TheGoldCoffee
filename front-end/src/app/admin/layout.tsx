@@ -32,10 +32,20 @@ export default function RootLayout({
     const fetchUserData = async () => {
       if (typeof window !== "undefined") {
         const token = localStorage.getItem("token");
+        // if (!token) {
+        //   // Chuyển hướng nếu không có token
+        //   window.location.href = "/";
+        //   return;
+        // }
         if (token) {
           try {
             const decoded: any = jwt.decode(token); // Giải mã token để lấy ID
             const userId = decoded.id; // Lấy ID từ token
+            // if ((decoded.role_user = "user")) {
+            //   // Chuyển hướng nếu không phải admin
+            //   window.location.href = "/";
+            //   return;
+            // }
 
             // Gửi yêu cầu GET lên API để lấy thông tin người dùng
             const response = await axios.get(
